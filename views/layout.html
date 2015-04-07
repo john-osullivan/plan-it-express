@@ -2,9 +2,28 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Plan-It Express</title>
 </head>
 <body>
-
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+            <a class="navbar-brand" href="/">Plan-It Express</a>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    {% block content %}{% endblock %}
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <p class="navbar-text navbar-right">
+            Written by David Bocek, Christian Infante, John O'Sullivan, and Zach Sather.
+        </p>
+    </div>
+</nav>
 </body>
 </html>
