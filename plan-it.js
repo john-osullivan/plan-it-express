@@ -1,7 +1,7 @@
 var isActive = {'home':true, 'announcements':false, 'questions':false, 'notes':false, 'todo':false};
 
 var loadPage = function(renderedTemplate){
-    $('#container').html(renderedTemplate);
+    $('#site-ui').html(renderedTemplate);
 };
 
 var setActive = function(page){
