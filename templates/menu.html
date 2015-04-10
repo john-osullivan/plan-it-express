@@ -1,38 +1,42 @@
+{% macro menu(active_tab) %}
+
 <ul class="nav nav-tabs nav-justified">
 
     <!-- This logic sets the home button active. -->
-    {% if isActive['home'] %}
-        <li role="presentation" class="active"><a href="#">Home</a></li>
+    {% if active_tab == 'home' %}
+        <li role="presentation" class="active"><a href="#" onclick="loadHome()">Home</a></li>
     {% else %}
-        <li role="presentation"><a href="#">Home</a></li>
+        <li role="presentation"><a href="#" onclick="loadHome()">Home</a></li>
     {% endif %}
 
     <!-- This logic sets the announcements button active. -->
-    {% if isActive['announcements'] %}
-        <li role="presentation" class="active"><a href="#">Announcements</a></li>
+    {% if active_tab == 'announcements' %}
+        <li role="presentation" class="active"><a href="#" onclick="loadAnnouncements()">Announcements</a></li>
     {% else %}
-        <li role="presentation"><a href="#">Announcements</a></li>
+        <li role="presentation"><a href="#" onclick="loadAnnouncements()">Announcements</a></li>
     {% endif %}
 
     <!-- This logic sets the questions button active. -->
-    {% if isActive['questions'] %}
-        <li role="presentation" class="active"><a href="#">Questions</a></li>
+    {% if active_tab == 'questions' %}
+        <li role="presentation" class="active"><a href="#" onclick="loadQuestions()">Questions</a></li>
     {% else %}
-        <li role="presentation"><a href="#">Questions</a></li>
+        <li role="presentation"><a href="#"  onclick="loadQuestions()">Questions</a></li>
     {% endif %}
 
     <!-- This logic sets the to-do button active. -->
-    {% if isActive['todo'] %}
-        <li role="presentation" class="active"><a href="#">To-Do</a></li>
+    {% if active_tab == 'todos' %}
+        <li role="presentation" class="active"><a href="#" onclick="loadTodos()">To-Do</a></li>
     {% else %}
-        <li role="presentation"><a href="#">To-Do</a></li>
+        <li role="presentation"><a href="#" onclick="loadTodos()">To-Do</a></li>
     {% endif %}
 
     <!-- This logic sets the notes button active. -->
-    {% if isActive['notes'] %}
-        <li role="presentation" class="active"><a href="#">Notes</a></li>
+    {% if active_tab == 'notes' %}
+        <li role="presentation" class="active"><a href="#" onclick="loadNotes()">Notes</a></li>
     {% else %}
-        <li role="presentation"><a href="#">Notes</a></li>
+        <li role="presentation"><a href="#" onclick="loadNotes()">Notes</a></li>
     {% endif %}
 
 </ul>
+
+{% endmacro %}

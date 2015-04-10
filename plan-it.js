@@ -12,7 +12,6 @@ var setActive = function(page){
 
 var loadHome = function(){
     setActive('home');
-    var newMenu = nunjucks.render('menu.html');
     var home = nunjucks.render('home.html');
     loadPage(home);
 };
