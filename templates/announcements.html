@@ -6,4 +6,32 @@
 
 {{ menu('announcements') }}
 
+<div style="">
+	<div class="row">
+		<div class="col-md-12"><h1>Announcements</h1></div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<span id="noAnnouce"></span>
+			<ul>
+				{% for ann in announcements %}
+					<li>{{ann.title|title}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-7" style="background-color:blue"></div>
+	</div>
+</div>
+
+<script>
+	var announcements = []
+	var getAnnouncements = function(){
+		if (announcements.length === 0){
+			$('#noAnnouce').html("<p>You have no announcements</p>")
+		}
+		console.log(isActive)
+	}
+	getAnnouncements();
+</script>
+
 {% endblock %}
