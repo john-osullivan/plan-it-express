@@ -84,8 +84,8 @@
 				d = new Date(),
 				month = d.getMonth()+1,
 				day = d.getDate(),
-				year = d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year.slice(2,4)
 				announcement = makeAnnouncement(subject,body,time);
 
 			announcements.unshift(announcement);
