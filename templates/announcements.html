@@ -268,16 +268,17 @@
 	makeEditDisplay = function(){
 		var $area = $('#announceArea'),
 			announcement = announcements[viewingAnnouncementIndex],
-			subject = $area.find("strong").html(),
-			time = $area.find("h4")[1].innerHTML,
-			bodyList = $area.find("p"),
-			body = "",
+			subject = announcement.subject,
+			time = announcement.time,
+			bodyList ,
+			body = announcement.body,
 			$subject,
 			$body,
-			$editBtn,
+			$updateBtn,
 			$btns,
 			$cancelBtn;
 
+		/*
 		for (var i=0; i < bodyList.length; i++){
 			if (i != bodyList.length-1){
 				body += bodyList[i].innerHTML + "\n";	
@@ -286,14 +287,15 @@
 				body += bodyList[i].innerHTML
 			}
 		}
+		*/
 		
 		$subject = getNewSubject(subject);
 		$body = getNewBody(body);
 		$btns = getNewButton("Update","Cancel");
-		$editBtn = $btns.find('#addAnnouncement');
+		$updateBtn = $btns.find('#addAnnouncement');
 		$cancelBtn = $btns.find('#addAnnouncement2');
 
-		$editBtn.click(function(){
+		$updateBtn.click(function(){
 			var $area = $('#announceArea'),
 				subject = $('#addAnnounceSub').val(),
 				body = $('#addAnnounceBody').val();
