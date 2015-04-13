@@ -24,8 +24,8 @@
 </div>
 
 <script>
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello, We will be moving to a new space", "4/12/15");
+	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test\n I need to know", "4/10/15"),
+		an2 = makeAnnouncement("Moving Space", "Hello,\n We will be moving to a new space", "4/12/15");
 	var announcements = [an2,an1]
 	var getAnnouncements = function(){
 		console.log("first")
@@ -43,7 +43,10 @@
 					$inside1 = $('<div>'),
 					$inside2 = $('<div>'),
 					$body = $('<div>'),
-					body = $('<p>');
+					body = $('<p>'),
+					lines,
+					lin,
+					counter = 0;
 
 				$container.attr('id',"message "+i)
 				$out_t.addClass('row');
@@ -56,18 +59,30 @@
 				$out_body.addClass('row');
 				$body.addClass('col-md-12');
 
+				lines = a.body.split("\n");
+				for (var j=0; j<lines.length; j++){
+					var par = $('<p>');
+					lin = lines[j]
+					if (lin && counter < 2){
+						counter++;
+						$body.append(par.text(lin))
+					}
+
+					
+
+				}
 				body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
 				$container.css("cursor","default");
-				$container.css("height","60px")
+				$container.css("height","90px")
 				$container.css("overflow","hidden")
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($out_body)); 
 				$container[0].addEventListener("click",function(e){
-					var x = e.clientX,
-						y = e.clientY,
+					var x = e.pageX,
+						y = e.pageY,
 						item = getItemFromPx(x,y);
 					displayAnnouncement(item);
 				},false);
@@ -160,10 +175,12 @@
 			yOffset = 163,
 			newX = x-xOffset,
 			newY = y-yOffset,
-			space = 60,
+			space = 90,
 			index;
 
-			index = Math.floor(newY/60);
+			index = Math.floor(newY/space);
+			console.log(announcements);
+			console.log(index)
 			return announcements[index];
 	}
 
@@ -176,11 +193,23 @@
 			$row2 = $('<div>').addClass("row"),
 			$subject = $('<div>').addClass("col-md-4"),
 			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
-			$body = $('<div>').addClass("col-md-8");
+			$body = $('<div>').addClass("col-md-8"),
+			lines,
+			lin;
 
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
-		$body.html("<p>"+body+"</p>");
+		lines = body.split("\n");
+		for (var i=0; i<lines.length; i++){
+			var par = $('<p>');
+
+			lin = lines[i];
+			if (lin){
+				par.text(lin);
+				$body.append(par);	
+			}
+		}
+		//$body.html("<p>"+body+"</p>");
 
 		$row1.append($subject).append($time);
 		$row2.append($body);
