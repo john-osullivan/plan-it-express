@@ -31,9 +31,11 @@
 	var getAnnouncements = function(){
 		console.log("first")
 		if (announcements.length === 0){
+			$('#annouceContainer').empty();
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
 		else{
+			$('#noAnnouce').empty()
 			$('#annouceContainer').empty();
 			for (var i=0; i<announcements.length; i++){
 				var a = announcements[i],
@@ -258,9 +260,15 @@
 		});
 
 		$deleteButton.click(function(){
-			announcements.splice(viewingAnnouncementIndex,1)
+			if (announcements.length === 1){
+				announcements = []
+			}
+			else{
+				announcements.splice(viewingAnnouncementIndex,1)
+			}
 			getAnnouncements();
-			$area.empty();
+			makeAddNewAnnouncement();
+
 		})
 
 	}
