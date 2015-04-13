@@ -179,8 +179,6 @@
 			index;
 
 			index = Math.floor(newY/space);
-			console.log(announcements);
-			console.log(index)
 			return announcements[index];
 	}
 
@@ -199,7 +197,9 @@
 
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
+
 		lines = body.split("\n");
+
 		for (var i=0; i<lines.length; i++){
 			var par = $('<p>');
 
@@ -209,7 +209,6 @@
 				$body.append(par);	
 			}
 		}
-		//$body.html("<p>"+body+"</p>");
 
 		$row1.append($subject).append($time);
 		$row2.append($body);
