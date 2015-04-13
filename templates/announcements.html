@@ -215,8 +215,10 @@
 			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
 			$body = $('<div>').addClass("col-md-8"),
 			lines,
-			lin
-			$editButton = $('<input>').addClass("btn btn-default");
+			lin,
+			$btns,
+			$editButton,
+			$deleteButton;
 
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
@@ -239,24 +241,37 @@
 		$area.empty();
 		$area.append($row1).append($row2);
 
+		$btns = getNewButton("Edit","Delete");
+		$editButton = $btns.find('#addAnnouncement');
+		$deleteButton = $btns.find('#addAnnouncement2')
+		$area.append($btns)
+
+		/*
 		$editButton.attr('type','submit');
 		$editButton.attr('value','Edit')
 		$editButton.attr("id","announceEditBttn");
 		$area.append($editButton)
+		*/
 
 		$editButton.click(function(){
 			makeEditDisplay();
+		});
+
+		$deleteButton.click(function(){
+			announcements.splice(viewingAnnouncementIndex,1)
+			getAnnouncements();
+			$area.empty();
 		})
 
 	}
 
 	makeEditDisplay = function(){
 		var $area = $('#announceArea'),
+			announcement = announcements[viewingAnnouncementIndex],
 			subject = $area.find("strong").html(),
 			time = $area.find("h4")[1].innerHTML,
 			bodyList = $area.find("p"),
 			body = "",
-			announcement,
 			$subject,
 			$body,
 			$editBtn,
@@ -300,7 +315,7 @@
 		})
 
 		$cancelBtn.click(function(){
-			makeAddNewAnnouncement();
+			displayAnnouncement(announcements[viewingAnnouncementIndex]);
 		})
 
 		$area.empty();
