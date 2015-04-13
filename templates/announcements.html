@@ -51,8 +51,7 @@
 				$inside2.addClass('col-md-3');
 
 				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
-				//$inside2.html("<h4>"+a.time+"</h4>");
-				$inside2.html("<h4>12/12/12</h4>");
+				$inside2.html("<h4>"+a.time+"</h4>");
 
 				$out_body.addClass('row');
 				$body.addClass('col-md-12');
@@ -103,6 +102,7 @@
 
 			announcements.unshift(announcement);
 			getAnnouncements();
+			makeAddNewAnnouncement();
 		});
 
 	}
