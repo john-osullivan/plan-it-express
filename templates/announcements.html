@@ -11,27 +11,145 @@
 		<div class="col-md-12"><h1>Announcements</h1></div>
 	</div>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<span id="noAnnouce"></span>
-			<ul>
-				{% for ann in announcements %}
-					<li>{{ann.title|title}}</li>
-				{% endfor %}
-			</ul>
+			<div id="annouceContainer"></div>
 		</div>
-		<div class="col-md-7" style="background-color:blue"></div>
+		<div class="col-md-7" id="announceArea">
+		</div>
 	</div>
 </div>
 
 <script>
-	var announcements = []
+	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test", "4/10/15"),
+		an2 = makeAnnouncement("Moving Space", "Hello, We will be moving to a new space", "4/12/15");
+	var announcements = [an2,an1]
 	var getAnnouncements = function(){
+		console.log("first")
 		if (announcements.length === 0){
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
-		console.log(isActive)
+		else{
+			$('#annouceContainer').empty();
+			for (var i=0; i<announcements.length; i++){
+				var a = announcements[i],
+					$div = $('#annouceContainer'),
+					$container = $('<div>'),
+					$out_t = $('<div>'),
+					$out_body = $('<div>'),
+					$inside1 = $('<div>'),
+					$inside2 = $('<div>'),
+					$body = $('<div>'),
+					body = $('<p>');
+
+				$container.attr('id',"message "+i)
+				$out_t.addClass('row');
+				$inside1.addClass('col-md-7');
+				$inside2.addClass('col-md-4');
+
+				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
+				$inside2.html("<h4>"+a.time+"</h4>");
+
+				$out_body.addClass('row');
+				$body.addClass('col-md-12');
+
+				body.text(a.body);
+				$body.append(body);
+				$out_body.append($body);
+
+				$out_t.append($inside1).append($inside2);
+				$div.append($container.append($out_t).append($out_body)); 
+			}
+		}
 	}
+
+
+	makeAnnouncement = function(subject, body, time){
+		return {"subject":subject, "body":body, "time":time}
+	}
+
+	makeAddNewAnnouncement = function(){
+		var $area = $('#announceArea'),
+			$subject = getNewSubject(),
+			$body = getNewBody(),
+			$button = getNewButton();
+
+		$area.empty();
+		$area.append($subject).append($body).append($button);
+		$('#addAnnouncement').click(function(){
+			console.log("the");
+			var $area = $('#announceArea'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val();
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year
+				announcement = makeAnnouncement(subject,body,time);
+
+			announcements.unshift(announcement);
+			getAnnouncements();
+			console.log(announcements)
+		});
+
+	}
+
+	getNewSubject = function(){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$input = $('<input>');
+
+		$row.addClass('row');
+		$col.addClass('col-md-12');
+		$input.attr('id', 'addAnnounceSub');
+		$input.attr('type','text');
+		$input.attr('size','22%');
+		$input.attr('placeholder','Subject');
+
+		return $row.append($col.append($input));
+	}
+
+	getNewBody = function(){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$input = $('<textarea>');	
+			
+		$row.addClass('row');
+		$row.css('margin-top','5px');
+		$col.addClass('col-md-12');
+
+		$input.attr('id','addAnnounceBody');
+		$input.attr('cols','29%');
+		$input.attr('placeholder','Message');
+
+		return $row.append($col.append($input));
+	}
+
+	getNewButton = function(){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$input = $('<input>');	
+			
+		$row.addClass('row');
+		$row.css('margin-top','5px');
+		$col.addClass('col-md-12');
+		
+		$input.attr('type','submit');
+		$input.attr('value','Add')
+		$input.attr('id','addAnnouncement');
+
+		return $row.append($col.append($input));
+	}
+
+
+	var annBody = $('#addABody');
+
+	annBody.attr('placeholder','Add Announcement')
+
+
 	getAnnouncements();
+	makeAddNewAnnouncement();
 </script>
 
 {% endblock %}
