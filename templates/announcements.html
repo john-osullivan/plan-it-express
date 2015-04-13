@@ -159,25 +159,34 @@
 		return $row.append($col.append($input));
 	}
 
-	getNewButton = function(val){
+	getNewButton = function(val1,val2){
 		var $row = $('<div>'),
 			$col = $('<div>'),
-			$input = $('<input>');	
+			$input = $('<input>'),
+			$input2 = $('<input>');	
 			
 		$row.addClass('row');
 		$row.css('margin-top','5px');
 		$col.addClass('col-md-12');
 		
 		$input.attr('type','submit');
-		$input.attr('value','Add')
+		$input.attr('value','Add');
 		$input.attr('id','addAnnouncement');
-		$input.addClass("btn btn-default")
+		$input.addClass("btn btn-default");
 
-		if(val){
-			$input.val(val);
+		if(val1){
+			$input.val(val1);
+		}
+		$col.append($input)
+		if(val2){
+			$input2.attr('type','submit');
+			$input2.attr('id','addAnnouncement2');
+			$input2.addClass("btn btn-default");
+			$input2.val(val2);
+			$col.append($input2);
 		}
 
-		return $row.append($col.append($input));
+		return $row.append($col);
 	}
 
 	getItemFromPx = function(x,y){
@@ -247,7 +256,9 @@
 			announcement,
 			$subject,
 			$body,
-			$btn;
+			$editBtn,
+			$btns,
+			$CancelBtn;
 
 		for (var i=0; i < bodyList.length; i++){
 			if (i != bodyList.length-1){
@@ -260,14 +271,40 @@
 		
 		$subject = getNewSubject(subject);
 		$body = getNewBody(body);
-		$btn = getNewButton("Update");
+		$btns = getNewButton("Update","Cancel");
+		$editBtn = $btns.find('#addAnnouncement');
+		$CancelBtn = $btns.find('#addAnnouncement2');
 
-		$btn.click(function(){
-			console.log("here")
+		$editBtn.click(function(){
+			var $area = $('#announceArea'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val();
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year.slice(2,4)
+				announcement = makeAnnouncement(subject,body,time),
+				announce = "";
+
+			console.log(announcements)
+
+			for (var i=0; i<announcements.length; i++){
+				announce = announcements[i]
+				if (announce.subject === subject && announce.body === body){
+					announcements.splice(i,1);
+				
+				}
+				console.log(announcements)
+			}
+			announcements.unshift(announcement);
+			//console.log(announcement)
+			getAnnouncements();
+			makeAddNewAnnouncement();
 		})
 
 		$area.empty();
-		$area.append($subject).append($body).append($btn);
+		$area.append($subject).append($body).append($btns);
 
 	}
 
