@@ -244,7 +244,10 @@
 			time = $area.find("h4")[1].innerHTML,
 			bodyList = $area.find("p"),
 			body = "",
-			announcement;
+			announcement,
+			$subject,
+			$body,
+			$btn;
 
 		for (var i=0; i < bodyList.length; i++){
 			if (i != bodyList.length-1){
@@ -255,6 +258,16 @@
 			}
 		}
 		
+		$subject = getNewSubject(subject);
+		$body = getNewBody(body);
+		$btn = getNewButton("Update");
+
+		$btn.click(function(){
+			console.log("here")
+		})
+
+		$area.empty();
+		$area.append($subject).append($body).append($btn);
 
 	}
 
