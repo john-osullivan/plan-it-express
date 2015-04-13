@@ -8,14 +8,17 @@
 
 <div style="">
 	<div class="row">
-		<div class="col-md-12"><h1>Announcements</h1></div>
+		<div class="col-md-4"><h1>Announcements</h1></div>
+		<div class="col-md-3 col-md-offset-1">
+			<input class="btn btn-default" id="newAnnouncement" type="submit" value="New" style="margin-top:19px" >
+		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-5">
+		<div class="col-md-4">
 			<span id="noAnnouce"></span>
 			<div id="annouceContainer"></div>
 		</div>
-		<div class="col-md-7" id="announceArea">
+		<div class="col-md-7 col-md-offset-1" id="announceArea">
 		</div>
 	</div>
 </div>
@@ -44,8 +47,8 @@
 
 				$container.attr('id',"message "+i)
 				$out_t.addClass('row');
-				$inside1.addClass('col-md-7');
-				$inside2.addClass('col-md-4');
+				$inside1.addClass('col-md-9');
+				$inside2.addClass('col-md-3');
 
 				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
 				$inside2.html("<h4>"+a.time+"</h4>");
@@ -56,9 +59,18 @@
 				body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
+				$container.css("cursor","default");
+				$container.css("height","60px")
+				$container.css("overflow","hidden")
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($out_body)); 
+				$container[0].addEventListener("click",function(e){
+					var x = e.clientX,
+						y = e.clientY,
+						item = getItemFromPx(x,y);
+					displayAnnouncement(item);
+				},false);
 			}
 		}
 	}
@@ -84,13 +96,13 @@
 				d = new Date(),
 				month = d.getMonth()+1,
 				day = d.getDate(),
-				year = d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year.slice(2,4)
 				announcement = makeAnnouncement(subject,body,time);
 
 			announcements.unshift(announcement);
 			getAnnouncements();
-			console.log(announcements)
+			makeAddNewAnnouncement();
 		});
 
 	}
@@ -138,14 +150,48 @@
 		$input.attr('type','submit');
 		$input.attr('value','Add')
 		$input.attr('id','addAnnouncement');
+		$input.addClass("btn btn-default")
 
 		return $row.append($col.append($input));
 	}
 
+	getItemFromPx = function(x,y){
+		var xOffset = 15,
+			yOffset = 163,
+			newX = x-xOffset,
+			newY = y-yOffset,
+			space = 60,
+			index;
 
-	var annBody = $('#addABody');
+			index = Math.floor(newY/60);
+			return announcements[index];
+	}
 
-	annBody.attr('placeholder','Add Announcement')
+	displayAnnouncement = function(item){
+		var $area = $('#announceArea'),
+			subject = item.subject,
+			body = item.body,
+			time = item.time,
+			$row1 = $('<div>').addClass("row"),
+			$row2 = $('<div>').addClass("row"),
+			$subject = $('<div>').addClass("col-md-4"),
+			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
+			$body = $('<div>').addClass("col-md-8");
+
+		$subject.html("<h4><strong>"+subject+"</strong></h4>");
+		$time.html("<h4>"+time+"</h4>");
+		$body.html("<p>"+body+"</p>");
+
+		$row1.append($subject).append($time);
+		$row2.append($body);
+
+		$area.empty();
+		$area.append($row1).append($row2);
+	}
+
+	$('#newAnnouncement').click(function(){
+		makeAddNewAnnouncement();
+	});
 
 
 	getAnnouncements();
