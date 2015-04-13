@@ -222,6 +222,30 @@
 		$editButton.attr("id","announceEditBttn");
 		$area.append($editButton)
 
+		$editButton.click(function(){
+			makeEditDisplay();
+		})
+
+	}
+
+	makeEditDisplay = function(){
+		var $area = $('#announceArea'),
+			subject = $area.find("strong").html(),
+			time = $area.find("h4")[1].innerHTML,
+			bodyList = $area.find("p"),
+			body = "",
+			announcement;
+
+		for (var i=0; i < bodyList.length; i++){
+			if (i != bodyList.length-1){
+				body += bodyList[i].innerHTML + "\n";	
+			}
+			else{
+				body += bodyList[i].innerHTML
+			}
+		}
+		
+
 	}
 
 	$('#newAnnouncement').click(function(){
