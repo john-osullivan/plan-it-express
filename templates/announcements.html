@@ -66,12 +66,9 @@
 					if (lin && counter < 2){
 						counter++;
 						$body.append(par.text(lin))
-					}
-
-					
-
+					}					
 				}
-				body.text(a.body);
+				//body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
 				$container.css("cursor","default");
@@ -116,13 +113,14 @@
 				announcement = makeAnnouncement(subject,body,time);
 
 			announcements.unshift(announcement);
+			console.log(announcement)
 			getAnnouncements();
 			makeAddNewAnnouncement();
 		});
 
 	}
 
-	getNewSubject = function(){
+	getNewSubject = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<input>');
@@ -134,10 +132,14 @@
 		$input.attr('size','22%');
 		$input.attr('placeholder','Subject');
 
+		if(text){
+			$input.val(text);
+		}
+
 		return $row.append($col.append($input));
 	}
 
-	getNewBody = function(){
+	getNewBody = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<textarea>');	
@@ -150,10 +152,14 @@
 		$input.attr('cols','29%');
 		$input.attr('placeholder','Message');
 
+		if (text){
+			$input.val(text);
+		}
+
 		return $row.append($col.append($input));
 	}
 
-	getNewButton = function(){
+	getNewButton = function(val){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<input>');	
@@ -166,6 +172,10 @@
 		$input.attr('value','Add')
 		$input.attr('id','addAnnouncement');
 		$input.addClass("btn btn-default")
+
+		if(val){
+			$input.val(val);
+		}
 
 		return $row.append($col.append($input));
 	}
