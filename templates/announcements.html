@@ -82,6 +82,8 @@
 					var x = e.pageX,
 						y = e.pageY,
 						index = getIndexFromPx(x,y);
+
+					viewingAnnouncementIndex = index
 					displayAnnouncement(announcements[index]);
 				},false);
 			}
@@ -290,14 +292,7 @@
 
 			console.log(announcements)
 
-			for (var i=0; i<announcements.length; i++){
-				announce = announcements[i]
-				if (announce.subject === subject && announce.body === body){
-					announcements.splice(i,1);
-				
-				}
-				console.log(announcements)
-			}
+			announcements.splice(viewingAnnouncementIndex,1)
 			announcements.unshift(announcement);
 			//console.log(announcement)
 			getAnnouncements();
