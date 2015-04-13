@@ -193,7 +193,8 @@
 			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
 			$body = $('<div>').addClass("col-md-8"),
 			lines,
-			lin;
+			lin
+			$editButton = $('<input>').addClass("btn btn-default");
 
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
@@ -215,6 +216,12 @@
 
 		$area.empty();
 		$area.append($row1).append($row2);
+
+		$editButton.attr('type','submit');
+		$editButton.attr('value','Edit')
+		$editButton.attr("id","announceEditBttn");
+		$area.append($editButton)
+
 	}
 
 	$('#newAnnouncement').click(function(){
