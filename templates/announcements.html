@@ -27,6 +27,7 @@
 	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test\n I need to know", "4/10/15"),
 		an2 = makeAnnouncement("Moving Space", "Hello,\n We will be moving to a new space", "4/12/15");
 	var announcements = [an2,an1]
+	var viewingAnnouncementIndex;
 	var getAnnouncements = function(){
 		console.log("first")
 		if (announcements.length === 0){
@@ -80,8 +81,8 @@
 				$container[0].addEventListener("click",function(e){
 					var x = e.pageX,
 						y = e.pageY,
-						item = getItemFromPx(x,y);
-					displayAnnouncement(item);
+						index = getIndexFromPx(x,y);
+					displayAnnouncement(announcements[index]);
 				},false);
 			}
 		}
@@ -189,7 +190,7 @@
 		return $row.append($col);
 	}
 
-	getItemFromPx = function(x,y){
+	getIndexFromPx = function(x,y){
 		var xOffset = 15,
 			yOffset = 163,
 			newX = x-xOffset,
@@ -198,7 +199,7 @@
 			index;
 
 			index = Math.floor(newY/space);
-			return announcements[index];
+			return index;
 	}
 
 	displayAnnouncement = function(item){
@@ -258,7 +259,7 @@
 			$body,
 			$editBtn,
 			$btns,
-			$CancelBtn;
+			$cancelBtn;
 
 		for (var i=0; i < bodyList.length; i++){
 			if (i != bodyList.length-1){
@@ -273,7 +274,7 @@
 		$body = getNewBody(body);
 		$btns = getNewButton("Update","Cancel");
 		$editBtn = $btns.find('#addAnnouncement');
-		$CancelBtn = $btns.find('#addAnnouncement2');
+		$cancelBtn = $btns.find('#addAnnouncement2');
 
 		$editBtn.click(function(){
 			var $area = $('#announceArea'),
@@ -300,6 +301,10 @@
 			announcements.unshift(announcement);
 			//console.log(announcement)
 			getAnnouncements();
+			makeAddNewAnnouncement();
+		})
+
+		$cancelBtn.click(function(){
 			makeAddNewAnnouncement();
 		})
 
