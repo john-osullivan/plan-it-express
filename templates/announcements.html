@@ -107,7 +107,8 @@
 		var $area = $('#announceArea'),
 			$subject = getNewSubject(),
 			$body = getNewBody(),
-			$button = getNewButton();
+			$button = getNewButton(),
+			$check = getCheckbox();
 
 		$area.empty();
 		$area.append($subject).append($body).append($button);
@@ -200,6 +201,10 @@
 		}
 
 		return $row.append($col);
+	}
+
+	getCheckbox = function(){
+		//todo
 	}
 
 	getIndexFromPx = function(x,y){
