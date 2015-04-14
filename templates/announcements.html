@@ -6,7 +6,6 @@
 
 {{ menu('announcements') }}
 
-<div style="">
 	<div class="row">
 		<div class="col-md-4"><h1>Announcements</h1></div>
 		<div class="col-md-3 col-md-offset-1">
@@ -21,21 +20,19 @@
 		<div class="col-md-7 col-md-offset-1" id="announceArea">
 		</div>
 	</div>
-</div>
 
 <script>
 	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test\n I need to know", "4/10/15"),
 		an2 = makeAnnouncement("Moving Space", "Hello,\n We will be moving to a new space", "4/12/15");
-	var announcements = [an2,an1]
+	var announcements = [an2,an1];
 	var viewingAnnouncementIndex;
 	var getAnnouncements = function(){
-		console.log("first")
 		if (announcements.length === 0){
 			$('#annouceContainer').empty();
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
 		else{
-			$('#noAnnouce').empty()
+			$('#noAnnouce').empty();
 			$('#annouceContainer').empty();
 			for (var i=0; i<announcements.length; i++){
 				var a = announcements[i],
@@ -61,7 +58,7 @@
 
 				$out_body.addClass('row');
 				$body.addClass('col-md-12');
-
+                console.log("This should be a.body: ", a.body);
 				lines = a.body.split("\n");
 				for (var j=0; j<lines.length; j++){
 					var par = $('<p>');
@@ -225,6 +222,7 @@
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
 
+        console.log("This should be a body: ",body);
 		lines = body.split("\n");
 
 		for (var i=0; i<lines.length; i++){
