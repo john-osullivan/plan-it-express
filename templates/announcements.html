@@ -49,7 +49,8 @@
 					counter = 0
 					$delIcon = getDeleteIcon(),
 					pinned = false,
-					index = 0;
+					index = 0,
+					$pin = $('<p>').html('-Pinned');
 
 
 				if (i >= pinnedAnnouncements.length){
@@ -66,7 +67,15 @@
 				$inside1.addClass('col-md-8');
 				$inside2.addClass('col-md-4');
 
-				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
+				if (!pinned){
+					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>"));
+				}
+				else{
+					$pin.css('float','right')
+					$pin.css('color','blue')
+					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>").append($pin));
+				}
+
 				$inside2.append($('<h4>').html(a.time).append($delIcon));
 
 				$delIcon.css("cursor","pointer")
