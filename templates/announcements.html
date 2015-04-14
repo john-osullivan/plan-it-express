@@ -26,7 +26,7 @@
 <script>
 
 	getAnnouncements = function(){
-		console.log("first")
+		var total = announcements.length+pinnedAnnouncements.length
 		if (announcements.length === 0){
 			$('#annouceContainer').empty();
 			$('#noAnnouce').html("<p>You have no announcements</p>")
@@ -34,8 +34,8 @@
 		else{
 			$('#noAnnouce').empty()
 			$('#annouceContainer').empty();
-			for (var i=0; i<announcements.length; i++){
-				var a = announcements[i],
+			for (var i=0; i<(total); i++){
+				var a,
 					$div = $('#annouceContainer'),
 					$container = $('<div>'),
 					$out_t = $('<div>'),
@@ -47,7 +47,21 @@
 					lines,
 					lin,
 					counter = 0
-					$delIcon = getDeleteIcon();
+					$delIcon = getDeleteIcon(),
+					pinned = false,
+					index = 0;
+
+
+				console.log(i)
+
+				if (i >= pinnedAnnouncements.length){
+					index = i-pinnedAnnouncements.length
+					a = announcements[index]
+				}
+				else{
+					a = pinnedAnnouncements[i];
+					pinned = true;
+				}
 
 				$container.attr('id',"message "+i)
 				$out_t.addClass('row');
@@ -115,6 +129,7 @@
 		$('#addAnnouncement').click(function(){
 			console.log("the");
 			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
 				body = $('#addAnnounceBody').val();
 				d = new Date(),
@@ -124,8 +139,14 @@
 				time = ""+month+"/"+day+"/"+year.slice(2,4)
 				announcement = makeAnnouncement(subject,body,time);
 
-			announcements.unshift(announcement);
-			console.log(announcement)
+			if ($pinned.is(':checked')){
+				pinnedAnnouncements.unshift(announcement);
+			}
+			else{
+				announcements.unshift(announcement);
+			}
+
+			
 			getAnnouncements();
 			makeAddNewAnnouncement();
 		});
@@ -208,19 +229,14 @@
 		var $row = $('<div>').addClass('row'),
 			$col = $('<div>').addClass('col-md-12'),
 			$checkbox = $('<input>'),
-			$wrapper = $('<div>').addClass('input-group'),
-			$addon = $('<span>').addClass('input-group-addon'),
 			$label = $('<label>').addClass('checkbox-inline'),
 			$p = $('<p>').text('Pin');
 
 		$checkbox.attr('type','checkbox')
-		//$col.append($checkbox)
-		//$col.append($p);
 		$checkbox.attr('id','pinCheckbox');
 		$checkbox.html('Pinned')
 		$checkbox.attr('value','Pin')
 
-		//$wrapper.append($addon.append($checkbox).append($p))
 		$label.append($checkbox).append($p);
 
 
@@ -370,7 +386,9 @@
 	}
 	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
 		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
+		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
 		announcements = [an2,an1],
+		pinnedAnnouncements = [an3]
 		viewingAnnouncementIndex;
 
 	getAnnouncements();
