@@ -24,15 +24,15 @@
 </div>
 
 <script>
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello, We will be moving to a new space", "4/12/15");
-	var announcements = [an2,an1]
-	var getAnnouncements = function(){
+
+	getAnnouncements = function(){
 		console.log("first")
 		if (announcements.length === 0){
+			$('#annouceContainer').empty();
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
 		else{
+			$('#noAnnouce').empty()
 			$('#annouceContainer').empty();
 			for (var i=0; i<announcements.length; i++){
 				var a = announcements[i],
@@ -43,34 +43,57 @@
 					$inside1 = $('<div>'),
 					$inside2 = $('<div>'),
 					$body = $('<div>'),
-					body = $('<p>');
+					body = $('<p>'),
+					lines,
+					lin,
+					counter = 0
+					$delIcon = getDeleteIcon();
 
 				$container.attr('id',"message "+i)
 				$out_t.addClass('row');
-				$inside1.addClass('col-md-9');
-				$inside2.addClass('col-md-3');
+				$inside1.addClass('col-md-8');
+				$inside2.addClass('col-md-4');
 
 				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
-				$inside2.html("<h4>"+a.time+"</h4>");
+				$inside2.append($('<h4>').html(a.time).append($delIcon));
+
+				$delIcon.css("cursor","pointer")
 
 				$out_body.addClass('row');
 				$body.addClass('col-md-12');
 
-				body.text(a.body);
+				lines = a.body.split("\n");
+				for (var j=0; j<lines.length; j++){
+					var par = $('<p>');
+					lin = lines[j]
+					if (lin && counter < 2){
+						counter++;
+						$body.append(par.text(lin))
+					}					
+				}
+				//body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
 				$container.css("cursor","default");
-				$container.css("height","60px")
+				$container.css("height","90px")
 				$container.css("overflow","hidden")
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($out_body)); 
 				$container[0].addEventListener("click",function(e){
-					var x = e.clientX,
-						y = e.clientY,
-						item = getItemFromPx(x,y);
-					displayAnnouncement(item);
-				},false);
+					var x = e.pageX,
+						y = e.pageY,
+						index = getIndexFromPx(x,y);
+
+					viewingAnnouncementIndex = index
+					displayAnnouncement(announcements[index]);
+				},true);
+
+				$delIcon.click(function(e){
+					var index = getIndexFromPx(e.pageX,e.pageY);
+					deleteAnnouncement(index);
+					makeAddNewAnnouncement();
+				});
 			}
 		}
 	}
@@ -101,13 +124,14 @@
 				announcement = makeAnnouncement(subject,body,time);
 
 			announcements.unshift(announcement);
+			console.log(announcement)
 			getAnnouncements();
 			makeAddNewAnnouncement();
 		});
 
 	}
 
-	getNewSubject = function(){
+	getNewSubject = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<input>');
@@ -119,10 +143,14 @@
 		$input.attr('size','22%');
 		$input.attr('placeholder','Subject');
 
+		if(text){
+			$input.val(text);
+		}
+
 		return $row.append($col.append($input));
 	}
 
-	getNewBody = function(){
+	getNewBody = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<textarea>');	
@@ -132,39 +160,58 @@
 		$col.addClass('col-md-12');
 
 		$input.attr('id','addAnnounceBody');
-		$input.attr('cols','29%');
+		$input.attr('cols','50%');
 		$input.attr('placeholder','Message');
+
+		$input.css('height','100px')
+
+		if (text){
+			$input.val(text);
+		}
 
 		return $row.append($col.append($input));
 	}
 
-	getNewButton = function(){
+	getNewButton = function(val1,val2){
 		var $row = $('<div>'),
 			$col = $('<div>'),
-			$input = $('<input>');	
+			$input = $('<input>'),
+			$input2 = $('<input>');	
 			
 		$row.addClass('row');
 		$row.css('margin-top','5px');
 		$col.addClass('col-md-12');
 		
 		$input.attr('type','submit');
-		$input.attr('value','Add')
+		$input.attr('value','Add');
 		$input.attr('id','addAnnouncement');
-		$input.addClass("btn btn-default")
+		$input.addClass("btn btn-default");
 
-		return $row.append($col.append($input));
+		if(val1){
+			$input.val(val1);
+		}
+		$col.append($input)
+		if(val2){
+			$input2.attr('type','submit');
+			$input2.attr('id','addAnnouncement2');
+			$input2.addClass("btn btn-default");
+			$input2.val(val2);
+			$col.append($input2);
+		}
+
+		return $row.append($col);
 	}
 
-	getItemFromPx = function(x,y){
+	getIndexFromPx = function(x,y){
 		var xOffset = 15,
 			yOffset = 163,
 			newX = x-xOffset,
 			newY = y-yOffset,
-			space = 60,
+			space = 90,
 			index;
 
-			index = Math.floor(newY/60);
-			return announcements[index];
+			index = Math.floor(newY/space);
+			return index;
 	}
 
 	displayAnnouncement = function(item){
@@ -176,23 +223,130 @@
 			$row2 = $('<div>').addClass("row"),
 			$subject = $('<div>').addClass("col-md-4"),
 			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
-			$body = $('<div>').addClass("col-md-8");
+			$body = $('<div>').addClass("col-md-8"),
+			lines,
+			lin,
+			$btns,
+			$editButton,
+			$deleteButton;
 
 		$subject.html("<h4><strong>"+subject+"</strong></h4>");
 		$time.html("<h4>"+time+"</h4>");
-		$body.html("<p>"+body+"</p>");
+
+		lines = body.split("\n");
+
+		for (var i=0; i<lines.length; i++){
+			var par = $('<p>');
+
+			lin = lines[i];
+			if (lin){
+				par.text(lin);
+				$body.append(par);	
+			}
+		}
 
 		$row1.append($subject).append($time);
 		$row2.append($body);
 
 		$area.empty();
 		$area.append($row1).append($row2);
+
+		$btns = getNewButton("Edit","Delete");
+		$editButton = $btns.find('#addAnnouncement');
+		$deleteButton = $btns.find('#addAnnouncement2')
+		$area.append($btns)
+
+		$editButton.click(function(){
+			makeEditDisplay();
+		});
+
+		$deleteButton.click(function(){
+			deleteAnnouncement(viewingAnnouncementIndex);
+			makeAddNewAnnouncement();
+
+		})
+
+	}
+
+	makeEditDisplay = function(){
+		var $area = $('#announceArea'),
+			announcement = announcements[viewingAnnouncementIndex],
+			subject = announcement.subject,
+			time = announcement.time,
+			bodyList ,
+			body = announcement.body,
+			$subject,
+			$body,
+			$updateBtn,
+			$btns,
+			$cancelBtn;
+
+	
+		$subject = getNewSubject(subject);
+		$body = getNewBody(body);
+		$btns = getNewButton("Update","Cancel");
+		$updateBtn = $btns.find('#addAnnouncement');
+		$cancelBtn = $btns.find('#addAnnouncement2');
+
+		$updateBtn.click(function(){
+			var $area = $('#announceArea'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val();
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year.slice(2,4)
+				announcement = makeAnnouncement(subject,body,time),
+				announce = "";
+
+			console.log(announcements)
+
+			announcements.splice(viewingAnnouncementIndex,1)
+			announcements.unshift(announcement);
+			//console.log(announcement)
+			getAnnouncements();
+			makeAddNewAnnouncement();
+		})
+
+		$cancelBtn.click(function(){
+			displayAnnouncement(announcements[viewingAnnouncementIndex]);
+		})
+
+		$area.empty();
+		$area.append($subject).append($body).append($btns);
+
 	}
 
 	$('#newAnnouncement').click(function(){
 		makeAddNewAnnouncement();
 	});
 
+	deleteAnnouncement = function(index){
+		if (announcements.length === 1){
+			announcements = []
+		}
+		else{
+			announcements.splice(index,1)
+		}
+		getAnnouncements();		
+	}
+
+	getDeleteIcon = function(){
+		var $icon = $('<img>');
+
+		$icon.attr('src','graphics/delete-icon.png');
+		$icon.css('max-width','20px');
+		$icon.css('max-height','20px');
+
+		$icon.css('float','right')
+
+		return $icon;
+	}
+	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
+		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
+		announcements = [an2,an1],
+		viewingAnnouncementIndex;
 
 	getAnnouncements();
 	makeAddNewAnnouncement();

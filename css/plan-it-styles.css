@@ -1,5 +1,6 @@
 .page-content{
     margin-top: 4%;
+    margin-bottom:4%;
 }
 
 .contents{
@@ -23,8 +24,27 @@
     border-width: 1px;
 }
 
+.todos{
+	min-height: 540px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.todones{
+	min-height: 540px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+
 .questions{
-	min-height: 260px;
+	min-height: 250px;
 	border-radius: 10px;
 	padding: 4px;
 	margin-top:20px;
@@ -33,7 +53,7 @@
 }	
 
 .notes{
-	min-height: 260px;
+	min-height: 250px;
 	border-radius: 10px;
 	padding: 4px;
 	margin-top:20px;
@@ -45,4 +65,47 @@
 .content{
 
 }
+
+table{
+	table-layout: fixed;
+}
+
+td{
+	width: 33%;
+}
+
+table tr{
+	text-align: center;
+}
+
+h3{
+	margin: 10px;
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: center;
+}
+
+h1{
+	margin: 5px;
+}
+
+.todo{
+	position: relative;
+	left:35%;
+	text-align: left;
+
+}
+
+#announcementsTable tr:hover{
+	background-color: #ccc;
+}
+
+#questionsTable tr:hover{
+	background-color: #ccc;
+}
+
+#notesTable tr:hover{
+	background-color: #ccc;
+}
+
 
