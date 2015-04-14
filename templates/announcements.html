@@ -27,7 +27,7 @@
 
 	getAnnouncements = function(){
 		var total = announcements.length+pinnedAnnouncements.length
-		if (announcements.length === 0){
+		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
 			$('#annouceContainer').empty();
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
@@ -51,8 +51,6 @@
 					pinned = false,
 					index = 0;
 
-
-				console.log(i)
 
 				if (i >= pinnedAnnouncements.length){
 					index = i-pinnedAnnouncements.length
@@ -99,8 +97,15 @@
 						y = e.pageY,
 						index = getIndexFromPx(x,y);
 
+
 					viewingAnnouncementIndex = index
-					displayAnnouncement(announcements[index]);
+					if (index >= pinnedAnnouncements.length){
+						displayAnnouncement(announcements[index-pinnedAnnouncements.length])
+					}
+					else{
+						displayAnnouncement(pinnedAnnouncements[index]);	
+					}
+					
 				},true);
 
 				$delIcon.click(function(e){
@@ -225,7 +230,7 @@
 		return $row.append($col);
 	}
 
-	getCheckbox = function(){
+	getCheckbox = function(val){
 		var $row = $('<div>').addClass('row'),
 			$col = $('<div>').addClass('col-md-12'),
 			$checkbox = $('<input>'),
@@ -236,6 +241,10 @@
 		$checkbox.attr('id','pinCheckbox');
 		$checkbox.html('Pinned')
 		$checkbox.attr('value','Pin')
+
+		if (val){
+			$checkbox.attr('checked','checked')
+		}
 
 		$label.append($checkbox).append($p);
 
@@ -311,26 +320,45 @@
 
 	makeEditDisplay = function(){
 		var $area = $('#announceArea'),
-			announcement = announcements[viewingAnnouncementIndex],
-			subject = announcement.subject,
-			time = announcement.time,
+			announcement,
+			subject,
+			time,
 			bodyList ,
-			body = announcement.body,
+			body,
 			$subject,
 			$body,
 			$updateBtn,
 			$btns,
-			$cancelBtn;
+			$cancelBtn,
+			$checkbox;
 
-	
+		if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
+			announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
+		}
+		else{
+			announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+		}
+
+		subject = announcement.subject;
+		time = announcement.time;
+		body = announcement.body;
+
 		$subject = getNewSubject(subject);
 		$body = getNewBody(body);
 		$btns = getNewButton("Update","Cancel");
 		$updateBtn = $btns.find('#addAnnouncement');
 		$cancelBtn = $btns.find('#addAnnouncement2');
 
+		if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+			$checkbox = getCheckbox(true)
+		}
+		else{
+			$checkbox = getCheckbox()
+		}
+
 		$updateBtn.click(function(){
 			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
 				body = $('#addAnnounceBody').val();
 				d = new Date(),
@@ -341,10 +369,21 @@
 				announcement = makeAnnouncement(subject,body,time),
 				announce = "";
 
-			console.log(announcements)
+				
+			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+				pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
+			}
+			else{
+				announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
+			}
 
-			announcements.splice(viewingAnnouncementIndex,1)
-			announcements.unshift(announcement);
+			if ($pinned.is(':checked')){
+				pinnedAnnouncements.unshift(announcement)
+			}
+			else{
+				announcements.unshift(announcement)
+			}
+
 			//console.log(announcement)
 			getAnnouncements();
 			makeAddNewAnnouncement();
@@ -355,7 +394,7 @@
 		})
 
 		$area.empty();
-		$area.append($subject).append($body).append($btns);
+		$area.append($subject).append($body).append($checkbox).append($btns);
 
 	}
 
@@ -364,12 +403,24 @@
 	});
 
 	deleteAnnouncement = function(index){
-		if (announcements.length === 1){
-			announcements = []
+		if (index >= pinnedAnnouncements.length){
+			index = index-pinnedAnnouncements.length;
+			if (announcements.length === 1){
+				announcements = []
+			}
+			else{
+				announcements.splice(index,1)
+			}
 		}
 		else{
-			announcements.splice(index,1)
+			if (pinnedAnnouncements.length === 1){
+				pinnedAnnouncements = []
+			}
+			else{
+				pinnedAnnouncements.splice(index,1)
+			}	
 		}
+
 		getAnnouncements();		
 	}
 
@@ -389,7 +440,7 @@
 		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
 		announcements = [an2,an1],
 		pinnedAnnouncements = [an3]
-		viewingAnnouncementIndex;
+		viewingAnnouncementIndex = 0;
 
 	getAnnouncements();
 	makeAddNewAnnouncement();
