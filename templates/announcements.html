@@ -111,7 +111,7 @@
 			$check = getCheckbox();
 
 		$area.empty();
-		$area.append($subject).append($body).append($button);
+		$area.append($subject).append($body).append($check).append($button);
 		$('#addAnnouncement').click(function(){
 			console.log("the");
 			var $area = $('#announceArea'),
@@ -138,6 +138,7 @@
 			$input = $('<input>');
 
 		$row.addClass('row');
+		$row.css('margin-top','5px');
 		$col.addClass('col-md-12');
 		$input.attr('id', 'addAnnounceSub');
 		$input.attr('type','text');
@@ -204,7 +205,26 @@
 	}
 
 	getCheckbox = function(){
-		//todo
+		var $row = $('<div>').addClass('row'),
+			$col = $('<div>').addClass('col-md-12'),
+			$checkbox = $('<input>'),
+			$wrapper = $('<div>').addClass('input-group'),
+			$addon = $('<span>').addClass('input-group-addon'),
+			$label = $('<label>').addClass('checkbox-inline'),
+			$p = $('<p>').text('Pin');
+
+		$checkbox.attr('type','checkbox')
+		//$col.append($checkbox)
+		//$col.append($p);
+		$checkbox.attr('id','pinCheckbox');
+		$checkbox.html('Pinned')
+		$checkbox.attr('value','Pin')
+
+		//$wrapper.append($addon.append($checkbox).append($p))
+		$label.append($checkbox).append($p);
+
+
+		return $row.append($col.append($label));
 	}
 
 	getIndexFromPx = function(x,y){
