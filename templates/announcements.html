@@ -140,17 +140,27 @@
 		return {"subject":subject, "body":body, "time":time}
 	}
 
-	makeAddNewAnnouncement = function(){
+	makeAddNewAnnouncement = function(err){
 		var $area = $('#announceArea'),
 			$subject = getNewSubject(),
 			$body = getNewBody(),
 			$button = getNewButton(),
-			$check = getCheckbox();
+			$check = getCheckbox(),
+			$error;
 
 		$area.empty();
+		if(err){
+			$error = getError(err);
+			$area.append($error);
+			if (err.subject){
+				$subject = getNewSubject(err.subject)
+			}
+			if (err.body){
+				$body = getNewBody(err.body)
+			}
+		}
 		$area.append($subject).append($body).append($check).append($button);
 		$('#addAnnouncement').click(function(){
-			console.log("the");
 			var $area = $('#announceArea'),
 				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
@@ -160,7 +170,14 @@
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
 				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time);
+				announcement = makeAnnouncement(subject,body,time),
+				err;
+
+			if(!subject || !body){
+				err = {"subject":subject,"body":body}
+				makeAddNewAnnouncement(err);
+				return
+			}
 
 			if ($pinned.is(':checked')){
 				pinnedAnnouncements.unshift(announcement);
@@ -280,6 +297,28 @@
 
 			index = Math.floor(newY/space);
 			return index;
+	}
+
+	getError = function(err){
+		var $row = $('<div>').addClass('row'),
+			$col = $('<div>').addClass('col-md-12'),
+			subject = err.subject,
+			body = err.body,
+			$error = $('<p>');
+
+		if (!subject && !body){
+			$error.text("Please enter a Subject and Message")
+		}
+		else if(!subject){
+			$error.text('Please enter a Subject')
+		}
+		else if (!body){
+			$error.text('Please enter a Message')
+		}
+
+
+		$error.css('color','red')
+		return $row.append($col.append($error));
 	}
 
 	displayAnnouncement = function(item){
