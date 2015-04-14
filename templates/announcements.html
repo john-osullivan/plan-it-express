@@ -24,11 +24,8 @@
 </div>
 
 <script>
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\n this is a test\n I need to know", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello,\n We will be moving to a new space", "4/12/15");
-	var announcements = [an2,an1]
-	var viewingAnnouncementIndex;
-	var getAnnouncements = function(){
+
+	getAnnouncements = function(){
 		console.log("first")
 		if (announcements.length === 0){
 			$('#annouceContainer').empty();
@@ -163,8 +160,10 @@
 		$col.addClass('col-md-12');
 
 		$input.attr('id','addAnnounceBody');
-		$input.attr('cols','29%');
+		$input.attr('cols','50%');
 		$input.attr('placeholder','Message');
+
+		$input.css('height','100px')
 
 		if (text){
 			$input.val(text);
@@ -344,6 +343,10 @@
 
 		return $icon;
 	}
+	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
+		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
+		announcements = [an2,an1],
+		viewingAnnouncementIndex;
 
 	getAnnouncements();
 	makeAddNewAnnouncement();
