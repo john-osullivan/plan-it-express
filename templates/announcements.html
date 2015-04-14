@@ -49,15 +49,16 @@
 					body = $('<p>'),
 					lines,
 					lin,
-					counter = 0;
+					counter = 0
+					$delIcon = getDeleteIcon();
 
 				$container.attr('id',"message "+i)
 				$out_t.addClass('row');
-				$inside1.addClass('col-md-9');
-				$inside2.addClass('col-md-3');
+				$inside1.addClass('col-md-8');
+				$inside2.addClass('col-md-4');
 
 				$inside1.html("<h4><strong>"+a.subject+"</strong></h4>");
-				$inside2.html("<h4>"+a.time+"</h4>");
+				$inside2.append($('<h4>').html(a.time).append($delIcon));
 
 				$out_body.addClass('row');
 				$body.addClass('col-md-12');
@@ -87,7 +88,13 @@
 
 					viewingAnnouncementIndex = index
 					displayAnnouncement(announcements[index]);
-				},false);
+				},true);
+
+				$delIcon.click(function(e){
+					var index = getIndexFromPx(e.pageX,e.pageY);
+					deleteAnnouncement(index);
+					makeAddNewAnnouncement();
+				});
 			}
 		}
 	}
@@ -248,25 +255,12 @@
 		$deleteButton = $btns.find('#addAnnouncement2')
 		$area.append($btns)
 
-		/*
-		$editButton.attr('type','submit');
-		$editButton.attr('value','Edit')
-		$editButton.attr("id","announceEditBttn");
-		$area.append($editButton)
-		*/
-
 		$editButton.click(function(){
 			makeEditDisplay();
 		});
 
 		$deleteButton.click(function(){
-			if (announcements.length === 1){
-				announcements = []
-			}
-			else{
-				announcements.splice(viewingAnnouncementIndex,1)
-			}
-			getAnnouncements();
+			deleteAnnouncement(viewingAnnouncementIndex);
 			makeAddNewAnnouncement();
 
 		})
@@ -286,17 +280,7 @@
 			$btns,
 			$cancelBtn;
 
-		/*
-		for (var i=0; i < bodyList.length; i++){
-			if (i != bodyList.length-1){
-				body += bodyList[i].innerHTML + "\n";	
-			}
-			else{
-				body += bodyList[i].innerHTML
-			}
-		}
-		*/
-		
+	
 		$subject = getNewSubject(subject);
 		$body = getNewBody(body);
 		$btns = getNewButton("Update","Cancel");
@@ -337,6 +321,27 @@
 		makeAddNewAnnouncement();
 	});
 
+	deleteAnnouncement = function(index){
+		if (announcements.length === 1){
+			announcements = []
+		}
+		else{
+			announcements.splice(index,1)
+		}
+		getAnnouncements();		
+	}
+
+	getDeleteIcon = function(){
+		var $icon = $('<img>');
+
+		$icon.attr('src','graphics/delete-icon.png');
+		$icon.css('max-width','20px');
+		$icon.css('max-height','20px');
+
+		$icon.css('float','right')
+
+		return $icon;
+	}
 
 	getAnnouncements();
 	makeAddNewAnnouncement();
