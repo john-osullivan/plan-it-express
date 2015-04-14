@@ -3,6 +3,7 @@
     margin-bottom:4%;
 }
 
+
 .noteListing{
 
 }
@@ -13,4 +14,109 @@
 
 .noteDetail{
 
+}
+
+.contents{
+	padding: 4px;
+}
+.announcements{
+	min-height: 260px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.to-do{
+	min-height: 260px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.todos{
+	min-height: 540px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.todones{
+	min-height: 540px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+
+.questions{
+	min-height: 250px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}	
+
+.notes{
+	min-height: 250px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	overflow: auto;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.content{
+
+}
+
+table{
+	table-layout: fixed;
+}
+
+td{
+	width: 33%;
+}
+
+table tr{
+	text-align: center;
+}
+
+h3{
+	margin: 10px;
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: center;
+}
+
+h1{
+	margin: 5px;
+}
+
+.todo{
+	position: relative;
+	left:35%;
+	text-align: left;
+
+}
+
+#announcementsTable tr:hover{
+	background-color: #ccc;
+}
+
+#questionsTable tr:hover{
+	background-color: #ccc;
+}
+
+#notesTable tr:hover{
+	background-color: #ccc;
 }
