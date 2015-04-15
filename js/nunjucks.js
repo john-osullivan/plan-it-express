@@ -518,6 +518,7 @@ function printNodes(node, indent) {
 
     // This is hacky, but this is just a debugging function anyway
     function print(str, indent, inline) {
+        console.log("This is the str @ 522",str);
         var lines = str.split('\n');
 
         for(var i=0; i<lines.length; i++) {
@@ -673,6 +674,7 @@ var Frame = Obj.extend({
     set: function(name, val, resolveUp) {
         // Allow variables with dots by automatically creating the
         // nested structure
+        console.log("This is the str @ line 678:",name);
         var parts = name.split('.');
         var obj = this.variables;
         var frame = this;
@@ -4162,6 +4164,7 @@ var filters = {
     indent: function(str, width, indentfirst) {
         width = width || 4;
         var res = '';
+        console.log("This is the str @ line 4165: ",str);
         var lines = str.split('\n');
         var sp = lib.repeat(' ', width);
 
@@ -4199,6 +4202,7 @@ var filters = {
 
     list: function(val) {
         if(lib.isString(val)) {
+            console.log("This is the str @ line 4203: ",val);
             return val.split('');
         }
         else if(lib.isObject(val)) {
@@ -4368,6 +4372,7 @@ var filters = {
     },
 
     title: function(str) {
+        console.log("This is the str @ line 4374: ",words);
         var words = str.split(' ');
         for(var i = 0; i < words.length; i++) {
             words[i] = filters.capitalize(words[i]);
@@ -4440,7 +4445,7 @@ var filters = {
         var httpHttpsRE = /^https?:\/\/.*$/;
         var wwwRE = /^www\./;
         var tldRE = /\.(?:org|net|com)(?:\:|\/|$)/;
-
+        console.log("This is the str @ 4447: ",str);
         var words = str.split(/\s+/).filter(function(word) {
           // If the word has no length, bail. This can happen for str with
           // trailing whitespace.
