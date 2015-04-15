@@ -54,7 +54,7 @@
 					pinned = false,
 					index = 0,
 					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
-					$wrapperHeading = $('<h3>'),
+					$wrapperHeading = $('<h4>').addClass("list-group-item-heading"),
 					$wrapperBody = $('<div>').addClass('list-group-item-body');
 
 
@@ -67,29 +67,30 @@
 					pinned = true;
 				}
 
-				$container.attr('id',"message "+i)
+				//$container.attr('id',"message "+i)
 				$container.addClass('list-group-item')
-				$out_t.addClass('row').addClass("list-group-item-heading");
-				$inside1.addClass('col-md-8');
-				$inside2.addClass('col-md-4');
-				$wrapperHeading.addClass('list-group-item-heading');
+				$out_t.addClass('row');
+				$inside1.addClass('col-md-9');
+				$inside2.addClass('col-md-3');
+
+				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
 
 				if (!pinned){
-					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>"));
+					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
 				}
 				else{
 					$pin.css('float','right')
 					$pin.css('color','blue')
-					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>").append($pin));
+					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>").append($pin));
 				}
 
-				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
-
-				$delIcon.css("cursor","pointer")
+				
 
 				$out_body.addClass('row').addClass("list-group-item-text");
 				$body.addClass('col-md-12');
+
                 console.log("This should be a.body: ", a.body);
+
 				lines = a.body.split("\n");
 				for (var j=0; j<lines.length; j++){
 					var par = $('<p>');
@@ -102,10 +103,10 @@
 				//body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
-				$container.css("cursor","default");
+				//$container.css("cursor","default");
 				$container.css("height","93px")
 				$container.css("overflow","hidden")
-				$container.css('padding','3px')
+				//$container.css('padding','3px')
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
