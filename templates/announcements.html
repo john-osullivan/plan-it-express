@@ -7,15 +7,18 @@
 {{ menu('announcements') }}
 
 	<div class="row">
-		<div class="col-md-4"><h1>Announcements</h1></div>
-		<div class="col-md-3 col-md-offset-1">
-			<input class="btn btn-default" id="newAnnouncement" type="submit" value="New" style="margin-top:19px" >
+		<div class="col-md-12 page-header"><h1>
+			<div class="btn-group pull-right" role="group">
+				<input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
+			</div>
+			Announcements</h1>
 		</div>
+		
 	</div>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-4">			
 			<span id="noAnnouce"></span>
-			<div id="annouceContainer"></div>
+			<div class="list-group" id="annouceContainer"></div>
 		</div>
 		<div class="col-md-7 col-md-offset-1" id="announceArea">
 		</div>
@@ -38,7 +41,7 @@
 			for (var i=0; i<(total); i++){
 				var a,
 					$div = $('#annouceContainer'),
-					$container = $('<div>'),
+					$container = $('<a>').attr('href','#'),
 					$out_t = $('<div>'),
 					$out_body = $('<div>'),
 					$inside1 = $('<div>'),
@@ -51,7 +54,8 @@
 					$delIcon = getDeleteIcon(),
 					pinned = false,
 					index = 0,
-					$pin = $('<p>').html('-Pinned');
+					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
+					$wrapperHeading = $('<h3>');
 
 
 				if (i >= pinnedAnnouncements.length){
@@ -64,20 +68,22 @@
 				}
 
 				$container.attr('id',"message "+i)
+				$container.addClass('list-group-item')
 				$out_t.addClass('row');
 				$inside1.addClass('col-md-8');
 				$inside2.addClass('col-md-4');
+				$wrapperHeading.addClass('class="list-group-item-heading');
 
 				if (!pinned){
-					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>"));
+					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>"));
 				}
 				else{
 					$pin.css('float','right')
 					$pin.css('color','blue')
-					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>").append($pin));
+					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>").append($pin));
 				}
 
-				$inside2.append($('<h4>').html(a.time).append($delIcon));
+				$inside2.append($('<h4>').addClass("list-group-item-heading").html(a.time).append($delIcon));
 
 				$delIcon.css("cursor","pointer")
 
@@ -103,12 +109,15 @@
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($out_body)); 
-				$container[0].addEventListener("click",function(e){
+				$container.on("click",function(e){
 					var x = e.pageX,
 						y = e.pageY,
-						index = getIndexFromPx(x,y);
+						index = getIndexFromPx(x,y),
+						$div = $('#annouceContainer');
 
 
+					$div.find('.active').removeClass('active')
+					$(this).addClass('active');
 					viewingAnnouncementIndex = index
 					if (index >= pinnedAnnouncements.length){
 						displayAnnouncement(announcements[index-pinnedAnnouncements.length])
@@ -117,14 +126,16 @@
 						displayAnnouncement(pinnedAnnouncements[index]);	
 					}
 					
-				},true);
+				});
 
+				/*
 				$container.hover(function(){
 					$(this).css('background','#bcd5eb');
 				});
 				$container.on('mouseleave',function(){
 					$(this).css('background','white');
 				});
+				*/
 
 				$delIcon.click(function(e){
 					var index = getIndexFromPx(e.pageX,e.pageY);
@@ -289,11 +300,13 @@
 
 	getIndexFromPx = function(x,y){
 		var xOffset = 15,
-			yOffset = 163,
+			yOffset = 213,
 			newX = x-xOffset,
 			newY = y-yOffset,
 			space = 93,
 			index;
+
+		console.log(y)
 
 			index = Math.floor(newY/space);
 			return index;
@@ -327,19 +340,25 @@
 			subject = item.subject,
 			body = item.body,
 			time = item.time,
-			$row1 = $('<div>').addClass("row"),
-			$row2 = $('<div>').addClass("row"),
-			$subject = $('<div>').addClass("col-md-4"),
-			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
-			$body = $('<div>').addClass("col-md-8"),
+			$wrapper = $('<div>').addClass('panel panel-default'),
+			$wrapperHeading = $('<div>').addClass('panel-heading'),
+			$row1 = $('<div>').addClass(""),
+			$row2 = $('<div>').addClass("panel-body"),
+			$subject = $('<h4>'),
+			$time = $('<div>').addClass("pull-right"),
+			$body = $('<div>'),
 			lines,
 			lin,
 			$btns,
 			$editButton,
 			$deleteButton;
 
-		$subject.html("<h4><strong>"+subject+"</strong></h4>");
+		
+
+		$subject.html(subject);
 		$time.html("<h4>"+time+"</h4>");
+
+		$wrapperHeading.append($time).append($subject);
 
         console.log("This should be a body: ",body);
 		lines = body.split("\n");
@@ -354,11 +373,11 @@
 			}
 		}
 
-		$row1.append($subject).append($time);
+		//$row1.append($subject).append($time);
 		$row2.append($body);
 
 		$area.empty();
-		$area.append($row1).append($row2);
+		$area.append($wrapper.append($wrapperHeading).append($row2));
 
 		$btns = getNewButton("Edit","Delete");
 		$editButton = $btns.find('#addAnnouncement');
@@ -449,7 +468,14 @@
 		})
 
 		$cancelBtn.click(function(){
-			displayAnnouncement(announcements[viewingAnnouncementIndex]);
+			var announcement;
+			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+				announcement = pinnedANnouncements[viewingAnnouncementIndex];
+			}
+			else{
+				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
+			}
+			displayAnnouncement(announcement);
 		})
 
 		$area.empty();
