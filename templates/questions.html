@@ -8,67 +8,69 @@
 
 {{ menu('questions') }}
 
-<script>
-	var questionsList;
-	
-</script>
-<div class="row page-header">
-    <h1>
-        Questions <small>Respond to your attendees' questions all in one place.</small>
-    </h1>
+<div class="row">
+    <div class="col-md-12 page-header">
+        <h1>
+            Questions <small>View and answer questions from participants.</small></h1>
+    </div>
 </div>
 
-<div class="row" style="background-color: #EEF">
-	<div class="col-md-3 questions_overview_col">
-		<h3>Questions</h3>
-		<div class="row question_overview">
-			<table>
-				<tr>
-					<td><h5 class="qo_subj">Subject1</h5></td>
-					<td><h5 class="qo_unanswered">UNANSWERED</h5></td>
-				</tr>
-				<tr><td class="qo_preview">Example Question Text</td></tr>
-				<tr>
-					<td class="qo_sender">Sender1</td>
-					<td class="qo_date">MM/DD/YY</td>
-				</tr>
-			</table>
-		</div>
-		<div class="row question_overview">
-			<table>
-				<tr>
-					<td><h5 class="qo_subj">Subject2</h5></td>
-				</tr>
-				<tr><td class="qo_preview">Example Question Text 2: Electric Boogaloo</td></tr>
-				<tr>
-					<td class="qo_sender">Sender2</td>
-					<td class="qo_date">MM/DD/YY</td>
-				</tr>
-			</table>
+<div class="row">
+	<div class="col-md-4">
+		<div class="list-group">
+			{% for question in questions %}
+				{% if isActiveQuestion(question.id) %}
+					<a href="#" class="list-group-item active" onclick="selectQuestion({{ question.id }})">
+						<h4 class="list-group-item-heading">
+						{{ question.subject }}
+						{% if not question.isAnswered %}
+							<small><span class="pull-right badge">UNANSWERED</span></small>
+						{% endif %}
+						</h4>
+						<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+						<h5 class="list-group-item-heading" style="padding-top: 20px">
+						{{ question.asker }}
+						<small><span class="pull-right">{{ question.date }}</span></small>
+						</h5>
+					</a>
+				{% else %}
+					<a href="#" class="list-group-item" onclick="selectQuestion({{ question.id }})">
+						<h4 class="list-group-item-heading">
+						{{ question.subject }}
+						{% if not question.isAnswered %}
+							<small><span class="pull-right badge">UNANSWERED</span></small>
+						{% endif %}
+						</h4>
+						<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+						<h5 class="list-group-item-heading" style="padding-top: 20px">
+						{{ question.asker }}
+						<small><span class="pull-right">{{ question.date }}</span></small>
+						</h5>
+					</a>
+				{% endif %}
+			{% endfor %}
 		</div>
 	</div>
-	<div class="col-md-6 col-md-offset-2 questions_focused_col">
-		<h3>Current Question</h3>
-		<div class="row question_focus">
-			<table>
-				<tr>
-					<td class="qf_subj"><h4>Subject1</h4></td>
-					<td class="qf_date">MM/DD/YY</td>
-				</tr>
-				<tr><td class="qf_sender">From: Sender1</td></tr>
-				<tr><td class="qf_text">This is a much larger example question text which is meant to show that this text is displayed in its entirety.</td></tr>
-			</table>
-		</div>
-		<div class="row question_response_input">
-			<div class="form-group">
-				<input type="text" class="form-control qr_input_field">
-			</div>
-			<div class="col-sm-2 col-sm-offset-10">
-				<div class="btn-primary" style="padding-left: 3px;">
-					Reply
+	<div class="col-md-8">
+		{% if activeQuestion != null %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>
+						{{ activeQuestion.subject }}
+						<small><span class="pull-right">{{ activeQuestion.date }}</span></small>
+					</h2>
+				</div>
+				<div class="panel-body">
+					<p>From: {{ activeQuestion.asker }}</p>
+					<p>{{ activeQuestion.text }}</p>
 				</div>
 			</div>
-		</div>
+			<div class="form-group"
+				<label for="response">Response:</label>
+				<textarea rows=8 cols=40 class="form-control" id="response"></textarea>
+			</div>
+			<a href="#" class="pull-right btn btn-primary">Reply</a>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
