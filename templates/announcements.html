@@ -6,21 +6,24 @@
 
 {{ menu('announcements') }}
 
+
 <div class="row">
     <div class="col-md-12 page-header">
         <h1>
             <div class="btn-group pull-right" role="group">
-                <a href="#" class="btn btn-primary">Create New Announcement</a>
+                <input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
             </div>
-            Announcements <small>Tell your attendees about the big news.</small>
+            Announcements <small>Tell your attendees about the big news!</small>
         </h1>
     </div>
 
 </div>
 <div class="row">
     <div class="col-md-4">
-        <span id="noAnnouce"></span>
-        <div id="annouceContainer"></div>
+        <div class="list-group">
+            <span id="noAnnouce"></span>
+            <div id="annouceContainer"></div>
+        </div>
     </div>
     <div class="col-md-7 col-md-offset-1" id="announceArea">
     </div>
@@ -294,11 +297,13 @@ getCheckbox = function(val){
 
 getIndexFromPx = function(x,y){
     var xOffset = 15,
-            yOffset = 163,
+            yOffset = 213,
             newX = x-xOffset,
             newY = y-yOffset,
             space = 93,
             index;
+
+    console.log(y)
 
     index = Math.floor(newY/space);
     return index;
