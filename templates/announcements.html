@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-12 page-header"><h1>
 			<div class="btn-group pull-right" role="group">
-				<a href="#" class="btn btn-primary">New</a>
+				<input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
 			</div>
 			Announcements</h1>
 		</div>
@@ -17,8 +17,10 @@
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<span id="noAnnouce"></span>
-			<div id="annouceContainer"></div>
+			<div class="list-group">
+				<span id="noAnnouce"></span>
+				<div id="annouceContainer"></div>
+			</div>
 		</div>
 		<div class="col-md-7 col-md-offset-1" id="announceArea">
 		</div>
@@ -292,11 +294,13 @@
 
 	getIndexFromPx = function(x,y){
 		var xOffset = 15,
-			yOffset = 163,
+			yOffset = 213,
 			newX = x-xOffset,
 			newY = y-yOffset,
 			space = 93,
 			index;
+
+		console.log(y)
 
 			index = Math.floor(newY/space);
 			return index;
