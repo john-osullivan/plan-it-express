@@ -41,21 +41,23 @@ var todos = [{
 var activeTodo = todos[0];
 
 var questions = [{
-		id:0,
-		isAnswered:true,
-		subject:"Subject1",
-		asker:"Sender1",
-		date:"MM/DD/YY",
-		text:"This is a small amount of text."
+        id:0,
+        isAnswered:false,
+        subject:"Lug nuts",
+        asker:"Bender",
+        date:"04/15/2015",
+        /*text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."*/
+        text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions."
+		
 	},{
 		id:1,
-		isAnswered:false,
-		subject:"Subject2",
-		asker:"Sender2",
-		date:"MM/DD/YY",
-		text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."
+        isAnswered:true,
+        subject:"Location?",
+        asker:"Brochacho",
+        date:"04/01/2015",
+        text:"Where's the event at?"
 	}];
-var activeQuestion = questions[1];
+var activeQuestion = questions[0];
 
 var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
     _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/9/15", false),
