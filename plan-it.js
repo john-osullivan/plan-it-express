@@ -40,10 +40,16 @@ var loadHome = function(){
     loadPage(home);
 };
 
+//================ ANNOUNCMENTS =============
+
+
 var loadAnnouncements = function(){
     var announcements = nunjucks.render('announcements.html');
     loadPage(announcements);
 };
+
+
+//===========================================
 
 //================ QUESTIONS ================
 var isActiveQuestion = function(questionID){
