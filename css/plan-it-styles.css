@@ -37,7 +37,8 @@
 }
 
 .todos{
-	min-height: 540px;
+	min-height: 425px;
+	max-height: 425px;
 	border-radius: 10px;
 	padding: 4px;
 	margin-top:20px;
@@ -46,7 +47,8 @@
 }
 
 .todones{
-	min-height: 540px;
+	min-height: 425px;
+	max-height: 425px;
 	border-radius: 10px;
 	padding: 4px;
 	margin-top:20px;
