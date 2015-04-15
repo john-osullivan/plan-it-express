@@ -80,7 +80,8 @@
 					pinned = true;
 				}
 
-				$container.addClass('list-group-item')
+				$container.attr('id','' +i);
+				$container.addClass('list-group-item');
 				$out_t.addClass('row');
 				$inside1.addClass('col-md-9');
 				$inside2.addClass('col-md-3');
@@ -120,9 +121,8 @@
 				$container.on("click",function(e){
 					var x = e.pageX,
 						y = e.pageY,
-						index = getIndexFromPx(x,y),
+						index = parseInt($(this).attr('id')),
 						$div = $('#annouceContainer');
-
 
 					$div.find('.active').removeClass('active')
 					$(this).addClass('active');
@@ -296,19 +296,6 @@
 		return $row.append($col.append($label));
 	}
 
-	getIndexFromPx = function(x,y){
-		var xOffset = 15,
-			yOffset = 213,
-			newX = x-xOffset,
-			newY = y-yOffset,
-			space = 93,
-			index;
-
-		
-
-		index = Math.floor(newY/space);
-		return index;
-	}
 
 	getError = function(err){
 		var $row = $('<div>').addClass('row'),
