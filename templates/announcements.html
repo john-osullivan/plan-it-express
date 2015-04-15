@@ -84,11 +84,11 @@
 					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>").append($pin));
 				}
 
-				$inside2.append($('<h4>').addClass("list-group-item-heading").html(a.time).append($delIcon));
+				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
 
 				$delIcon.css("cursor","pointer")
 
-				$out_body.addClass('row').addClass("list-group-item-body");
+				$out_body.addClass('row').addClass("list-group-item-text");
 				$body.addClass('col-md-12');
                 console.log("This should be a.body: ", a.body);
 				lines = a.body.split("\n");
@@ -128,15 +128,6 @@
 					}
 					
 				});
-
-				/*
-				$container.hover(function(){
-					$(this).css('background','#bcd5eb');
-				});
-				$container.on('mouseleave',function(){
-					$(this).css('background','white');
-				});
-				*/
 
 				$delIcon.click(function(e){
 					var index = getIndexFromPx(e.pageX,e.pageY);
