@@ -11,6 +11,7 @@ var notes = [{
     title:"Organizers",
     text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
 }];
+var activeNote = notes[0];
 
 var todos = [{
     id: 0,
@@ -20,25 +21,25 @@ var todos = [{
     done: false
 }, {
     id: 1,
-    title: "Go Grocery Shopping",
-    description: "Make sure you have all the food you'll need!",
-    deadline: new Date("2015-04-20"),
+    title: "Confirm Caterer",
+    description: "Get the food dude to say he'll be there.",
+    deadline: new Date("2015-04-16"),
     done: false
 }, {
     id: 2,
-    title: "Go Grocery Shopping",
-    description: "Make sure you have all the food you'll need!",
-    deadline: new Date("2015-04-20"),
+    title: "Registration Form",
+    description: "Put up a link to the updated registration form.",
+    deadline: new Date("2015-04-15"),
     done: false
 }, {
-    id: 0,
-    title: "Go Grocery Shopping",
-    description: "Make sure you have all the food you'll need!",
-    deadline: new Date("2015-04-20"),
+    id: 3,
+    title: "Update time",
+    description: "Let everyone know you'll be starting an hour late.",
+    deadline: new Date("2015-04-14"),
     done: true
 }];
+var activeTodo = todos[0];
 
-var activeNote = notes[0];
 var questions = [{
 		id:0,
 		isAnswered:true,
@@ -55,7 +56,6 @@ var questions = [{
 		text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."
 	}];
 var activeQuestion = questions[1];
-var activeToDo;
 
 var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
     _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/9/15", false),
@@ -149,12 +149,69 @@ var loadQuestions = function(){
 };
 //===========================================
 
+//============== TODOS ====================
 
-var loadTodos = function(){
-    var todos = nunjucks.render('todos.html');
-    loadPage(todos);
+var getOneTodo = function(todoID){
+    return _.find(todos, function(todo){ return todo.id == todoID });
 };
 
+var getTodos = function(){
+    var undoneTodos =  _.filter(todos, function(todo){ return todo.done === false });
+    console.log("Just got todos, there were this many: ",undoneTodos.length);
+    console.log(undoneTodos);
+    return _.map(undoneTodos, function(todo){
+        todo.deadline = todo.deadline.toDateString();
+        return todo;
+    });
+};
+
+var getTodones = function() {
+    var todones = _.filter(todos, function(todo){ return todo.done === true });
+    return _.map(todones, function(todone){
+        todone.deadline = todone.deadline.toDateString();
+        return todone;
+    });
+};
+
+var toggleTodoDone = function(todoID){
+    var thisTodo = getOneTodo(todoID);
+    thisTodo.done = thisTodo.done !== true;
+    loadTodos();
+};
+
+var selectTodo = function(todoID){
+    activeTodo = getOneTodo(todoID);
+    loadTodos();
+};
+
+var deleteTodo = function(todoID){
+    todos = _.filter(todos, function(todo){ return todo.id !== todoID });
+};
+
+var createTodo = function(){
+
+};
+
+var isActiveTodo = function(todo){
+    return todo.id == activeTodo.id;
+};
+
+var loadTodos = function(){
+    var todos = getTodos();
+    var todones = getTodones();
+    var todosPage = nunjucks.render('todos.html', {
+        isActiveTodo:isActiveTodo,
+        activeTodo:activeTodo,
+        todos: todos,
+        todones: todones,
+        selectTodo: selectTodo,
+        deleteTodo: deleteTodo,
+        toggleTodoDone: toggleTodoDone
+    });
+    loadPage(todosPage);
+};
+
+//============== NOTES ====================
 
 var isActiveNote = function(noteID){
         return noteID === activeNote.id;
