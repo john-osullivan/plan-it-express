@@ -11,8 +11,7 @@
 			<div class="btn-group pull-right" role="group">
 				<input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
 			</div>
-			Announcements <small>Tell your participants about the big news.</small>
-        </h1>
+			Announcements <small>View and send out messages to all your participants.</small></h1>
 		</div>
 		
 	</div>
@@ -30,7 +29,20 @@
 	var viewingAnnouncementIndex;
 
 
-	var getAnnouncements = function(){
+
+	sortAnnouncements = function(elts){
+		pinnedAnnouncements = []
+		pinnedAnnouncements = _.filter(elts, function(elt){
+			return (elt.pinned)
+		});
+		announcements = []
+		announcements = _.filter(elts, function(elt){
+			return (!elt.pinned)
+		});
+		getAnnouncements();
+	}
+
+	getAnnouncements = function(){
 		var total = announcements.length+pinnedAnnouncements.length
 		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
 			$('#annouceContainer').empty();
@@ -51,12 +63,11 @@
 					body = $('<p>'),
 					lines,
 					lin,
-					counter = 0
-					$delIcon = getDeleteIcon(),
+					counter = 0,
 					pinned = false,
 					index = 0,
 					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
-					$wrapperHeading = $('<h3>'),
+					$wrapperHeading = $('<h4>').addClass("list-group-item-heading"),
 					$wrapperBody = $('<div>').addClass('list-group-item-body');
 
 
@@ -69,29 +80,28 @@
 					pinned = true;
 				}
 
-				$container.attr('id',"message "+i)
-				$container.addClass('list-group-item')
-				$out_t.addClass('row').addClass("list-group-item-heading");
-				$inside1.addClass('col-md-8');
-				$inside2.addClass('col-md-4');
-				$wrapperHeading.addClass('list-group-item-heading');
+				$container.attr('id','' +i);
+				$container.addClass('list-group-item');
+				$out_t.addClass('row');
+				$inside1.addClass('col-md-9');
+				$inside2.addClass('col-md-3');
+
+				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
 
 				if (!pinned){
-					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>"));
+					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
 				}
 				else{
 					$pin.css('float','right')
 					$pin.css('color','blue')
-					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>").append($pin));
+					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>").append($pin));
 				}
 
-				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
-
-				$delIcon.css("cursor","pointer")
+				
 
 				$out_body.addClass('row').addClass("list-group-item-text");
 				$body.addClass('col-md-12');
-                console.log("This should be a.body: ", a.body);
+
 				lines = a.body.split("\n");
 				for (var j=0; j<lines.length; j++){
 					var par = $('<p>');
@@ -101,22 +111,24 @@
 						$body.append(par.text(lin))
 					}					
 				}
-				//body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
-				$container.css("cursor","default");
 				$container.css("height","93px")
 				$container.css("overflow","hidden")
-				$container.css('padding','3px')
+
+				if (a === activeAnnouncement){
+					$container.addClass('active');
+					viewingAnnouncementIndex = i;
+					displayAnnouncement(a);
+				}
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
 				$container.on("click",function(e){
 					var x = e.pageX,
 						y = e.pageY,
-						index = getIndexFromPx(x,y),
+						index = parseInt($(this).attr('id')),
 						$div = $('#annouceContainer');
-
 
 					$div.find('.active').removeClass('active')
 					$(this).addClass('active');
@@ -130,18 +142,14 @@
 					
 				});
 
-				$delIcon.click(function(e){
-					var index = getIndexFromPx(e.pageX,e.pageY);
-					deleteAnnouncement(index);
-					makeAddNewAnnouncement();
-				});
 			}
 		}
 	}
 
 
-	function makeAnnouncement(subject, body, time){
-		return {"subject":subject, "body":body, "time":time}
+	function makeAnnouncement(subject, body, time, pinned){
+		createAnnouncement(subject,body,time, pinned);
+		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
 	makeAddNewAnnouncement = function(err){
@@ -168,13 +176,13 @@
 			var $area = $('#announceArea'),
 				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
-				body = $('#addAnnounceBody').val();
+				body = $('#addAnnounceBody').val(),
 				d = new Date(),
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
+				time = ""+month+"/"+day+"/"+year.slice(2,4),
+				announcement,
 				err;
 
 			if(!subject || !body){
@@ -184,9 +192,11 @@
 			}
 
 			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement);
 			}
 			else{
+				announcement  = makeAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement);
 			}
 
@@ -292,19 +302,6 @@
 		return $row.append($col.append($label));
 	}
 
-	getIndexFromPx = function(x,y){
-		var xOffset = 15,
-			yOffset = 213,
-			newX = x-xOffset,
-			newY = y-yOffset,
-			space = 93,
-			index;
-
-		console.log(y)
-
-			index = Math.floor(newY/space);
-			return index;
-	}
 
 	getError = function(err){
 		var $row = $('<div>').addClass('row'),
@@ -329,7 +326,6 @@
 	}
 
 	displayAnnouncement = function(item){
-        console.log("Display announcement got called.");
 		var $area = $('#announceArea'),
 			subject = item.subject,
 			body = item.body,
@@ -354,7 +350,6 @@
 
 		$wrapperHeading.append($time).append($subject);
 
-        console.log("This should be a body: ",body);
 		lines = body.split("\n");
 
 		for (var i=0; i<lines.length; i++){
@@ -437,26 +432,22 @@
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
+				time = ""+month+"/"+day+"/"+year.slice(2,4),
+				announcement,
 				announce = "";
 
 				
-			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-				pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
-			}
-			else{
-				announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
-			}
+			deleteAnnouncement(viewingAnnouncementIndex);
 
 			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement)
 			}
 			else{
+				announcement = makeAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement)
 			}
 
-			//console.log(announcement)
 			getAnnouncements();
 			makeAddNewAnnouncement();
 		})
@@ -484,6 +475,7 @@
 	deleteAnnouncement = function(index){
 		if (index >= pinnedAnnouncements.length){
 			index = index-pinnedAnnouncements.length;
+			_deleteAnnouncement(announcements[index])
 			if (announcements.length === 1){
 				announcements = []
 			}
@@ -492,6 +484,7 @@
 			}
 		}
 		else{
+			_deleteAnnouncement(announcements[index])
 			if (pinnedAnnouncements.length === 1){
 				pinnedAnnouncements = []
 			}
@@ -503,26 +496,19 @@
 		getAnnouncements();		
 	}
 
-	getDeleteIcon = function(){
-		var $icon = $('<img>');
 
-		$icon.attr('src','graphics/delete-icon.png');
-		$icon.css('max-width','20px');
-		$icon.css('max-height','20px');
-
-		$icon.css('float','right')
-
-		return $icon;
-	}
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
-		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
-		announcements = [an2,an1],
-		pinnedAnnouncements = [an3]
+	var announcements = [] ,
+		pinnedAnnouncements = [],
 		viewingAnnouncementIndex = 0;
 
+	sortAnnouncements(allAnnouncements);
 	getAnnouncements();
-	makeAddNewAnnouncement();
+	if (!activeAnnouncement){
+		makeAddNewAnnouncement();
+	}
+	
+	
+
 </script>
 
 {% endblock %}

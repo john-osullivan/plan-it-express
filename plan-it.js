@@ -11,7 +11,34 @@ var notes = [{
     title:"Organizers",
     text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
 }];
-var activeNote = notes[1];
+
+var todos = [{
+    id: 0,
+    title: "Go Grocery Shopping",
+    description: "Make sure you have all the food you'll need!",
+    deadline: new Date("2015-04-20"),
+    done: false
+}, {
+    id: 1,
+    title: "Go Grocery Shopping",
+    description: "Make sure you have all the food you'll need!",
+    deadline: new Date("2015-04-20"),
+    done: false
+}, {
+    id: 2,
+    title: "Go Grocery Shopping",
+    description: "Make sure you have all the food you'll need!",
+    deadline: new Date("2015-04-20"),
+    done: false
+}, {
+    id: 0,
+    title: "Go Grocery Shopping",
+    description: "Make sure you have all the food you'll need!",
+    deadline: new Date("2015-04-20"),
+    done: true
+}];
+
+var activeNote = notes[0];
 var questions = [{
 		id:0,
 		isAnswered:true,
@@ -29,7 +56,13 @@ var questions = [{
 	}];
 var activeQuestion = questions[1];
 var activeToDo;
-var activeAnnouncement;
+
+var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
+    _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/9/15", false),
+    _makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true)
+    ];
+
+var activeAnnouncement = allAnnouncements[2];
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
@@ -40,10 +73,37 @@ var loadHome = function(){
     loadPage(home);
 };
 
+//================ ANNOUNCMENTS =============
+
+
+function _makeAnnouncement(subject, body, time, pinned){
+        return {"subject":subject, "body":body, "time":time, "pinned":pinned}
+    }
+
 var loadAnnouncements = function(){
-    var announcements = nunjucks.render('announcements.html');
+    var announcements = nunjucks.render('announcements.html', {
+        allAnnouncements:allAnnouncements,
+        activeAnnouncement:activeAnnouncement
+    });
     loadPage(announcements);
 };
+
+var createAnnouncement = function(subject, body, time, pinned){
+    var announcement = _makeAnnouncement(subject,body,time,pinned);
+
+    allAnnouncements.unshift(announcement)
+    console.log(announcement)
+    return announcement
+}
+
+var _deleteAnnouncement = function(elt){
+    var index = allAnnouncements.indexOf(elt);
+
+    allAnnouncements.splice(index, 1);
+}
+
+
+//===========================================
 
 //================ QUESTIONS ================
 var isActiveQuestion = function(questionID){
