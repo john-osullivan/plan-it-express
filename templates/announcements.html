@@ -55,7 +55,7 @@ var getAnnouncements = function(){
             $delIcon = getDeleteIcon(),
                     pinned = false,
                     index = 0,
-                    $pin = $('<p>').html('-Pinned'),
+                    $pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
                     $wrapperHeading = $('<h3>');
 
 
@@ -469,7 +469,14 @@ makeEditDisplay = function(){
     })
 
     $cancelBtn.click(function(){
-        displayAnnouncement(announcements[viewingAnnouncementIndex]);
+        var announcement;
+        if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+            announcement = pinnedANnouncements[viewingAnnouncementIndex];
+        }
+        else{
+            announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
+        }
+        displayAnnouncement(announcement);
     })
 
     $area.empty();
