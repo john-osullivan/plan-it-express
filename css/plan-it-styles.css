@@ -1,6 +1,5 @@
 .page-content{
-    margin-top: 4%;
-    margin-bottom:4%;
+    padding:4%
 }
 
 
@@ -91,7 +90,7 @@ table tr{
 	text-align: center;
 }
 
-h3{
+.home-heading{
 	margin: 10px;
 	font-weight: bold;
 	text-decoration: underline;
@@ -107,16 +106,4 @@ h1{
 	left:35%;
 	text-align: left;
 
-}
-
-#announcementsTable tr:hover{
-	background-color: #ccc;
-}
-
-#questionsTable tr:hover{
-	background-color: #ccc;
-}
-
-#notesTable tr:hover{
-	background-color: #ccc;
 }

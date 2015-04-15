@@ -2,17 +2,25 @@
 
 {% block content %}
 
-{% include "menu.html" %}
 
-{{ menu("notes") }}
 
 <script>
-    console.log("Is this thing even running?");
+
+
+    var activeNote = notes[1];
+    console.log(activeNote);
+    console.log("Here is the notes thing: ",notes);
 </script>
+
+{% include "menu.html" %}
+
+{{ menu('notes') }}
 
 <!-- This part makes the title row and explains how the editor works. -->
 <div class="row">
-    <h1>Notes</h1>
+    <div class="col-md-12 page-header">
+        <h1>Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
+    </div>
 </div>
 
 <!-- This part makes all the page content. -->
@@ -21,18 +29,19 @@
     <!-- This column is for the list view of all notes. -->
     <div class="col-md-3">
         <div class="list-group noteList">
+
             {% for note in notes %}
 
             {% if isActiveNote(note.id) %}
-                <a href="#" class="list-group-item active">
-                    <h3 class="list-group-item-heading">{{ note.title }}</h3>
-                    <p class="list-group-item-text">{{ note.text | truncate(42) }}</p>
-                </a>
+            <a href="#" class="list-group-item active">
+                <h3 class="list-group-item-heading">{{ note.title }}</h3>
+                <h5 class="list-group-item-text">{{ note.text | truncate(42) }}</h5>
+            </a>
             {% else %}
-                <a href="#" class="list-group-item">
-                    <h3 class="list-group-item-heading">{{ note.title }}</h3>
-                    <p class="list-group-item-text">{{ note.text | truncate(42) }}</p>
-                </a>
+            <a href="#" class="list-group-item">
+                <h3 class="list-group-item-heading">{{ note.title }}</h3>
+                <h5 class="list-group-item-text">{{ note.text | truncate(42) }}</h5>
+            </a>
             {% endif %}
 
             {% endfor %}
@@ -40,18 +49,19 @@
     </div>
 
     <!-- This column is for the detail view of one note. -->
-    <div class="col-md-9 noteDetail panel-default">
-        <div class="panel-heading">
-            <div class="bnt-group pull-right">
-                <a href="#" class="btn btn-default btn-sm">Edit</a>
-                <a href="#" class="btn btn-default btn-sm">Delete</a>
+    <div class="col-md-9">
+        <div class="panel panel-default noteDetail">
+            <div class="panel-heading">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-default">Edit</a>
+                    <a href="#" class="btn btn-default">Delete</a>
+                </div>
+                <h2>{{ activeNote.title}}</h2>
             </div>
-            <h2>{{ note.title | title}}</h2>
+            <div class="panel-body">
+                {{ activeNote.text }}
+            </div>
         </div>
-        <div class="panel-body">
-            {{ note.text }}
-        </div>
-
     </div>
 
 </div>
