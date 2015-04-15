@@ -8,4 +8,62 @@
 
 {{ menu('questions') }}
 
+<script>
+	var questionsList;
+	
+</script>
+
+<div class="row" style="background-color: #EEF">
+	<div class="col-md-3 questions_overview_col">
+		<h3>Questions</h3>
+		<div class="row question_overview">
+			<table>
+				<tr>
+					<td><h5 class="qo_subj">Subject1</h5></td>
+					<td><h5 class="qo_unanswered">UNANSWERED</h5></td>
+				</tr>
+				<tr><td class="qo_preview">Example Question Text</td></tr>
+				<tr>
+					<td class="qo_sender">Sender1</td>
+					<td class="qo_date">MM/DD/YY</td>
+				</tr>
+			</table>
+		</div>
+		<div class="row question_overview">
+			<table>
+				<tr>
+					<td><h5 class="qo_subj">Subject2</h5></td>
+				</tr>
+				<tr><td class="qo_preview">Example Question Text 2: Electric Boogaloo</td></tr>
+				<tr>
+					<td class="qo_sender">Sender2</td>
+					<td class="qo_date">MM/DD/YY</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-6 col-md-offset-2 questions_focused_col">
+		<h3>Current Question</h3>
+		<div class="row question_focus">
+			<table>
+				<tr>
+					<td class="qf_subj"><h4>Subject1</h4></td>
+					<td class="qf_date">MM/DD/YY</td>
+				</tr>
+				<tr><td class="qf_sender">From: Sender1</td></tr>
+				<tr><td class="qf_text">This is a much larger example question text which is meant to show that this text is displayed in its entirety.</td></tr>
+			</table>
+		</div>
+		<div class="row question_response_input">
+			<div class="form-group">
+				<input type="text" class="form-control qr_input_field">
+			</div>
+			<div class="col-sm-2 col-sm-offset-10">
+				<div class="btn-primary" style="padding-left: 3px;">
+					Reply
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}
