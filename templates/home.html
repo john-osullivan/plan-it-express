@@ -9,7 +9,7 @@
 
 <script>
     nunjucks.configure('templates');
-    
+
     $('#announcementsTable tr').click(function() {
         loadAnnouncements();
     });
@@ -23,139 +23,143 @@
     });
 
 </script>
-
-<div class="contents">
-<div class="col-md-8 announcements" style="background-color:#B7CEEC">
-	<div class="accouncements-data">
-        <h3 class="home-heading">Announcements</h3>
-         <table id="announcementsTable" class="table table-hover" style="width:100%">
-          <tr>
-            <td>4/10/15</td>
-            <td>Testing this Page</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>4/12/15</td>
-            <td>Moving Space</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-          <tr>
-            <td>DATE</td>
-            <td>ANNOUNCMENT</td>
-            <td>PIN?</td>
-          </tr>
-        </table> 
+<div class="row page-header">
+    <h1>Dashboard <Small>See your logistics at a glance.</Small></h1>
+</div>
+    <div class="contents row">
+        <div class="col-md-8 announcements" style="background-color:#B7CEEC">
+            <div class="accouncements-data">
+                <h3 class="home-heading">Announcements</h3>
+                <table id="announcementsTable" class="table table-hover" style="width:100%">
+                    <tr>
+                        <td>4/10/15</td>
+                        <td>Testing this Page</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>4/12/15</td>
+                        <td>Moving Space</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>ANNOUNCMENT</td>
+                        <td>PIN?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1 to-do" style="background-color:#98FF98">
+            <div class="to-do-data">
+                <h3 class="home-heading">To-Do</h3>
+                <table id="toDoTable" class="table table-hover" style="width:100%">
+                    <tr class="todo">
+                        <td><input type="checkbox">Confirm Caterer</td>
+                    </tr>
+                    <tr class="todo">
+                        <td><input type="checkbox">Registration Form</td>
+                    </tr>
+                    <tr class="todo">
+                        <td><input type="checkbox">Update time</td>
+                    </tr>
+                </table>
+                <form><br>
+                    <center><textarea type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
+                    <center><button type="button">Submit</button></center>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
-<div class="col-md-3 col-md-offset-1 to-do" style="background-color:#98FF98">
-	<div class="to-do-data">
-        <h3 class="home-heading">To-Do</h3>
-            <table id="toDoTable" class="table table-hover" style="width:100%">
-            <tr class="todo">
-                <td><input type="checkbox">Confirm Caterer</td>
-              </tr>
-              <tr class="todo">
-                <td><input type="checkbox">Registration Form</td>
-              </tr>
-              <tr class="todo">
-                <td><input type="checkbox">Update time</td>
-              </tr>
-          </table>
-            <form><br>
-            <center><textarea type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
-            <center><button type="button">Submit</button></center>
-            </form>
+    <div class="row">
+        <div class="col-md-8 questions"  style="background-color:#FCDFFF">
+            <div class="question-data">
+                <h3 class="home-heading">Questions</h3>
+                <table id= "questionsTable" class="table table-hover" style="width:100%">
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                    <tr>
+                        <td>DATE</td>
+                        <td>MESSAGE</td>
+                        <td>STAR?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1 notes" style="background-color:#FFE5B4">
+            <div class="note-data">
+                <h3 class="home-heading">Notes</h3>
+                <table id="notesTable" class="table table-hover" style="width:100%">
+                    <tr>
+                        <td>ORGANIZERS</td>
+                    </tr>
+                    <tr>
+                        <td>FOOD</td>
+                    </tr>
+                    <tr>
+                        <td>FORMS</td>
+                    </tr>
+                    <tr>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-<div class="col-md-8 questions"  style="background-color:#FCDFFF">
-	<div class="question-data">
-        <h3 class="home-heading">Questions</h3>
-             <table id= "questionsTable" class="table table-hover" style="width:100%">
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-              <tr>
-                <td>DATE</td>
-                <td>MESSAGE</td>
-                <td>STAR?</td>
-              </tr>
-            </table> 
-    </div>
-</div>
-<div class="col-md-3 col-md-offset-1 notes" style="background-color:#FFE5B4">
-	<div class="note-data">
-        <h3 class="home-heading">Notes</h3>
-        <table id="notesTable" class="table table-hover" style="width:100%">
-            <tr>
-                <td>ORGANIZERS</td>
-              </tr>
-              <tr>
-                <td>FOOD</td>
-              </tr>
-              <tr>
-                <td>FORMS</td>
-              </tr>
-              <tr>
-          </table>
-    </div>
-</div>
-</div>
 
 {% endblock %}
