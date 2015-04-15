@@ -6,506 +6,508 @@
 
 {{ menu('announcements') }}
 
-	<div class="row">
-		<div class="col-md-12 page-header"><h1>
-			<div class="btn-group pull-right" role="group">
-				<a href="#" class="btn btn-primary">New</a>
-			</div>
-			Announcements</h1>
-		</div>
-		
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<span id="noAnnouce"></span>
-			<div id="annouceContainer"></div>
-		</div>
-		<div class="col-md-7 col-md-offset-1" id="announceArea">
-		</div>
-	</div>
+<div class="row">
+    <div class="col-md-12 page-header">
+        <h1>
+            <div class="btn-group pull-right" role="group">
+                <a href="#" class="btn btn-primary">Create New Announcement</a>
+            </div>
+            Announcements <small>Tell your attendees about the big news.</small>
+        </h1>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <span id="noAnnouce"></span>
+        <div id="annouceContainer"></div>
+    </div>
+    <div class="col-md-7 col-md-offset-1" id="announceArea">
+    </div>
+</div>
 
 <script>
 
-	var viewingAnnouncementIndex;
-
-
-	var getAnnouncements = function(){
-		var total = announcements.length+pinnedAnnouncements.length
-		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
-			$('#annouceContainer').empty();
-			$('#noAnnouce').html("<p>You have no announcements</p>")
-		}
-		else{
-			$('#noAnnouce').empty();
-			$('#annouceContainer').empty();
-			for (var i=0; i<(total); i++){
-				var a,
-					$div = $('#annouceContainer'),
-					$container = $('<div>'),
-					$out_t = $('<div>'),
-					$out_body = $('<div>'),
-					$inside1 = $('<div>'),
-					$inside2 = $('<div>'),
-					$body = $('<div>'),
-					body = $('<p>'),
-					lines,
-					lin,
-					counter = 0
-					$delIcon = getDeleteIcon(),
-					pinned = false,
-					index = 0,
-					$pin = $('<p>').html('-Pinned');
-
-
-				if (i >= pinnedAnnouncements.length){
-					index = i-pinnedAnnouncements.length
-					a = announcements[index]
-				}
-				else{
-					a = pinnedAnnouncements[i];
-					pinned = true;
-				}
-
-				$container.attr('id',"message "+i)
-				$out_t.addClass('row');
-				$inside1.addClass('col-md-8');
-				$inside2.addClass('col-md-4');
-
-				if (!pinned){
-					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>"));
-				}
-				else{
-					$pin.css('float','right')
-					$pin.css('color','blue')
-					$inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>").append($pin));
-				}
-
-				$inside2.append($('<h4>').html(a.time).append($delIcon));
-
-				$delIcon.css("cursor","pointer")
-
-				$out_body.addClass('row');
-				$body.addClass('col-md-12');
-                console.log("This should be a.body: ", a.body);
-				lines = a.body.split("\n");
-				for (var j=0; j<lines.length; j++){
-					var par = $('<p>');
-					lin = lines[j]
-					if (lin && counter < 2){
-						counter++;
-						$body.append(par.text(lin))
-					}					
-				}
-				//body.text(a.body);
-				$body.append(body);
-				$out_body.append($body);
-				$container.css("cursor","default");
-				$container.css("height","93px")
-				$container.css("overflow","hidden")
-				$container.css('padding','3px')
-
-				$out_t.append($inside1).append($inside2);
-				$div.append($container.append($out_t).append($out_body)); 
-				$container[0].addEventListener("click",function(e){
-					var x = e.pageX,
-						y = e.pageY,
-						index = getIndexFromPx(x,y);
-
-
-					viewingAnnouncementIndex = index
-					if (index >= pinnedAnnouncements.length){
-						displayAnnouncement(announcements[index-pinnedAnnouncements.length])
-					}
-					else{
-						displayAnnouncement(pinnedAnnouncements[index]);	
-					}
-					
-				},true);
-
-				$container.hover(function(){
-					$(this).css('background','#bcd5eb');
-				});
-				$container.on('mouseleave',function(){
-					$(this).css('background','white');
-				});
-
-				$delIcon.click(function(e){
-					var index = getIndexFromPx(e.pageX,e.pageY);
-					deleteAnnouncement(index);
-					makeAddNewAnnouncement();
-				});
-			}
-		}
-	}
-
-
-	function makeAnnouncement(subject, body, time){
-		return {"subject":subject, "body":body, "time":time}
-	}
-
-	makeAddNewAnnouncement = function(err){
-		var $area = $('#announceArea'),
-			$subject = getNewSubject(),
-			$body = getNewBody(),
-			$button = getNewButton(),
-			$check = getCheckbox(),
-			$error;
-
-		$area.empty();
-		if(err){
-			$error = getError(err);
-			$area.append($error);
-			if (err.subject){
-				$subject = getNewSubject(err.subject)
-			}
-			if (err.body){
-				$body = getNewBody(err.body)
-			}
-		}
-		$area.append($subject).append($body).append($check).append($button);
-		$('#addAnnouncement').click(function(){
-			var $area = $('#announceArea'),
-				$pinned = $('#pinCheckbox'),
-				subject = $('#addAnnounceSub').val(),
-				body = $('#addAnnounceBody').val();
-				d = new Date(),
-				month = d.getMonth()+1,
-				day = d.getDate(),
-				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
-				err;
-
-			if(!subject || !body){
-				err = {"subject":subject,"body":body}
-				makeAddNewAnnouncement(err);
-				return
-			}
-
-			if ($pinned.is(':checked')){
-				pinnedAnnouncements.unshift(announcement);
-			}
-			else{
-				announcements.unshift(announcement);
-			}
-
-			
-			getAnnouncements();
-			makeAddNewAnnouncement();
-		});
-
-	}
-
-	getNewSubject = function(text){
-		var $row = $('<div>'),
-			$col = $('<div>'),
-			$input = $('<input>');
-
-		$row.addClass('row');
-		$row.css('margin-top','5px');
-		$col.addClass('col-md-12');
-		$input.attr('id', 'addAnnounceSub');
-		$input.attr('type','text');
-		$input.attr('size','22%');
-		$input.attr('placeholder','Subject');
-
-		if(text){
-			$input.val(text);
-		}
-
-		return $row.append($col.append($input));
-	}
-
-	getNewBody = function(text){
-		var $row = $('<div>'),
-			$col = $('<div>'),
-			$input = $('<textarea>');	
-			
-		$row.addClass('row');
-		$row.css('margin-top','5px');
-		$col.addClass('col-md-12');
-
-		$input.attr('id','addAnnounceBody');
-		$input.attr('cols','50%');
-		$input.attr('placeholder','Message');
-
-		$input.css('height','100px')
-
-		if (text){
-			$input.val(text);
-		}
-
-		return $row.append($col.append($input));
-	}
-
-	getNewButton = function(val1,val2){
-		var $row = $('<div>'),
-			$col = $('<div>'),
-			$input = $('<input>'),
-			$input2 = $('<input>');	
-			
-		$row.addClass('row');
-		$row.css('margin-top','5px');
-		$col.addClass('col-md-12');
-		
-		$input.attr('type','submit');
-		$input.attr('value','Add');
-		$input.attr('id','addAnnouncement');
-		$input.addClass("btn btn-default");
-
-		if(val1){
-			$input.val(val1);
-		}
-		$col.append($input)
-		if(val2){
-			$input2.attr('type','submit');
-			$input2.attr('id','addAnnouncement2');
-			$input2.addClass("btn btn-default");
-			$input2.val(val2);
-			$col.append($input2);
-		}
-
-		return $row.append($col);
-	}
-
-	getCheckbox = function(val){
-		var $row = $('<div>').addClass('row'),
-			$col = $('<div>').addClass('col-md-12'),
-			$checkbox = $('<input>'),
-			$label = $('<label>').addClass('checkbox-inline'),
-			$p = $('<p>').text('Pin');
-
-		$checkbox.attr('type','checkbox')
-		$checkbox.attr('id','pinCheckbox');
-		$checkbox.html('Pinned')
-		$checkbox.attr('value','Pin')
-
-		if (val){
-			$checkbox.attr('checked','checked')
-		}
-
-		$label.append($checkbox).append($p);
-
-
-		return $row.append($col.append($label));
-	}
-
-	getIndexFromPx = function(x,y){
-		var xOffset = 15,
-			yOffset = 163,
-			newX = x-xOffset,
-			newY = y-yOffset,
-			space = 93,
-			index;
-
-			index = Math.floor(newY/space);
-			return index;
-	}
-
-	getError = function(err){
-		var $row = $('<div>').addClass('row'),
-			$col = $('<div>').addClass('col-md-12'),
-			subject = err.subject,
-			body = err.body,
-			$error = $('<p>');
-
-		if (!subject && !body){
-			$error.text("Please enter a Subject and Message")
-		}
-		else if(!subject){
-			$error.text('Please enter a Subject')
-		}
-		else if (!body){
-			$error.text('Please enter a Message')
-		}
-
-
-		$error.css('color','red')
-		return $row.append($col.append($error));
-	}
-
-	displayAnnouncement = function(item){
-        console.log("Display announcement got called.");
-		var $area = $('#announceArea'),
-			subject = item.subject,
-			body = item.body,
-			time = item.time,
-			$row1 = $('<div>').addClass("row"),
-			$row2 = $('<div>').addClass("row"),
-			$subject = $('<div>').addClass("col-md-4"),
-			$time = $('<div>').addClass("col-md-3 col-md-offset-1"),
-			$body = $('<div>').addClass("col-md-8"),
-			lines,
-			lin,
-			$btns,
-			$editButton,
-			$deleteButton;
-
-		$subject.html("<h4><strong>"+subject+"</strong></h4>");
-		$time.html("<h4>"+time+"</h4>");
-
-        console.log("This should be a body: ",body);
-		lines = body.split("\n");
-
-		for (var i=0; i<lines.length; i++){
-			var par = $('<p>');
-
-			lin = lines[i];
-			if (lin){
-				par.text(lin);
-				$body.append(par);	
-			}
-		}
-
-		$row1.append($subject).append($time);
-		$row2.append($body);
-
-		$area.empty();
-		$area.append($row1).append($row2);
-
-		$btns = getNewButton("Edit","Delete");
-		$editButton = $btns.find('#addAnnouncement');
-		$deleteButton = $btns.find('#addAnnouncement2')
-		$area.append($btns)
-
-		$editButton.click(function(){
-			makeEditDisplay();
-		});
-
-		$deleteButton.click(function(){
-			deleteAnnouncement(viewingAnnouncementIndex);
-			makeAddNewAnnouncement();
-
-		})
-
-	}
-
-	makeEditDisplay = function(){
-		var $area = $('#announceArea'),
-			announcement,
-			subject,
-			time,
-			bodyList ,
-			body,
-			$subject,
-			$body,
-			$updateBtn,
-			$btns,
-			$cancelBtn,
-			$checkbox;
-
-		if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
-			announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
-		}
-		else{
-			announcement = pinnedAnnouncements[viewingAnnouncementIndex];
-		}
-
-		subject = announcement.subject;
-		time = announcement.time;
-		body = announcement.body;
-
-		$subject = getNewSubject(subject);
-		$body = getNewBody(body);
-		$btns = getNewButton("Update","Cancel");
-		$updateBtn = $btns.find('#addAnnouncement');
-		$cancelBtn = $btns.find('#addAnnouncement2');
-
-		if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-			$checkbox = getCheckbox(true)
-		}
-		else{
-			$checkbox = getCheckbox()
-		}
-
-		$updateBtn.click(function(){
-			var $area = $('#announceArea'),
-				$pinned = $('#pinCheckbox'),
-				subject = $('#addAnnounceSub').val(),
-				body = $('#addAnnounceBody').val();
-				d = new Date(),
-				month = d.getMonth()+1,
-				day = d.getDate(),
-				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
-				announce = "";
-
-				
-			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-				pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
-			}
-			else{
-				announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
-			}
-
-			if ($pinned.is(':checked')){
-				pinnedAnnouncements.unshift(announcement)
-			}
-			else{
-				announcements.unshift(announcement)
-			}
-
-			//console.log(announcement)
-			getAnnouncements();
-			makeAddNewAnnouncement();
-		})
-
-		$cancelBtn.click(function(){
-			displayAnnouncement(announcements[viewingAnnouncementIndex]);
-		})
-
-		$area.empty();
-		$area.append($subject).append($body).append($checkbox).append($btns);
-
-	}
-
-	$('#newAnnouncement').click(function(){
-		makeAddNewAnnouncement();
-	});
-
-	deleteAnnouncement = function(index){
-		if (index >= pinnedAnnouncements.length){
-			index = index-pinnedAnnouncements.length;
-			if (announcements.length === 1){
-				announcements = []
-			}
-			else{
-				announcements.splice(index,1)
-			}
-		}
-		else{
-			if (pinnedAnnouncements.length === 1){
-				pinnedAnnouncements = []
-			}
-			else{
-				pinnedAnnouncements.splice(index,1)
-			}	
-		}
-
-		getAnnouncements();		
-	}
-
-	getDeleteIcon = function(){
-		var $icon = $('<img>');
-
-		$icon.attr('src','graphics/delete-icon.png');
-		$icon.css('max-width','20px');
-		$icon.css('max-height','20px');
-
-		$icon.css('float','right')
-
-		return $icon;
-	}
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
-		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
-		announcements = [an2,an1],
-		pinnedAnnouncements = [an3]
-		viewingAnnouncementIndex = 0;
-
-	getAnnouncements();
-	makeAddNewAnnouncement();
+var viewingAnnouncementIndex;
+
+
+var getAnnouncements = function(){
+    var total = announcements.length+pinnedAnnouncements.length
+    if (announcements.length === 0 && pinnedAnnouncements.length === 0){
+        $('#annouceContainer').empty();
+        $('#noAnnouce').html("<p>You have no announcements</p>")
+    }
+    else{
+        $('#noAnnouce').empty();
+        $('#annouceContainer').empty();
+        for (var i=0; i<(total); i++){
+            var a,
+                    $div = $('#annouceContainer'),
+                    $container = $('<div>'),
+                    $out_t = $('<div>'),
+                    $out_body = $('<div>'),
+                    $inside1 = $('<div>'),
+                    $inside2 = $('<div>'),
+                    $body = $('<div>'),
+                    body = $('<p>'),
+                    lines,
+                    lin,
+                    counter = 0
+            $delIcon = getDeleteIcon(),
+                    pinned = false,
+                    index = 0,
+                    $pin = $('<p>').html('-Pinned');
+
+
+            if (i >= pinnedAnnouncements.length){
+                index = i-pinnedAnnouncements.length
+                a = announcements[index]
+            }
+            else{
+                a = pinnedAnnouncements[i];
+                pinned = true;
+            }
+
+            $container.attr('id',"message "+i)
+            $out_t.addClass('row');
+            $inside1.addClass('col-md-8');
+            $inside2.addClass('col-md-4');
+
+            if (!pinned){
+                $inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>"));
+            }
+            else{
+                $pin.css('float','right')
+                $pin.css('color','blue')
+                $inside1.append($('<h4>').html("<strong>"+a.subject+"</strong>").append($pin));
+            }
+
+            $inside2.append($('<h4>').html(a.time).append($delIcon));
+
+            $delIcon.css("cursor","pointer")
+
+            $out_body.addClass('row');
+            $body.addClass('col-md-12');
+            console.log("This should be a.body: ", a.body);
+            lines = a.body.split("\n");
+            for (var j=0; j<lines.length; j++){
+                var par = $('<p>');
+                lin = lines[j]
+                if (lin && counter < 2){
+                    counter++;
+                    $body.append(par.text(lin))
+                }
+            }
+            //body.text(a.body);
+            $body.append(body);
+            $out_body.append($body);
+            $container.css("cursor","default");
+            $container.css("height","93px")
+            $container.css("overflow","hidden")
+            $container.css('padding','3px')
+
+            $out_t.append($inside1).append($inside2);
+            $div.append($container.append($out_t).append($out_body));
+            $container[0].addEventListener("click",function(e){
+                var x = e.pageX,
+                        y = e.pageY,
+                        index = getIndexFromPx(x,y);
+
+
+                viewingAnnouncementIndex = index
+                if (index >= pinnedAnnouncements.length){
+                    displayAnnouncement(announcements[index-pinnedAnnouncements.length])
+                }
+                else{
+                    displayAnnouncement(pinnedAnnouncements[index]);
+                }
+
+            },true);
+
+            $container.hover(function(){
+                $(this).css('background','#bcd5eb');
+            });
+            $container.on('mouseleave',function(){
+                $(this).css('background','white');
+            });
+
+            $delIcon.click(function(e){
+                var index = getIndexFromPx(e.pageX,e.pageY);
+                deleteAnnouncement(index);
+                makeAddNewAnnouncement();
+            });
+        }
+    }
+}
+
+
+function makeAnnouncement(subject, body, time){
+    return {"subject":subject, "body":body, "time":time}
+}
+
+makeAddNewAnnouncement = function(err){
+    var $area = $('#announceArea'),
+            $subject = getNewSubject(),
+            $body = getNewBody(),
+            $button = getNewButton(),
+            $check = getCheckbox(),
+            $error;
+
+    $area.empty();
+    if(err){
+        $error = getError(err);
+        $area.append($error);
+        if (err.subject){
+            $subject = getNewSubject(err.subject)
+        }
+        if (err.body){
+            $body = getNewBody(err.body)
+        }
+    }
+    $area.append($subject).append($body).append($check).append($button);
+    $('#addAnnouncement').click(function(){
+        var $area = $('#announceArea'),
+                $pinned = $('#pinCheckbox'),
+                subject = $('#addAnnounceSub').val(),
+                body = $('#addAnnounceBody').val();
+        d = new Date(),
+                month = d.getMonth()+1,
+                day = d.getDate(),
+                year = ""+d.getFullYear(),
+                time = ""+month+"/"+day+"/"+year.slice(2,4)
+        announcement = makeAnnouncement(subject,body,time),
+                err;
+
+        if(!subject || !body){
+            err = {"subject":subject,"body":body}
+            makeAddNewAnnouncement(err);
+            return
+        }
+
+        if ($pinned.is(':checked')){
+            pinnedAnnouncements.unshift(announcement);
+        }
+        else{
+            announcements.unshift(announcement);
+        }
+
+
+        getAnnouncements();
+        makeAddNewAnnouncement();
+    });
+
+}
+
+getNewSubject = function(text){
+    var $row = $('<div>'),
+            $col = $('<div>'),
+            $input = $('<input>');
+
+    $row.addClass('row');
+    $row.css('margin-top','5px');
+    $col.addClass('col-md-12');
+    $input.attr('id', 'addAnnounceSub');
+    $input.attr('type','text');
+    $input.attr('size','22%');
+    $input.attr('placeholder','Subject');
+
+    if(text){
+        $input.val(text);
+    }
+
+    return $row.append($col.append($input));
+}
+
+getNewBody = function(text){
+    var $row = $('<div>'),
+            $col = $('<div>'),
+            $input = $('<textarea>');
+
+    $row.addClass('row');
+    $row.css('margin-top','5px');
+    $col.addClass('col-md-12');
+
+    $input.attr('id','addAnnounceBody');
+    $input.attr('cols','50%');
+    $input.attr('placeholder','Message');
+
+    $input.css('height','100px')
+
+    if (text){
+        $input.val(text);
+    }
+
+    return $row.append($col.append($input));
+}
+
+getNewButton = function(val1,val2){
+    var $row = $('<div>'),
+            $col = $('<div>'),
+            $input = $('<input>'),
+            $input2 = $('<input>');
+
+    $row.addClass('row');
+    $row.css('margin-top','5px');
+    $col.addClass('col-md-12');
+
+    $input.attr('type','submit');
+    $input.attr('value','Add');
+    $input.attr('id','addAnnouncement');
+    $input.addClass("btn btn-default");
+
+    if(val1){
+        $input.val(val1);
+    }
+    $col.append($input)
+    if(val2){
+        $input2.attr('type','submit');
+        $input2.attr('id','addAnnouncement2');
+        $input2.addClass("btn btn-default");
+        $input2.val(val2);
+        $col.append($input2);
+    }
+
+    return $row.append($col);
+}
+
+getCheckbox = function(val){
+    var $row = $('<div>').addClass('row'),
+            $col = $('<div>').addClass('col-md-12'),
+            $checkbox = $('<input>'),
+            $label = $('<label>').addClass('checkbox-inline'),
+            $p = $('<p>').text('Pin');
+
+    $checkbox.attr('type','checkbox')
+    $checkbox.attr('id','pinCheckbox');
+    $checkbox.html('Pinned')
+    $checkbox.attr('value','Pin')
+
+    if (val){
+        $checkbox.attr('checked','checked')
+    }
+
+    $label.append($checkbox).append($p);
+
+
+    return $row.append($col.append($label));
+}
+
+getIndexFromPx = function(x,y){
+    var xOffset = 15,
+            yOffset = 163,
+            newX = x-xOffset,
+            newY = y-yOffset,
+            space = 93,
+            index;
+
+    index = Math.floor(newY/space);
+    return index;
+}
+
+getError = function(err){
+    var $row = $('<div>').addClass('row'),
+            $col = $('<div>').addClass('col-md-12'),
+            subject = err.subject,
+            body = err.body,
+            $error = $('<p>');
+
+    if (!subject && !body){
+        $error.text("Please enter a Subject and Message")
+    }
+    else if(!subject){
+        $error.text('Please enter a Subject')
+    }
+    else if (!body){
+        $error.text('Please enter a Message')
+    }
+
+
+    $error.css('color','red')
+    return $row.append($col.append($error));
+}
+
+displayAnnouncement = function(item){
+    console.log("Display announcement got called.");
+    var $area = $('#announceArea'),
+            subject = item.subject,
+            body = item.body,
+            time = item.time,
+            $row1 = $('<div>').addClass("row"),
+            $row2 = $('<div>').addClass("row"),
+            $subject = $('<div>').addClass("col-md-4"),
+            $time = $('<div>').addClass("col-md-3 col-md-offset-1"),
+            $body = $('<div>').addClass("col-md-8"),
+            lines,
+            lin,
+            $btns,
+            $editButton,
+            $deleteButton;
+
+    $subject.html("<h4><strong>"+subject+"</strong></h4>");
+    $time.html("<h4>"+time+"</h4>");
+
+    console.log("This should be a body: ",body);
+    lines = body.split("\n");
+
+    for (var i=0; i<lines.length; i++){
+        var par = $('<p>');
+
+        lin = lines[i];
+        if (lin){
+            par.text(lin);
+            $body.append(par);
+        }
+    }
+
+    $row1.append($subject).append($time);
+    $row2.append($body);
+
+    $area.empty();
+    $area.append($row1).append($row2);
+
+    $btns = getNewButton("Edit","Delete");
+    $editButton = $btns.find('#addAnnouncement');
+    $deleteButton = $btns.find('#addAnnouncement2')
+    $area.append($btns)
+
+    $editButton.click(function(){
+        makeEditDisplay();
+    });
+
+    $deleteButton.click(function(){
+        deleteAnnouncement(viewingAnnouncementIndex);
+        makeAddNewAnnouncement();
+
+    })
+
+}
+
+makeEditDisplay = function(){
+    var $area = $('#announceArea'),
+            announcement,
+            subject,
+            time,
+            bodyList ,
+            body,
+            $subject,
+            $body,
+            $updateBtn,
+            $btns,
+            $cancelBtn,
+            $checkbox;
+
+    if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
+        announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
+    }
+    else{
+        announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+    }
+
+    subject = announcement.subject;
+    time = announcement.time;
+    body = announcement.body;
+
+    $subject = getNewSubject(subject);
+    $body = getNewBody(body);
+    $btns = getNewButton("Update","Cancel");
+    $updateBtn = $btns.find('#addAnnouncement');
+    $cancelBtn = $btns.find('#addAnnouncement2');
+
+    if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+        $checkbox = getCheckbox(true)
+    }
+    else{
+        $checkbox = getCheckbox()
+    }
+
+    $updateBtn.click(function(){
+        var $area = $('#announceArea'),
+                $pinned = $('#pinCheckbox'),
+                subject = $('#addAnnounceSub').val(),
+                body = $('#addAnnounceBody').val();
+        d = new Date(),
+                month = d.getMonth()+1,
+                day = d.getDate(),
+                year = ""+d.getFullYear(),
+                time = ""+month+"/"+day+"/"+year.slice(2,4)
+        announcement = makeAnnouncement(subject,body,time),
+                announce = "";
+
+
+        if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+            pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
+        }
+        else{
+            announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
+        }
+
+        if ($pinned.is(':checked')){
+            pinnedAnnouncements.unshift(announcement)
+        }
+        else{
+            announcements.unshift(announcement)
+        }
+
+        //console.log(announcement)
+        getAnnouncements();
+        makeAddNewAnnouncement();
+    })
+
+    $cancelBtn.click(function(){
+        displayAnnouncement(announcements[viewingAnnouncementIndex]);
+    })
+
+    $area.empty();
+    $area.append($subject).append($body).append($checkbox).append($btns);
+
+}
+
+$('#newAnnouncement').click(function(){
+    makeAddNewAnnouncement();
+});
+
+deleteAnnouncement = function(index){
+    if (index >= pinnedAnnouncements.length){
+        index = index-pinnedAnnouncements.length;
+        if (announcements.length === 1){
+            announcements = []
+        }
+        else{
+            announcements.splice(index,1)
+        }
+    }
+    else{
+        if (pinnedAnnouncements.length === 1){
+            pinnedAnnouncements = []
+        }
+        else{
+            pinnedAnnouncements.splice(index,1)
+        }
+    }
+
+    getAnnouncements();
+}
+
+getDeleteIcon = function(){
+    var $icon = $('<img>');
+
+    $icon.attr('src','graphics/delete-icon.png');
+    $icon.css('max-width','20px');
+    $icon.css('max-height','20px');
+
+    $icon.css('float','right')
+
+    return $icon;
+}
+var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
+        an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
+        an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
+        announcements = [an2,an1],
+        pinnedAnnouncements = [an3]
+viewingAnnouncementIndex = 0;
+
+getAnnouncements();
+makeAddNewAnnouncement();
 </script>
 
 {% endblock %}
