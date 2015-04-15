@@ -184,8 +184,16 @@ var deleteTodo = function(todoID){
     loadTodos();
 };
 
-var createTodo = function(){
-
+var createTodo = function(subject, details, date){
+    var id = todos.length;
+    todos.push({
+        'id':id,
+        'title':subject,
+        'description':details,
+        'deadline':date,
+        'done':false
+    });
+    loadTodos();
 };
 
 var isActiveTodo = function(todo){

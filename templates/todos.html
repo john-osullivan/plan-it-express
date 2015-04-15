@@ -1,5 +1,7 @@
 <script type="text/javascript" src="/js/nunjucks.js"></script>
 
+
+
 {% extends "layout.html" %}
 
 {% block content %}
@@ -7,9 +9,35 @@
 {% include "menu.html" %}
 
 {{ menu('todos') }}
+
+<script>
+
+document.getElementById("subject").value = activeTodo.title;
+document.getElementById("details").value = activeTodo.description;
+document.getElementById("deadline").value = activeTodo.deadline;
+
+$("#submitButton").click(function(){
+	var subject = document.getElementById("subject").value;
+	var details = document.getElementById("details").value;
+	var date = document.getElementById("deadline").value;
+	createTodo(subject, details, date);
+});
+
+$("#createToDo").click(function(){
+    document.getElementById("todo-detail-heading").innerHTML = "New To-Do";
+    document.getElementById("subject").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("deadline").value = "";
+});
+
+/*$(document).ready(function() {
+	$("#date").datepicker({minDate:(new Date(2013, 0, 18)), maxDate:(new Date(2013, 1, 15)) });
+});*/
+</script>
+
 <div class="row">
     <div class="col-md-12 page-header">
-        <h1><div class="btn-group pull-right" role="group">
+        <h1><div id="createToDo" class="btn-group pull-right" role="group">
             <a href="#" class="btn btn-primary">Create New To-Do</a>
         </div>
             To-Do <small>View and manage your tasks.</small></h1>
@@ -105,14 +133,26 @@
 </div>
 
 <div class="col-md-8">
-    <form id="toDoForms"><br>
-        <input type="text" class="form-control" placeholder="Subject"><br>
-        <textarea type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
-
-        <div class="btn-group"><div class="btn btn-primary">Submit</div></div>
-        <div class="btn-group"><div class="btn btn-primary">Edit</div></div>
+        <div class="panel panel-default noteDetail">
+            <div class="panel-heading">
+                <!-- <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-default">Edit</a>
+                    <a href="#" class="btn btn-default">Delete</a>
+                </div> -->
+                <h2 id="todo-detail-heading">{{ activeTodo.title}}</h2>
+            </div>
+            <div class="panel-body" id="note-detail-text">
+                <form id="toDoForms"><br>
+        <input id = "subject" type="text" class="form-control" placeholder="Subject">
+        <br>
+        <textarea id="details" type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
+        <input id="deadline" type="text" class="form-control" placeholder="Deadline (YYYY-MM-DD)"><br>
+        <div id ="submitButton" class="btn-group"><div id ="submitButton" class="btn btn-primary">Submit</div></div>
+        <!-- <div class="btn-group"><div class="btn btn-primary">Edit</div></div> -->
     </form>
-</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
