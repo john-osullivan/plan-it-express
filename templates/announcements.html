@@ -31,12 +31,18 @@
 
 
 	sortAnnouncements = function(elts){
+		//console.log("here")
+		console.log(pinnedAnnouncements)
+		pinnedAnnouncements = []
 		pinnedAnnouncements = _.filter(elts, function(elt){
 			return (elt.pinned)
 		});
+		console.log(pinnedAnnouncements)
+		announcements = []
 		announcements = _.filter(elts, function(elt){
 			return (!elt.pinned)
 		});
+		getAnnouncements();
 	}
 
 	getAnnouncements = function(){
@@ -48,6 +54,7 @@
 		else{
 			$('#noAnnouce').empty();
 			$('#annouceContainer').empty();
+			console.log(pinnedAnnouncements)
 			for (var i=0; i<(total); i++){
 				var a,
 					$div = $('#annouceContainer'),
@@ -143,6 +150,7 @@
 
 
 	function makeAnnouncement(subject, body, time, pinned){
+		createAnnouncement(subject,body,time, pinned);
 		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
@@ -170,12 +178,12 @@
 			var $area = $('#announceArea'),
 				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
-				body = $('#addAnnounceBody').val();
+				body = $('#addAnnounceBody').val(),
 				d = new Date(),
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
+				time = ""+month+"/"+day+"/"+year.slice(2,4),
 				announcement,
 				err;
 
@@ -186,11 +194,11 @@
 			}
 
 			if ($pinned.is(':checked')){
-				announcement = createAnnouncement(subject,body,time,true);
+				announcement = makeAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement);
 			}
 			else{
-				announcement  = createAnnouncement(subject,body,time,false);
+				announcement  = makeAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement);
 			}
 
@@ -304,10 +312,10 @@
 			space = 93,
 			index;
 
-		console.log(y)
+		
 
-			index = Math.floor(newY/space);
-			return index;
+		index = Math.floor(newY/space);
+		return index;
 	}
 
 	getError = function(err){
@@ -333,7 +341,6 @@
 	}
 
 	displayAnnouncement = function(item){
-        console.log("Display announcement got called.");
 		var $area = $('#announceArea'),
 			subject = item.subject,
 			body = item.body,
@@ -358,7 +365,6 @@
 
 		$wrapperHeading.append($time).append($subject);
 
-        console.log("This should be a body: ",body);
 		lines = body.split("\n");
 
 		for (var i=0; i<lines.length; i++){
@@ -441,24 +447,27 @@
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4)
+				time = ""+month+"/"+day+"/"+year.slice(2,4),
 				announcement,
 				announce = "";
 
 				
+			deleteAnnouncement(viewingAnnouncementIndex);
+			/*
 			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
 				pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
 			}
 			else{
 				announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
 			}
+			*/
 
 			if ($pinned.is(':checked')){
-				announcement = createAnnouncement(subject,body,time,true);
+				announcement = makeAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement)
 			}
 			else{
-				announcement = createAnnouncement(subject,body,time,false);
+				announcement = makeAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement)
 			}
 
@@ -490,6 +499,7 @@
 	deleteAnnouncement = function(index){
 		if (index >= pinnedAnnouncements.length){
 			index = index-pinnedAnnouncements.length;
+			_deleteAnnouncement(announcements[index])
 			if (announcements.length === 1){
 				announcements = []
 			}
@@ -498,6 +508,7 @@
 			}
 		}
 		else{
+			_deleteAnnouncement(announcements[index])
 			if (pinnedAnnouncements.length === 1){
 				pinnedAnnouncements = []
 			}
@@ -510,16 +521,14 @@
 	}
 
 
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
-		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15", false),
-		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true),
-		announcements = [an2,an1],
-		pinnedAnnouncements = [an3]
+	var announcements = [] ,
+		pinnedAnnouncements = [],
 		viewingAnnouncementIndex = 0;
 
+	sortAnnouncements(allAnnouncements);
 	getAnnouncements();
 	makeAddNewAnnouncement();
-	sortAnnouncements(allAnnouncements);
+	
 
 </script>
 
