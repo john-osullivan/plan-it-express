@@ -26,6 +26,29 @@
         loadTodos();
     });
 
+    $('#createToDoButton').click(function(){
+      document.getElementById("toDoForm").style.display = "initial";
+    });
+
+    $("#submitButton").click(function(){
+      console.log("wefwef")
+      var text = document.getElementById("toDoText").value;
+      console.log(text);
+      var table = document.getElementById("toDoTable");
+      var row = table.insertRow(0);
+
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+
+      cell1.innerHTML = text;
+      cell2.innerHTML = "";
+      cell3.innerHTML = "";
+      cell4.innerHTML = "";
+      document.getElementById("toDoForm").style.display = "none";
+    });
+
 </script>
 <div class="row page-header">
     <h1>Dashboard <Small>See your logistics at a glance.</Small></h1>
@@ -33,7 +56,7 @@
     <div class="contents row">
         <!-- background-color:#B7CEEC;  -->
         <div class="col-md-8 announcements" style="">
-            <div class="panel panel-default" style="max-height: 200px">
+            <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
           <!-- Default panel contents -->
           <div class="panel-heading home-heading">Announcements</div>
 
@@ -42,7 +65,7 @@
                     <tr>
                         <td>4/14/15</td>
                         <td>Testing Pinning</td>
-                        <td><span class="glyphicon glyphicon-pushpin" style="float: center; color:blue"</span></td>
+                        <td><span class="glyphicon glyphicon-pushpin" style="float: center; color:black"</span></td>
                     </tr>
                     <tr>
                         <td>4/12/15</td>
@@ -52,47 +75,27 @@
                     <tr>
                         <td>4/10/15</td>
                         <td>Testing this Page</td>
-                        <td>PIN?</td>
+                        <td></td>
                     </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>ANNOUNCMENT</td>
-                        <td>PIN?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>ANNOUNCMENT</td>
-                        <td>PIN?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>ANNOUNCMENT</td>
-                        <td>PIN?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>ANNOUNCMENT</td>
-                        <td>PIN?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>ANNOUNCMENT</td>
-                        <td>PIN?</td>
-                    </tr>
+                    
                 </table>
         </div>
         </div>
 
 
         <div class="col-md-4 to-do" style="">
-            <div class="panel panel-default" style="max-height: 200px">
+            <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
               
           <!-- Default panel contents -->
           <div class="panel-heading home-heading"><div class="btn-group pull-right" role="group">
-                <a href="#" class="btn btn-primary btn-sm">Quick To-Do</a>
+                <div id = "createToDoButton" class="btn btn-primary btn-sm">Quick To-Do</div>
             </div>To-Do</div>
 
           <!-- Table -->
+          <form id="toDoForm" style="display:none;"><br>
+                    <center><textarea id="toDoText" type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
+                    <center><button type="submitButton">Submit</button></center>
+                </form>
           <table id="toDoTable" class="table table-hover" style="">
                     <tr class="todo">
                       <td><input type="checkbox"></td>
@@ -102,18 +105,15 @@
                     <tr class="todo">
                       <td><input type="checkbox"></td>
                         <td>Registration Form</td>
-                        <td>4/15/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"</span></td>
+                        <td>4/20/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"</span></td>
                     </tr>
                     <tr class="todo">
                       <td><input type="checkbox"></td>
                         <td>Update time</td>
-                        <td>4/15/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"</span></td>
+                        <td>4/22/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"</span></td>
                     </tr>
                 </table>
-                <form><br>
-                    <center><textarea type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
-                    <center><button type="button">Submit</button></center>
-                </form>
+                
         </div>
         </div>
 
@@ -121,105 +121,45 @@
     </div>
     <div class="row">
         <div class="col-md-8 questions"  style="">
-            <div class="panel panel-default" style="max-height: 200px">
+            <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
           <!-- Default panel contents -->
           <div class="panel-heading home-heading">Questions</div>
 
           <!-- Table -->
           <table id= "questionsTable" class="table table-hover" style="width:100%">
                     <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td><span class="glyphicon glyphicon-star-empty" style="float: center; color:blue"</span></td>
+                        <td>MM/DD/YY</td>
+                        <td>Sender1</td>
+                        <td>Subject1</td>
+                        <td><span class="glyphicon glyphicon-star" style="float: center; color:black"</span></td>
                     </tr>
                     <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>MESSAGE</td>
-                        <td>STAR?</td>
+                        <td>MM/DD/YY</td>
+                        <td>Sender2</td>
+                        <td>Subject2</td>
+                        <td><span class="glyphicon glyphicon-star-empty" style="float: center; color:black"</span></td>
                     </tr>
                 </table>
         </div>
         </div>
         <div class="col-md-4 notes" style="">
-            <div class="panel panel-default" style="max-height: 200px">
+            <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
           <!-- Default panel contents -->
           <div class="panel-heading home-heading">Notes</div>
 
           <!-- Table -->
            <table id="notesTable" class="table table-hover" style="width:100%">
                     <tr>
-                        <td>FOOD</td>
+                        <td>Food</td>
                     </tr>
                     <tr>
-                        <td>ATTENDEES</td>
+                        <td>Attendees</td>
                     </tr>
                     <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
+                        <td>Organizers</td>
                     </tr>
                 </table>
         </div>
-            <!-- <div class="note-data">
-                <h3 class="home-heading">Notes</h3>
-                <table id="notesTable" class="table table-hover" style="width:100%">
-                    <tr>
-                        <td>FOOD</td>
-                    </tr>
-                    <tr>
-                        <td>ATTENDEES</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                    <tr>
-                        <td>ORGANIZERS</td>
-                    </tr>
-                </table>
-            </div> -->
         </div>
     </div>
   </div>
