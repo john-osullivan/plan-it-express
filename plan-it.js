@@ -189,7 +189,13 @@ var createTodo = function(){
 };
 
 var isActiveTodo = function(todo){
-    return todo.id == activeTodo.id;
+    console.log("isActiveTodo being called on: ",todo);
+    if ((typeof todo !== "undefined") && (typeof activeTodo !== "undefined")){
+        return todo.id == activeTodo.id;
+    } else {
+        return false;
+    }
+
 };
 
 var loadTodos = function(){
