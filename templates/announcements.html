@@ -50,8 +50,7 @@
 					body = $('<p>'),
 					lines,
 					lin,
-					counter = 0
-					$delIcon = getDeleteIcon(),
+					counter = 0,
 					pinned = false,
 					index = 0,
 					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
@@ -129,11 +128,6 @@
 					
 				});
 
-				$delIcon.click(function(e){
-					var index = getIndexFromPx(e.pageX,e.pageY);
-					deleteAnnouncement(index);
-					makeAddNewAnnouncement();
-				});
 			}
 		}
 	}
@@ -502,17 +496,7 @@
 		getAnnouncements();		
 	}
 
-	getDeleteIcon = function(){
-		var $icon = $('<img>');
 
-		$icon.attr('src','graphics/delete-icon.png');
-		$icon.css('max-width','20px');
-		$icon.css('max-height','20px');
-
-		$icon.css('float','right')
-
-		return $icon;
-	}
 	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
 		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
 		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
