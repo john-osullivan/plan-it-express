@@ -112,8 +112,11 @@
 					}					
 				}
 				$body.append(body);
+				//$body.css("white-space","nowrap");
+				$body.css('overflow','hidden')
+				$body.css('height','50px')
 				$out_body.append($body);
-				$container.css("height","93px")
+				$container.css("height","90px")
 				$container.css("overflow","hidden")
 
 				if (a === activeAnnouncement){
@@ -464,7 +467,7 @@
 		$cancelBtn.click(function(){
 			var announcement;
 			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-				announcement = pinnedANnouncements[viewingAnnouncementIndex];
+				announcement = pinnedAnnouncements[viewingAnnouncementIndex];
 			}
 			else{
 				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
