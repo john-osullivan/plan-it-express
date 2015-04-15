@@ -12,6 +12,10 @@
 
 <script>
 
+document.getElementById("subject").value = activeTodo.title;
+document.getElementById("details").value = activeTodo.description;
+document.getElementById("deadline").value = activeTodo.deadline;
+
 $("#submitButton").click(function(){
 	var subject = document.getElementById("subject").value;
 	var details = document.getElementById("details").value;
@@ -22,6 +26,9 @@ $("#submitButton").click(function(){
 
 $("#createToDo").click(function(){
     document.getElementById("todo-detail-heading").innerHTML = "New To-Do";
+    document.getElementById("subject").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("deadline").value = "";
 });
 
 /*$(document).ready(function() {
@@ -99,6 +106,7 @@ $("#createToDo").click(function(){
                     {% for todone in todones %}
 
                     {% if isActiveTodo(todone) %}
+                    console.log(activeTodo);
                     <a class="list-group-item active clearfix" onclick="selectTodo({{ todone.id }})">
                         <span class="pull-right">
                             <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})" checked>
@@ -129,33 +137,24 @@ $("#createToDo").click(function(){
 <div class="col-md-8">
         <div class="panel panel-default noteDetail">
             <div class="panel-heading">
-                <div class="btn-group pull-right">
+                <!-- <div class="btn-group pull-right">
                     <a href="#" class="btn btn-default">Edit</a>
                     <a href="#" class="btn btn-default">Delete</a>
-                </div>
+                </div> -->
                 <h2 id="todo-detail-heading">{{ activeTodo.title}}</h2>
             </div>
             <div class="panel-body" id="note-detail-text">
                 <form id="toDoForms"><br>
-        <input id = "subject" type="text" class="form-control" placeholder="Subject"><br>
+        <input id = "subject" type="text" class="form-control" placeholder="Subject">
+        <br>
         <textarea id="details" type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
         <input id="deadline" type="text" class="form-control" placeholder="Deadline (YYYY-MM-DD)"><br>
         <div id ="submitButton" class="btn-group"><div id ="submitButton" class="btn btn-primary">Submit</div></div>
-        <div class="btn-group"><div class="btn btn-primary">Edit</div></div>
+        <!-- <div class="btn-group"><div class="btn btn-primary">Edit</div></div> -->
     </form>
             </div>
         </div>
     </div>
-
-<!-- <div class="col-md-8">
-    <form id="toDoForms"><br>
-        <input id = "subject" type="text" class="form-control" placeholder="Subject"><br>
-        <textarea id="details" type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
-        <input id="deadline" type="text" class="form-control" placeholder="Deadline (YYYY-MM-DD)"><br>
-        <div id ="submitButton" class="btn-group"><div id ="submitButton" class="btn btn-primary">Submit</div></div>
-        <div class="btn-group"><div class="btn btn-primary">Edit</div></div>
-    </form>
-</div> -->
 </div>
 
 {% endblock %}
