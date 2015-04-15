@@ -54,6 +54,12 @@ var createNote = function(title, text){
     return newNote;
 };
 
+var selectNote = function(noteID){
+    var thisNote = _.find(notes, function(note){return note.id == noteID});
+    activeNote = thisNote;
+    loadNotes();
+};
+
 var loadNotes = function(){
     var notesTemplate = nunjucks.render('notes.html', {
         notes:notes,

@@ -19,7 +19,11 @@
 <!-- This part makes the title row and explains how the editor works. -->
 <div class="row">
     <div class="col-md-12 page-header">
-        <h1>Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
+        <h1>
+            <div class="btn-group pull-right" role="group">
+                <a href="#" class="btn btn-primary">Create New Note</a>
+            </div>
+            Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
     </div>
 </div>
 
@@ -33,12 +37,12 @@
             {% for note in notes %}
 
             {% if isActiveNote(note.id) %}
-            <a href="#" class="list-group-item active">
+            <a href="#" class="list-group-item active" onclick="selectNote({{ note.id }})">
                 <h3 class="list-group-item-heading">{{ note.title }}</h3>
                 <h5 class="list-group-item-text">{{ note.text | truncate(42) }}</h5>
             </a>
             {% else %}
-            <a href="#" class="list-group-item">
+            <a href="#" class="list-group-item" onclick="selectNote({{ note.id }})">
                 <h3 class="list-group-item-heading">{{ note.title }}</h3>
                 <h5 class="list-group-item-text">{{ note.text | truncate(42) }}</h5>
             </a>
@@ -56,9 +60,9 @@
                     <a href="#" class="btn btn-default">Edit</a>
                     <a href="#" class="btn btn-default">Delete</a>
                 </div>
-                <h2>{{ activeNote.title}}</h2>
+                <h2 id="note-detail-heading">{{ activeNote.title}}</h2>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="note-detail-text">
                 {{ activeNote.text }}
             </div>
         </div>
