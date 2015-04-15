@@ -134,7 +134,7 @@ table tr{
 .home-heading{
 	font-weight: bold;
 	text-decoration: underline;
-	text-align: center;
+	text-align: left;
 }
 
 h1{
@@ -142,8 +142,8 @@ h1{
 }
 
 .todo{
-	position: relative;
+	/*position: relative;
 	left:35%;
 	text-align: left;
-
+*/
 }
