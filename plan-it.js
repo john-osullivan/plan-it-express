@@ -17,25 +17,25 @@ var todos = [{
     id: 0,
     title: "Go Grocery Shopping",
     description: "Make sure you have all the food you'll need!",
-    deadline: new Date("2015-04-20"),
+    deadline: "2015-04-20",
     done: false
 }, {
     id: 1,
     title: "Confirm Caterer",
     description: "Get the food dude to say he'll be there.",
-    deadline: new Date("2015-04-16"),
+    deadline: "2015-04-16",
     done: false
 }, {
     id: 2,
     title: "Registration Form",
     description: "Put up a link to the updated registration form.",
-    deadline: new Date("2015-04-15"),
+    deadline: "2015-04-15",
     done: false
 }, {
     id: 3,
     title: "Update time",
     description: "Let everyone know you'll be starting an hour late.",
-    deadline: new Date("2015-04-14"),
+    deadline: "2015-04-14",
     done: true
 }];
 var activeTodo = todos[0];
@@ -70,6 +70,7 @@ var loadPage = function(renderedTemplate){
 
 var loadHome = function(){
     var home = nunjucks.render('home.html');
+    console.log(todos);
     loadPage(home);
 };
 
@@ -156,21 +157,11 @@ var getOneTodo = function(todoID){
 };
 
 var getTodos = function(){
-    var undoneTodos =  _.filter(todos, function(todo){ return todo.done === false });
-    console.log("Just got todos, there were this many: ",undoneTodos.length);
-    console.log(undoneTodos);
-    return _.map(undoneTodos, function(todo){
-        todo.deadline = todo.deadline.toDateString();
-        return todo;
-    });
+    return _.filter(todos, function(todo){ return todo.done === false });
 };
 
 var getTodones = function() {
-    var todones = _.filter(todos, function(todo){ return todo.done === true });
-    return _.map(todones, function(todone){
-        todone.deadline = todone.deadline.toDateString();
-        return todone;
-    });
+    return _.filter(todos, function(todo){ return todo.done === true });
 };
 
 var toggleTodoDone = function(todoID){
@@ -185,7 +176,10 @@ var selectTodo = function(todoID){
 };
 
 var deleteTodo = function(todoID){
+    console.log("Before deletion: ",todos);
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
+    console.log("After deletion: ",todos);
+    loadTodos();
 };
 
 var createTodo = function(){
@@ -197,13 +191,13 @@ var isActiveTodo = function(todo){
 };
 
 var loadTodos = function(){
-    var todos = getTodos();
-    var todones = getTodones();
+    var pageTodos = getTodos();
+    var pageTodones = getTodones();
     var todosPage = nunjucks.render('todos.html', {
         isActiveTodo:isActiveTodo,
         activeTodo:activeTodo,
-        todos: todos,
-        todones: todones,
+        todos: pageTodos,
+        todones: pageTodones,
         selectTodo: selectTodo,
         deleteTodo: deleteTodo,
         toggleTodoDone: toggleTodoDone

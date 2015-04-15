@@ -33,19 +33,25 @@
                     {% for todo in todos %}
 
                     {% if isActiveTodo(todo) %}
-                    <a class="list-group-item active" onclick="selectTodo({{ todone.id }})">
+                    <a class="list-group-item active clearfix" onclick="selectTodo({{ todo.id }})">
+                        <span class="pull-right">
+                            <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todo.id }})">
+                            <button onclick="deleteTodo({{ todo.id }})" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-remove"></span></button>
+                        </span>
 
-                        <a onclick="deleteTodo({{ todone.id }})"><span class="glyphicon glyphicon-remove"></span></a>
                         <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }} <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})"></p>
+                        <p class="list-group-item-text">{{ todo.deadline }}</p>
 
                     </a>
                     {% else %}
-                    <a class="list-group-item" onclick="selectTodo({{ todone.id }})">
+                    <a class="list-group-item clearfix" onclick="selectTodo({{ todo.id }})">
+                        <span class="pull-right">
+                            <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todo.id }})">
+                            <button onclick="deleteTodo({{ todo.id }})" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-remove"></span></button>
+                        </span>
 
-                        <a onclick="deleteTodo({{ todone.id }})"><span class="glyphicon glyphicon-remove"></span></a>
                         <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }} <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})"></p>
+                        <p class="list-group-item-text">{{ todo.deadline }}</p>
 
                     </a>
                     {% endif %}
@@ -71,18 +77,23 @@
                     {% for todone in todones %}
 
                     {% if isActiveTodo(todone) %}
-                    <a class="list-group-item active" onclick="selectTodo({{ todone.id }})">
-                        <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})" checked>
-                        <a onclick="deleteTodo({{ todone.id }})"><span class="glyphicon glyphicon-remove"></span></a>
-                        <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }}</p>
+                    <a class="list-group-item active clearfix" onclick="selectTodo({{ todone.id }})">
+                        <span class="pull-right">
+                            <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})" checked>
+                            <button onclick="deleteTodo({{ todone.id }})" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-remove"></span></button>
+                        </span>
+
+                        <h4 class="list-group-item-heading">{{ todone.title }}</h4>
+                        <p class="list-group-item-text">{{ todone.deadline }}</p>
                     </a>
                     {% else %}
-                    <a class="list-group-item" onclick="selectTodo({{ todone.id }})">
+                    <a class="list-group-item clearfix" onclick="selectTodo({{ todone.id }})">
+                        <span class="pull-right">
                         <input type="checkbox" name="todo-{{ todo.id }}" class="form-control" onclick="toggleTodoDone({{ todone.id }})" checked>
-                        <a onclick="deleteTodo({{ todone.id }})"><span class="glyphicon glyphicon-remove"></span></a>
-                        <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }}</p>
+                        <button onclick="deleteTodo({{ todone.id }})" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-remove"></span></button>
+                        </span>
+                        <h4 class="list-group-item-heading">{{ todone.title }}</h4>
+                        <p class="list-group-item-text">{{ todone.deadline }}</p>
                     </a>
                     {% endif %}
 
