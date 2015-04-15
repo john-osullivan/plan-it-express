@@ -112,8 +112,11 @@
 					}					
 				}
 				$body.append(body);
+				//$body.css("white-space","nowrap");
+				$body.css('overflow','hidden')
+				$body.css('height','50px')
 				$out_body.append($body);
-				$container.css("height","93px")
+				$container.css("height","90px")
 				$container.css("overflow","hidden")
 
 				if (a === activeAnnouncement){
@@ -216,6 +219,9 @@
 		$row.addClass('row');
 		$row.css('margin-top','5px');
 		$col.addClass('col-md-12');
+
+		$input.addClass('form-control')
+
 		$input.attr('id', 'addAnnounceSub');
 		$input.attr('type','text');
 		$input.attr('size','22%');
@@ -231,11 +237,14 @@
 	getNewBody = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
+			$wrapper = $('<div>').addClass('input-group'),
 			$input = $('<textarea>');	
 			
 		$row.addClass('row');
 		$row.css('margin-top','5px');
 		$col.addClass('col-md-12');
+
+		$input.addClass('form-control')
 
 		$input.attr('id','addAnnounceBody');
 		$input.attr('cols','50%');
@@ -283,11 +292,14 @@
 	getCheckbox = function(val){
 		var $row = $('<div>').addClass('row'),
 			$col = $('<div>').addClass('col-md-12'),
+			$wrapper = $('<div>').addClass('input-group'),
 			$checkbox = $('<input>'),
 			$label = $('<label>').addClass('checkbox-inline'),
 			$p = $('<p>').text('Pin');
 
-		$checkbox.attr('type','checkbox')
+		
+
+		$checkbox.attr('type','checkbox');
 		$checkbox.attr('id','pinCheckbox');
 		$checkbox.html('Pinned')
 		$checkbox.attr('value','Pin')
@@ -455,7 +467,7 @@
 		$cancelBtn.click(function(){
 			var announcement;
 			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-				announcement = pinnedANnouncements[viewingAnnouncementIndex];
+				announcement = pinnedAnnouncements[viewingAnnouncementIndex];
 			}
 			else{
 				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
