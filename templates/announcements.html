@@ -11,7 +11,7 @@
 			<div class="btn-group pull-right" role="group">
 				<input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
 			</div>
-			Announcements</h1>
+			Announcements <small>View and send out messages to all your participants.</small></h1>
 		</div>
 		
 	</div>
@@ -31,13 +31,10 @@
 
 
 	sortAnnouncements = function(elts){
-		//console.log("here")
-		console.log(pinnedAnnouncements)
 		pinnedAnnouncements = []
 		pinnedAnnouncements = _.filter(elts, function(elt){
 			return (elt.pinned)
 		});
-		console.log(pinnedAnnouncements)
 		announcements = []
 		announcements = _.filter(elts, function(elt){
 			return (!elt.pinned)
@@ -54,7 +51,6 @@
 		else{
 			$('#noAnnouce').empty();
 			$('#annouceContainer').empty();
-			console.log(pinnedAnnouncements)
 			for (var i=0; i<(total); i++){
 				var a,
 					$div = $('#annouceContainer'),
@@ -84,7 +80,6 @@
 					pinned = true;
 				}
 
-				//$container.attr('id',"message "+i)
 				$container.addClass('list-group-item')
 				$out_t.addClass('row');
 				$inside1.addClass('col-md-9');
@@ -115,13 +110,10 @@
 						$body.append(par.text(lin))
 					}					
 				}
-				//body.text(a.body);
 				$body.append(body);
 				$out_body.append($body);
-				//$container.css("cursor","default");
 				$container.css("height","93px")
 				$container.css("overflow","hidden")
-				//$container.css('padding','3px')
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
@@ -453,14 +445,6 @@
 
 				
 			deleteAnnouncement(viewingAnnouncementIndex);
-			/*
-			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
-				pinnedAnnouncements.splice(viewingAnnouncementIndex,1);
-			}
-			else{
-				announcements.splice(viewingAnnouncementIndex-pinnedAnnouncements.length,1)
-			}
-			*/
 
 			if ($pinned.is(':checked')){
 				announcement = makeAnnouncement(subject,body,time,true);
@@ -471,7 +455,6 @@
 				announcements.unshift(announcement)
 			}
 
-			//console.log(announcement)
 			getAnnouncements();
 			makeAddNewAnnouncement();
 		})
