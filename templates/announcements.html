@@ -55,7 +55,8 @@
 					pinned = false,
 					index = 0,
 					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
-					$wrapperHeading = $('<h3>');
+					$wrapperHeading = $('<h3>'),
+					$wrapperBody = $('<div>').addClass('list-group-item-body');
 
 
 				if (i >= pinnedAnnouncements.length){
@@ -69,10 +70,10 @@
 
 				$container.attr('id',"message "+i)
 				$container.addClass('list-group-item')
-				$out_t.addClass('row');
+				$out_t.addClass('row').addClass("list-group-item-heading");
 				$inside1.addClass('col-md-8');
 				$inside2.addClass('col-md-4');
-				$wrapperHeading.addClass('class="list-group-item-heading');
+				$wrapperHeading.addClass('list-group-item-heading');
 
 				if (!pinned){
 					$inside1.append($('<h4>').addClass("list-group-item-heading").html("<strong>"+a.subject+"</strong>"));
@@ -87,7 +88,7 @@
 
 				$delIcon.css("cursor","pointer")
 
-				$out_body.addClass('row');
+				$out_body.addClass('row').addClass("list-group-item-body");
 				$body.addClass('col-md-12');
                 console.log("This should be a.body: ", a.body);
 				lines = a.body.split("\n");
@@ -108,7 +109,7 @@
 				$container.css('padding','3px')
 
 				$out_t.append($inside1).append($inside2);
-				$div.append($container.append($out_t).append($out_body)); 
+				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
 				$container.on("click",function(e){
 					var x = e.pageX,
 						y = e.pageY,
@@ -207,6 +208,7 @@
 	getNewSubject = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
+			$wrapper = $('<div>').addClass('input-group	'),
 			$input = $('<input>');
 
 		$row.addClass('row');
