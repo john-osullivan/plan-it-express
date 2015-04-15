@@ -116,6 +116,12 @@
 				$container.css("height","93px")
 				$container.css("overflow","hidden")
 
+				if (a === activeAnnouncement){
+					$container.addClass('active');
+					viewingAnnouncementIndex = i;
+					displayAnnouncement(a);
+				}
+
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
 				$container.on("click",function(e){
@@ -497,7 +503,10 @@
 
 	sortAnnouncements(allAnnouncements);
 	getAnnouncements();
-	makeAddNewAnnouncement();
+	if (!activeAnnouncement){
+		makeAddNewAnnouncement();
+	}
+	
 	
 
 </script>

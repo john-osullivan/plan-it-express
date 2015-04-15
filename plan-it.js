@@ -29,12 +29,13 @@ var questions = [{
 	}];
 var activeQuestion = questions[1];
 var activeToDo;
-var activeAnnouncement;
 
 var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
-    _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15", false),
+    _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/9/15", false),
     _makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true)
     ];
+
+var activeAnnouncement = allAnnouncements[2];
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
@@ -54,7 +55,8 @@ function _makeAnnouncement(subject, body, time, pinned){
 
 var loadAnnouncements = function(){
     var announcements = nunjucks.render('announcements.html', {
-        allAnnouncements:allAnnouncements
+        allAnnouncements:allAnnouncements,
+        activeAnnouncement:activeAnnouncement
     });
     loadPage(announcements);
 };
