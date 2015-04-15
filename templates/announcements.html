@@ -468,7 +468,14 @@
 		})
 
 		$cancelBtn.click(function(){
-			displayAnnouncement(announcements[viewingAnnouncementIndex]);
+			var announcement;
+			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+				announcement = pinnedANnouncements[viewingAnnouncementIndex];
+			}
+			else{
+				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
+			}
+			displayAnnouncement(announcement);
 		})
 
 		$area.empty();
