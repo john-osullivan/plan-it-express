@@ -29,7 +29,17 @@
 	var viewingAnnouncementIndex;
 
 
-	var getAnnouncements = function(){
+
+	sortAnnouncements = function(elts){
+		pinnedAnnouncements = _.filter(elts, function(elt){
+			return (elt.pinned)
+		});
+		announcements = _.filter(elts, function(elt){
+			return (!elt.pinned)
+		});
+	}
+
+	getAnnouncements = function(){
 		var total = announcements.length+pinnedAnnouncements.length
 		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
 			$('#annouceContainer').empty();
@@ -89,8 +99,6 @@
 				$out_body.addClass('row').addClass("list-group-item-text");
 				$body.addClass('col-md-12');
 
-                console.log("This should be a.body: ", a.body);
-
 				lines = a.body.split("\n");
 				for (var j=0; j<lines.length; j++){
 					var par = $('<p>');
@@ -134,8 +142,8 @@
 	}
 
 
-	function makeAnnouncement(subject, body, time){
-		return {"subject":subject, "body":body, "time":time}
+	function makeAnnouncement(subject, body, time, pinned){
+		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
 	makeAddNewAnnouncement = function(err){
@@ -168,7 +176,7 @@
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
 				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
+				announcement,
 				err;
 
 			if(!subject || !body){
@@ -178,9 +186,11 @@
 			}
 
 			if ($pinned.is(':checked')){
+				announcement = createAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement);
 			}
 			else{
+				announcement  = createAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement);
 			}
 
@@ -432,7 +442,7 @@
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
 				time = ""+month+"/"+day+"/"+year.slice(2,4)
-				announcement = makeAnnouncement(subject,body,time),
+				announcement,
 				announce = "";
 
 				
@@ -444,9 +454,11 @@
 			}
 
 			if ($pinned.is(':checked')){
+				announcement = createAnnouncement(subject,body,time,true);
 				pinnedAnnouncements.unshift(announcement)
 			}
 			else{
+				announcement = createAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement)
 			}
 
@@ -498,15 +510,17 @@
 	}
 
 
-	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15"),
-		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15"),
-		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15"),
+	var an1 = makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
+		an2 = makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15", false),
+		an3 = makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true),
 		announcements = [an2,an1],
 		pinnedAnnouncements = [an3]
 		viewingAnnouncementIndex = 0;
 
 	getAnnouncements();
 	makeAddNewAnnouncement();
+	sortAnnouncements(allAnnouncements);
+
 </script>
 
 {% endblock %}

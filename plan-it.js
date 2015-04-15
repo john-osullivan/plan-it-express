@@ -31,6 +31,11 @@ var activeQuestion = questions[1];
 var activeToDo;
 var activeAnnouncement;
 
+var allAnnouncements = [makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
+    makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/12/15", false),
+    makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true)
+    ];
+
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
 };
@@ -43,10 +48,23 @@ var loadHome = function(){
 //================ ANNOUNCMENTS =============
 
 
+function makeAnnouncement(subject, body, time, pinned){
+        return {"subject":subject, "body":body, "time":time, "pinned":pinned}
+    }
+
 var loadAnnouncements = function(){
-    var announcements = nunjucks.render('announcements.html');
+    var announcements = nunjucks.render('announcements.html', {
+        allAnnouncements:allAnnouncements
+    });
     loadPage(announcements);
 };
+
+var createAnnouncement = function(subject, body, time, pinned){
+    var announcement = makeAnnouncement(subject,body,time,pinned);
+
+    allAnnouncements.unshift(announcement)
+    return announcement
+}
 
 
 //===========================================
