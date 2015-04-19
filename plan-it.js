@@ -74,7 +74,30 @@ var loadHome = function(){
     var home = nunjucks.render('home.html');
     console.log(todos);
     loadPage(home);
+    updateColorbar('home');
 };
+
+//============ COLOR BAR ==================
+var colorMap = {
+    'home':'homeTab',
+    'announcements':'announcementTab',
+    'notes':'noteTab',
+    'todos':'todoTab',
+    'questions':'questionTab'
+};
+
+var updateColorbar = function(tabName){
+    // Expects one of the keys in colorMap as an arguments, sets
+    // the colorbar to have the CSS class which gives it that
+    // value.
+    var colorBar = $('.colorBar');
+    for (eachTab in colorMap){
+        colorBar.removeClass(colorMap[eachTab]);
+    }
+    colorBar.addClass(colorMap[tabName]);
+};
+
+
 
 //================ ANNOUNCMENTS =============
 
@@ -88,7 +111,9 @@ var loadAnnouncements = function(){
         allAnnouncements:allAnnouncements,
         activeAnnouncement:activeAnnouncement
     });
+
     loadPage(announcements);
+    updateColorbar('announcements');
 };
 
 var createAnnouncement = function(subject, body, time, pinned){
@@ -149,6 +174,7 @@ var loadQuestions = function(){
 		isActiveQuestion:isActiveQuestion
 	});
     loadPage(questionsTemplate);
+    updateColorbar('questions');
 };
 //===========================================
 
@@ -178,9 +204,11 @@ var selectTodo = function(todoID){
 };
 
 var deleteTodo = function(todoID){
-    console.log("Before deletion: ",todos);
+
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
-    console.log("After deletion: ",todos);
+    if (typeof activeTodo === "undefined"){
+        activeTodo = todos[0];
+    }
     loadTodos();
 };
 
@@ -219,6 +247,7 @@ var loadTodos = function(){
         toggleTodoDone: toggleTodoDone
     });
     loadPage(todosPage);
+    updateColorbar('todos');
 };
 
 //============== NOTES ====================
@@ -247,4 +276,6 @@ var loadNotes = function(){
         activeNote:activeNote
     });
     loadPage(notesTemplate);
+    updateColorbar('notes');
 };
+

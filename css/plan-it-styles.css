@@ -2,39 +2,43 @@
     padding:4%
 }
 
+/*.dashTab{*/
+    /*border-style:outset;*/
+    /*border-bottom: none;*/
+    /*border-radius: 42px;*/
+    /*border-width: 8px;*/
+/*}*/
 
-.noteListing{
 
+/*.homeTab{*/
+    /*border-color: #B0BEC5;*/
+/*}*/
+
+/*.questionTab{*/
+    /*border-color: #3F51B5;*/
+/*}*/
+
+/*.noteTab{*/
+    /*border-color: #558B2F;*/
+/*}*/
+
+/*.todoTab{*/
+    /*border-color: #F44336;*/
+/*}*/
+
+/*.announceTab{*/
+    /*border-color: #FFC107;*/
+/*}*/
+
+.colorBar{
+    padding:12px;
 }
 
-.noteList{
-
-}
-
-.noteDetail{
-
-}
 
 .contents{
 	padding: 4px;
 }
-.announcements{
-	/*max-height: 200px;
-	border-radius: 10px;
-	padding: 4px;
-	margin-top:20px;
-	border-style: solid;
-    border-width: 1px;*/
-}
 
-.to-do{
-	/*max-height: 200px;
-	border-radius: 10px;
-	padding: 4px;
-	margin-top:20px;
-	border-style: solid;
-    border-width: 1px;*/
-}
 
 .todos{
 	min-height: 425px;
