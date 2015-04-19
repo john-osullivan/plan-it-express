@@ -7,7 +7,7 @@
 {{ menu('notes') }}
 
 <!-- This part makes the title row and explains how the editor works. -->
-<div class="row">
+<div class="row headerRow">
     <div class="col-md-12 page-header">
         <h1>
             <div class="btn-group pull-right" role="group">
@@ -22,7 +22,7 @@
 
     <!-- This column is for the list view of all notes. -->
     <div class="col-md-4">
-        <div class="list-group noteList">
+        <div class="list-group noteHeading">
 
             {% for note in notes %}
 
@@ -45,7 +45,7 @@
     <!-- This column is for the detail view of one note. -->
     <div class="col-md-8">
         <div class="panel panel-default noteDetail">
-            <div class="panel-heading">
+            <div class="panel-heading noteHeading">
                 <div class="btn-group pull-right">
                     <a href="#" class="btn btn-default">Edit</a>
                     <a href="#" class="btn btn-default">Delete</a>

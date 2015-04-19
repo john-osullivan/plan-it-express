@@ -2,36 +2,40 @@
     padding:4%
 }
 
-/*.dashTab{*/
-    /*border-style:outset;*/
-    /*border-bottom: none;*/
-    /*border-radius: 42px;*/
-    /*border-width: 8px;*/
-/*}*/
 
+.nav-tabs > li > a.homeTab,
+.nav-tabs > li.active > a.homeTab{
+    background-color: rgba(176,190,197,0.25);
+}
 
-/*.homeTab{*/
-    /*border-color: #B0BEC5;*/
-/*}*/
+.panel > .panel-heading.questionHeading,
+.list-group.questionHeading > a.list-group-item.active,
+.nav-tabs > li > a.questionTab,
+.nav-tabs > li.active > a.questionTab{
+    background-color: rgba(63,81,181,0.25);
+}
+.panel > .panel-heading.noteHeading,
+.list-group.noteHeading > a.list-group-item.active,
+.nav-tabs > li > a.noteTab,
+.nav-tabs > li.active > a.noteTab{
+    background-color: rgba(85,139,47,0.25);
+}
 
-/*.questionTab{*/
-    /*border-color: #3F51B5;*/
-/*}*/
-
-/*.noteTab{*/
-    /*border-color: #558B2F;*/
-/*}*/
-
-/*.todoTab{*/
-    /*border-color: #F44336;*/
-/*}*/
-
-/*.announceTab{*/
-    /*border-color: #FFC107;*/
-/*}*/
+.panel > .panel-heading.todoHeading,
+.list-group.todoHeading > a.list-group-item.active,
+.nav-tabs > li > a.todoTab,
+.nav-tabs > li.active > a.todoTab{
+    background-color: rgba(244,67,54,0.25);
+}
+.panel > .panel-heading.announceHeading,
+.list-group.announceHeading > a.list-group-item.active,
+.nav-tabs > li > a.announceTab,
+.nav-tabs > li.active > a.announceTab{
+    background-color: rgba(255,193,7,0.25);
+}
 
 .colorBar{
-    padding:12px;
+    padding:4px;
 }
 
 

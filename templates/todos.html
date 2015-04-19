@@ -35,7 +35,7 @@
      });*/
 </script>
 
-<div class="row">
+<div class="row headerRow">
     <div class="col-md-12 page-header">
         <h1><div id="createToDo" class="btn-group pull-right" role="group">
             <a href="#" class="btn btn-primary">Create New To-Do</a>
@@ -48,7 +48,7 @@
 <div class="col-md-4">
     <div class="panel-group" id="todos-accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="todoHeading">
+            <div class="panel-heading todoHeading" role="tab" id="todoHeading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#todos-accordion" href="#todosCollapsed"
                        aria-expanded="true" aria-controls="todosCollapsed">
@@ -57,7 +57,7 @@
                 </h4>
             </div>
             <div id="todosCollapsed" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="todoHeading">
-                <div class="list-group">
+                <div class="list-group todoHeading">
                     {% for todo in todos %}
 
                     {% if isActiveTodo(todo) %}
@@ -95,8 +95,8 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="todonesHeading">
+        <div class="panel  panel-default">
+            <div class="panel-heading todoHeading" role="tab" id="todonesHeading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#todos-accordion" href="#todonesCollapsed" class="collapsed"
                        aria-expanded="false" aria-controls="todonesCollapsed">
@@ -106,7 +106,7 @@
             </div>
 
             <div id="todonesCollapsed" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="todonesHeading">
-                <div class="list-group">
+                <div class="list-group todoHeading ">
 
                     {% for todone in todones %}
 
@@ -142,7 +142,7 @@
 
 <div class="col-md-8">
     <div class="panel panel-default noteDetail">
-        <div class="panel-heading">
+        <div class="panel-heading todoHeading">
             <!-- <div class="btn-group pull-right">
                 <a href="#" class="btn btn-default">Edit</a>
                 <a href="#" class="btn btn-default">Delete</a>

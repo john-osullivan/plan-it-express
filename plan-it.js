@@ -1,3 +1,39 @@
+//============ COLOR BAR ==================
+
+// Function to convert hex format to a rgb color
+// Written by Rob Garrison, copied from:
+// http://wowmotty.blogspot.com/2009/06/convert-jquery-rgb-output-to-hex-color.html
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+ return "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
+}
+
+var colorMap = {
+    'home':"rgba(176,190,197,0.25)",
+    'announcements':"rgba(255,193,7,0.25)",
+    'notes':"rgba(85,139,47,0.25)",
+    'todos':"rgba(244,67,54,0.25)",
+    'questions':"rgba(63,81,181,0.25)"
+};
+
+
+var updateColorbar = function(tabName){
+    // Expects one of the keys in colorMap as an arguments, sets
+    // the colorbar to have the CSS class which gives it that
+    // value.
+    var colorBar = $('.colorBar');
+    console.log("colorBar before change: ",colorBar);
+    colorBar.css("background-color", colorMap[tabName]);
+//    headerRow.css("background-color", colorMap[tabName]);
+    console.log("colorBar after change: ",colorBar);
+};
+
+
+
+
 var notes = [{
     id:0,
     title:"Food",
@@ -75,26 +111,6 @@ var loadHome = function(){
     console.log(todos);
     loadPage(home);
     updateColorbar('home');
-};
-
-//============ COLOR BAR ==================
-var colorMap = {
-    'home':'homeTab',
-    'announcements':'announcementTab',
-    'notes':'noteTab',
-    'todos':'todoTab',
-    'questions':'questionTab'
-};
-
-var updateColorbar = function(tabName){
-    // Expects one of the keys in colorMap as an arguments, sets
-    // the colorbar to have the CSS class which gives it that
-    // value.
-    var colorBar = $('.colorBar');
-    for (eachTab in colorMap){
-        colorBar.removeClass(colorMap[eachTab]);
-    }
-    colorBar.addClass(colorMap[tabName]);
 };
 
 
