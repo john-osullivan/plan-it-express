@@ -9,34 +9,45 @@
 }
 
 .panel > .panel-heading.questionHeading,
-.list-group.questionHeading > a.list-group-item.active,
 .nav-tabs > li > a.questionTab,
 .nav-tabs > li.active > a.questionTab{
     background-color: rgba(63,81,181,0.25);
 }
+
+.list-group.questionHeading a.list-group-item.active{
+    background-color: rgba(63,81,181,0.10);
+}
+
 .panel > .panel-heading.noteHeading,
-.list-group.noteHeading > a.list-group-item.active,
 .nav-tabs > li > a.noteTab,
 .nav-tabs > li.active > a.noteTab{
     background-color: rgba(85,139,47,0.25);
 }
 
+.list-group.noteHeading a.list-group-item.active{
+    background-color: rgba(85,139,47,0.10);
+}
+
 .panel > .panel-heading.todoHeading,
-.list-group.todoHeading > a.list-group-item.active,
 .nav-tabs > li > a.todoTab,
 .nav-tabs > li.active > a.todoTab{
     background-color: rgba(244,67,54,0.25);
 }
+
+.list-group.todoHeading a.list-group-item.active{
+    background-color: rgba(244,67,54,0.10);
+}
+
 .panel > .panel-heading.announceHeading,
-.list-group.announceHeading > a.list-group-item.active,
 .nav-tabs > li > a.announceTab,
 .nav-tabs > li.active > a.announceTab{
     background-color: rgba(255,193,7,0.25);
 }
 
-.colorBar{
-    padding:4px;
+.list-group.announceHeading a.list-group-item.active{
+    background-color: rgba(255,193,7,0.10);
 }
+
 
 
 .contents{
