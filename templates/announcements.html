@@ -18,7 +18,7 @@
 	<div class="row">
 		<div class="col-md-4">			
 			<span id="noAnnouce"></span>
-			<div class="list-group" id="annouceContainer"></div>
+			<div class="list-group announceHeading" id="annouceContainer"></div>
 		</div>
 		<div class="col-md-8" id="announceArea">
 		</div>
@@ -344,7 +344,7 @@
 			body = item.body,
 			time = item.time,
 			$wrapper = $('<div>').addClass('panel panel-default'),
-			$wrapperHeading = $('<div>').addClass('panel-heading'),
+			$wrapperHeading = $('<div>').addClass('panel-heading announceHeading'),
 			$row1 = $('<div>').addClass(""),
 			$row2 = $('<div>').addClass("panel-body"),
 			$subject = $('<h4>'),
