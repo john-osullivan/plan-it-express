@@ -2,6 +2,10 @@
     padding:6%
 }
 
+.navbar{
+    background-color: #5C5B5A;
+}
+
 
 .nav-tabs > li > a.homeTab,
 .nav-tabs > li.active > a.homeTab{

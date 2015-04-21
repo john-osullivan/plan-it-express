@@ -80,7 +80,7 @@ var loadHome = function(){
 var dataSync = function(){
     // This function sets the .csv stores related to questions, notes, announcements,
     // and to-dos to be equal to the current values of those objects in memory.
-    
+
 };
 
 
