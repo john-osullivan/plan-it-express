@@ -69,7 +69,9 @@
 					index = 0,
 					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
 					$wrapperHeading = $('<h4>').addClass("list-group-item-heading"),
-					$wrapperBody = $('<div>').addClass('list-group-item-body');
+					$wrapperBody = $('<div>').addClass('list-group-item-body'),
+					$wrapperTime = $('<div>').addClass('pull-right'),
+					$lastPara;
 
 
 				if (i >= pinnedAnnouncements.length){
@@ -84,19 +86,24 @@
 				$container.attr('id','' +i);
 				$container.addClass('list-group-item');
 				$out_t.addClass('row');
-				$inside1.addClass('col-md-9');
-				$inside2.addClass('col-md-3');
+				$inside1.addClass('col-md-7');
+				$inside2.addClass('col-md-5');
 
-				$inside2.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
+				
 
 				if (!pinned){
-					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
+					$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));	
 				}
 				else{
-					$pin.css('float','right')
+					//$pin.css('float','right')
 					$pin.css('color','blue')
-					$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>").append($pin));
+					$wrapperTime.append($pin);
+					$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").append(""+a.time));
 				}
+
+				$inside2.append($wrapperTime);
+
+				$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
 
 				
 
@@ -112,13 +119,20 @@
 						$body.append(par.html(lin))
 					}					
 				}
+
+				$lastPara = $body.find('p:last');
+
 				$body.append(body);
-				//$body.css("white-space","nowrap");
-				$body.css('overflow','hidden')
-				$body.css('height','50px')
+				$lastPara.css('width',"100%")
+				$lastPara.css("white-space","nowrap");
+				$lastPara.css('overflow','hidden');
+				$lastPara.css('text-overflow','ellipsis')
+
+				//$body.css('height','50px')
 				$out_body.append($body);
-				$container.css("height","90px")
-				$container.css("overflow","hidden")
+				//$container.css("height","90px")
+				//$container.css("overflow","hidden")
+
 
 				if (a === activeAnnouncement){
 					$container.addClass('active');
