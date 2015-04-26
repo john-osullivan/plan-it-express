@@ -26,7 +26,8 @@
 
 <script>
 
-	var viewingAnnouncementIndex;
+	var viewingAnnouncementIndex,
+		previewAnnouncment;
 
 
 
@@ -108,7 +109,7 @@
 					lin = lines[j]
 					if (lin && counter < 2){
 						counter++;
-						$body.append(par.text(lin))
+						$body.append(par.html(lin))
 					}					
 				}
 				$body.append(body);
@@ -150,16 +151,19 @@
 	}
 
 
-	function makeAnnouncement(subject, body, time, pinned){
-		createAnnouncement(subject,body,time, pinned);
+	function makeAnnouncement(subject, body, time, pinned, isPreview){
+		if(!isPreview){
+			createAnnouncement(subject,body,time, pinned);
+		}
+		
 		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
-	makeAddNewAnnouncement = function(err){
+	makeAddNewAnnouncement = function(err, isPreview){
 		var $area = $('#announceArea'),
 			$subject = getNewSubject(),
 			$body = getNewBody(),
-			$button = getNewButton(),
+			$button = getNewButton("Preview","Add"),
 			$check = getCheckbox(),
 			$error;
 
@@ -174,8 +178,51 @@
 				$body = getNewBody(err.body)
 			}
 		}
+
+		if (isPreview){
+			$subject = getNewSubject(previewAnnouncment.subject);
+			$body = getNewBody(previewAnnouncment.body);
+			$check = getCheckbox(previewAnnouncment.pinned);
+		}
+
+		//$div = $('#annouceContainer').find('active').removeClass('active');
 		$area.append($subject).append($body).append($check).append($button);
+
 		$('#addAnnouncement').click(function(){
+			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val(),
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year.slice(2,4),
+				announcement,
+				err;
+
+			if(!subject || !body){
+				err = {"subject":subject,"body":body}
+				makeAddNewAnnouncement(err);
+				return
+			}
+
+			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true,true);
+				//pinnedAnnouncements.unshift(announcement);
+			}
+			else{
+				announcement  = makeAnnouncement(subject,body,time,false,true);
+				//announcements.unshift(announcement);
+			}
+
+			previewAnnouncment = announcement
+
+			displayAnnouncement(announcement,true)
+
+		});
+
+		$('#addAnnouncement2').click(function(){
 			var $area = $('#announceArea'),
 				$pinned = $('#pinCheckbox'),
 				subject = $('#addAnnounceSub').val(),
@@ -202,6 +249,8 @@
 				announcement  = makeAnnouncement(subject,body,time,false);
 				announcements.unshift(announcement);
 			}
+
+			previewAnnouncment = false
 
 			
 			getAnnouncements();
@@ -272,7 +321,7 @@
 		$input.attr('type','submit');
 		$input.attr('value','Add');
 		$input.attr('id','addAnnouncement');
-		$input.addClass("btn btn-default");
+		$input.addClass("btn btn-primary");
 
 		if(val1){
 			$input.val(val1);
@@ -281,7 +330,7 @@
 		if(val2){
 			$input2.attr('type','submit');
 			$input2.attr('id','addAnnouncement2');
-			$input2.addClass("btn btn-default");
+			$input2.addClass("btn btn-primary");
 			$input2.val(val2);
 			$col.append($input2);
 			$input2.addClass('pull-right');
@@ -338,7 +387,7 @@
 		return $row.append($col.append($error));
 	}
 
-	displayAnnouncement = function(item){
+	displayAnnouncement = function(item, isPreview){
 		var $area = $('#announceArea'),
 			subject = item.subject,
 			body = item.body,
@@ -370,7 +419,7 @@
 
 			lin = lines[i];
 			if (lin){
-				par.text(lin);
+				par.html(lin);
 				$body.append(par);	
 			}
 		}
@@ -387,11 +436,18 @@
 		$area.append($btns)
 
 		$editButton.click(function(){
-			makeEditDisplay();
+			if(!isPreview){
+				makeEditDisplay();	
+			}
+			else{
+				makeAddNewAnnouncement(false,isPreview);
+			}			
 		});
 
 		$deleteButton.click(function(){
-			deleteAnnouncement(viewingAnnouncementIndex);
+			if(!isPreview){
+				deleteAnnouncement(viewingAnnouncementIndex);
+			}
 			makeAddNewAnnouncement();
 
 		})
@@ -429,7 +485,7 @@
 		$updateBtn = $btns.find('#addAnnouncement');
 		$cancelBtn = $btns.find('#addAnnouncement2');
 
-		if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+		if (announcement.pinned){
 			$checkbox = getCheckbox(true)
 		}
 		else{
