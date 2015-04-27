@@ -444,22 +444,40 @@
 		$area.append($wrapper.append($wrapperHeading).append($row2));
 
 		$btns = getNewButton("Edit","Delete");
+		if (isPreview){
+			$btns = getNewButton("Add","Cancel")
+		}
 		$editButton = $btns.find('#addAnnouncement');
 		$deleteButton = $btns.find('#addAnnouncement2')
 		$area.append($btns)
 
 		$editButton.click(function(){
+			var announcement = previewAnnouncment;
 			if(!isPreview){
 				makeEditDisplay();	
 			}
 			else{
-				makeAddNewAnnouncement(false,isPreview);
+				if (announcement.pinned){
+					announcement = makeAnnouncement(announcement.subject,announcement.body,announcement.time,true);
+					pinnedAnnouncements.unshift(announcement);
+				}
+				else{
+					announcement  = makeAnnouncement(announcement.subject,announcement.body,announcement.time,false);
+					announcements.unshift(announcement);
+				}
+				getAnnouncements()
+				makeAddNewAnnouncement()
+				//todo add adding a new announcement
 			}			
 		});
 
 		$deleteButton.click(function(){
 			if(!isPreview){
 				deleteAnnouncement(viewingAnnouncementIndex);
+			}
+			else{
+				makeAddNewAnnouncement(false,isPreview);
+				return 
 			}
 			makeAddNewAnnouncement();
 
