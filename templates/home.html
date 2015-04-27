@@ -31,9 +31,7 @@
     });
 
     $("#submitButton").click(function(){
-        console.log("wefwef")
         var text = document.getElementById("toDoText").value;
-        console.log(text);
         var table = document.getElementById("toDoTable");
         var row = table.insertRow(0);
 
@@ -49,6 +47,65 @@
         document.getElementById("toDoForm").style.display = "none";
         return false;
     });
+
+    for (var i in todos){
+        var table = document.getElementById("toDoTable");
+        var currentTodo = todos[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = currentTodo["deadline"];
+        cell2.innerHTML = currentTodo["title"];
+        cell3.innerHTML = "";
+    }
+
+    for (var i in allAnnouncements){
+        var table = document.getElementById("announcementsTable");
+        var currentAnnouncement = allAnnouncements[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = currentAnnouncement["time"];
+        cell2.innerHTML = currentAnnouncement["subject"];
+        cell3.innerHTML = "PIN";
+    }
+
+    for (var i in questions){
+        console.log("Christian3");
+        console.log(allAnnouncements[i]);
+
+        var table = document.getElementById("questionsTable");
+        var currentQuestions = questions[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = currentQuestions["date"];
+        cell2.innerHTML = currentQuestions["subject"];
+        cell3.innerHTML = currentQuestions["asker"];
+    }
+
+    for (var i in notes){
+        var table = document.getElementById("notesTable");
+        var currentNote = notes[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+
+        cell1.innerHTML = currentNote["title"];
+    }
 
 </script>
 <div class="row">
@@ -68,22 +125,6 @@
 
             <!-- Table -->
             <table id="announcementsTable" class="table table-hover" style="width:100%">
-                <tr>
-                    <td>4/14/15</td>
-                    <td>Testing Pinning</td>
-                    <td><span class="glyphicon glyphicon-pushpin" style="float: center; color:black"</span></td>
-                </tr>
-                <tr>
-                    <td>4/12/15</td>
-                    <td>Moving Space</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4/10/15</td>
-                    <td>Testing this Page</td>
-                    <td></td>
-                </tr>
-
             </table>
         </div>
     </div>
@@ -102,21 +143,6 @@
                 <center><button type="submitButton">Submit</button></center>
             </form>
             <table id="toDoTable" class="table table-hover" style="">
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Confirm Caterer</td>
-                    <td>4/15/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Registration Form</td>
-                    <td>4/20/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Update time</td>
-                    <td>4/22/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
             </table>
 
         </div>
@@ -130,18 +156,6 @@
 
             <!-- Table -->
             <table id= "questionsTable" class="table table-hover" style="width:100%">
-                <tr>
-                    <td>04/15/2015</td>
-                    <td>Bender</td>
-                    <td>Lug nuts</td>
-                    <td><span class="glyphicon glyphicon-star" style="float: center; color:black"></span></td>
-                </tr>
-                <tr>
-                    <td>04/01/2015</td>
-                    <td>Brochacho</td>
-                    <td>Location?</td>
-                    <td><span class="glyphicon glyphicon-star-empty" style="float: center; color:black"></span></td>
-                </tr>
             </table>
         </div>
     </div>
@@ -154,7 +168,7 @@
 
             <!-- Table -->
             <table id="notesTable" class="table table-hover" style="width:100%">
-                <tr>
+                <!-- <tr>
                     <td>Food</td>
                 </tr>
                 <tr>
@@ -162,7 +176,7 @@
                 </tr>
                 <tr>
                     <td>Organizers</td>
-                </tr>
+                </tr> -->
             </table>
         </div>
     </div>
