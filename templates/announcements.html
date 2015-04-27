@@ -136,10 +136,7 @@
 				$lastPara.css('overflow','hidden');
 				$lastPara.css('text-overflow','ellipsis')
 
-				//$body.css('height','50px')
 				$out_body.append($body);
-				//$container.css("height","90px")
-				//$container.css("overflow","hidden")
 
 
 				if (a === activeAnnouncement){
@@ -155,6 +152,10 @@
 						y = e.pageY,
 						index = parseInt($(this).attr('id')),
 						$div = $('#annouceContainer');
+
+					if (previewAnnouncment){
+						previewAnnouncment = false
+					}
 
 					$div.find('.active').removeClass('active')
 					$(this).addClass('active');
@@ -473,8 +474,9 @@
 					announcement  = makeAnnouncement(announcement.subject,announcement.body,announcement.time,false);
 					announcements.unshift(announcement);
 				}
-				getAnnouncements()
-				makeAddNewAnnouncement()
+				previewAnnouncment = false;
+				getAnnouncements();
+				makeAddNewAnnouncement();
 				//todo add adding a new announcement
 			}			
 		});
