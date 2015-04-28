@@ -207,7 +207,7 @@
 			$check = getCheckbox(previewAnnouncment.pinned);
 		}
 
-		//$div = $('#annouceContainer').find('active').removeClass('active');
+		$('#annouceContainer').find('.active').removeClass('active');
 		$area.append($subject).append($body).append($check).append($button);
 
 		$('#addAnnouncement').click(function(){
