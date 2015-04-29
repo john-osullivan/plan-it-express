@@ -170,6 +170,9 @@
 					viewingAnnouncementIndex = i;
 					displayAnnouncement(a);
 				}
+				else{
+					$container.removeClass('active');
+				}
 
 				$out_t.append($inside1).append($inside2);
 				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 

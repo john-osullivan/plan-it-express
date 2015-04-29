@@ -64,7 +64,7 @@ var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\
     _makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true)
     ];
 
-var activeAnnouncement = allAnnouncements[2];
+var activeAnnouncement = false;
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
