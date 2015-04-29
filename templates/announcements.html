@@ -42,17 +42,25 @@
 		previewAnnouncment;
 
 
-
+	/*
+	Sorts announcements into pinned and not pinned lists by 
+		date
+	Params: elts - list of pinned and unpinned announcements sorted by date
+	Return: JSON with two lists, pinned and notPinned
+	*/
 	sortAnnouncements = function(elts){
-		pinnedAnnouncements = []
-		pinnedAnnouncements = _.filter(elts, function(elt){
+		var pinnedList = [],
+			restList = [];
+
+
+		pinnedList = _.filter(elts, function(elt){
 			return (elt.pinned)
 		});
-		announcements = []
-		announcements = _.filter(elts, function(elt){
+
+		restList = _.filter(elts, function(elt){
 			return (!elt.pinned)
 		});
-		getAnnouncements();
+		return {'pinned':pinnedList, 'notPinned':restList}
 	}
 
 	getAnnouncements = function(){
@@ -636,11 +644,16 @@
 	}
 
 
-	var announcements = [] ,
+	var announcements = [],
 		pinnedAnnouncements = [],
-		viewingAnnouncementIndex = 0;
+		viewingAnnouncementIndex = 0,
+		bothLists = sortAnnouncements(allAnnouncements);
 
-	sortAnnouncements(allAnnouncements);
+	//pinnedAnnouncements = [];
+	//announcements = [];
+	
+	pinnedAnnouncements = bothLists.pinned;
+	announcements = bothLists.notPinned;
 	getAnnouncements();
 	if (!activeAnnouncement){
 		makeAddNewAnnouncement();
