@@ -18,12 +18,16 @@
 	<div class="row">
 		<div class="col-md-4">			
 			<span id="noAnnouce"></span>
-			<div class="panel panel-default">
+			<div class="panel panel-default" id="pinned">
             	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
                 	<h4 class="panel-title">
                 		Pinned
                 	</h4>
                 </div>
+				<div class="list-group announceHeading" id="annouceContainerPinned"></div>
+			</div>
+			<div class="panel panel-default" id="announcements">
+            	<div class="panel-heading announceHeading" role="tab" id="announceHeading"></div>
 				<div class="list-group announceHeading" id="annouceContainer"></div>
 			</div>
 			
@@ -52,14 +56,32 @@
 	}
 
 	getAnnouncements = function(){
-		var total = announcements.length+pinnedAnnouncements.length
+		var total = announcements.length+pinnedAnnouncements.length,
+			pinnedAC = $('#annouceContainerPinned'),
+			announcementC = $('#annouceContainer');
 		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
-			$('#annouceContainer').empty();
+			announcementC.empty();
+			pinnedAC.empty();
+			$('#announcements').css('visibility',"hidden");
+			$('#pinned').css('visibility','hidden');
 			$('#noAnnouce').html("<p>You have no announcements</p>")
 		}
 		else{
 			$('#noAnnouce').empty();
-			$('#annouceContainer').empty();
+			announcementC.empty();
+			pinnedAC.empty();
+			if (pinnedAnnouncements.length === 0){
+				$('#pinned').hide()
+			}
+			else{
+				$('#pinned').show()
+			}
+			if (announcements.length === 0){
+				$('#announcements').hide()
+			}
+			else{
+				$('#announcements').show()
+			}
 			for (var i=0; i<(total); i++){
 				var a,
 					$div = $('#annouceContainer'),
@@ -89,6 +111,10 @@
 				else{
 					a = pinnedAnnouncements[i];
 					pinned = true;
+				}
+
+				if (pinned){
+					$div = $('#annouceContainerPinned')
 				}
 
 				$container.attr('id','' +i);
