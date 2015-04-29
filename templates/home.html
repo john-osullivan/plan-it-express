@@ -10,6 +10,96 @@
 <script>
     nunjucks.configure('templates');
 
+    
+
+    $("#submitButton").click(function(){
+        var subject = document.getElementById("toDoText").value;
+        /*var subject = document.getElementById("subject").value;*/
+        var details = "";
+        var date = "";
+        createTodo(subject, details, date);
+        /*var text = document.getElementById("toDoText").value;
+        var table = document.getElementById("toDoTable");
+        var row = table.insertRow(0);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+
+        console.log(text);
+
+        cell1.innerHTML = text;
+        cell2.innerHTML = "";
+        cell3.innerHTML = "";
+        cell4.innerHTML = "";
+        document.getElementById("toDoForm").style.display = "none";*/
+        return false;
+    });
+
+    for (var i in todos){
+        var table = document.getElementById("toDoTable");
+        var currentTodo = todos[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        cell1.innerHTML = "          " + currentTodo["deadline"];
+        cell2.innerHTML = "          " + currentTodo["title"];
+    }
+
+    for (var i in allAnnouncements){
+        var table = document.getElementById("announcementsTable");
+        var currentAnnouncement = allAnnouncements[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = currentAnnouncement["time"];
+        cell2.innerHTML = currentAnnouncement["subject"];
+        cell3.innerHTML = "PIN";
+    }
+
+    for (var i in questions){
+        console.log("Christian3");
+        console.log(allAnnouncements[i]);
+
+        var table = document.getElementById("questionsTable");
+        var currentQuestions = questions[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+
+        cell1.innerHTML = currentQuestions["date"];
+        cell2.innerHTML = currentQuestions["subject"];
+        cell3.innerHTML = currentQuestions["asker"];
+        cell4.innerHTML = "STAR";
+    }
+
+    for (var i in notes){
+        var table = document.getElementById("notesTable");
+        var currentNote = notes[i];
+
+        var row = table.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+
+        cell1.innerHTML = currentNote["title"];
+    }
+
+    $("table td:first-child").each(function() {
+        $(this).prepend('<input type="checkbox" class="basic-kpi-row"/>');
+    });
+
     $('#announcementsTable tr').click(function() {
         loadAnnouncements();
     });
@@ -30,26 +120,6 @@
         document.getElementById("toDoForm").style.display = "initial";
     });
 
-    $("#submitButton").click(function(){
-        console.log("wefwef")
-        var text = document.getElementById("toDoText").value;
-        console.log(text);
-        var table = document.getElementById("toDoTable");
-        var row = table.insertRow(0);
-
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-
-        cell1.innerHTML = text;
-        cell2.innerHTML = "";
-        cell3.innerHTML = "";
-        cell4.innerHTML = "";
-        document.getElementById("toDoForm").style.display = "none";
-        return false;
-    });
-
 </script>
 <div class="row">
     <div class="col-md-12 page-header">
@@ -59,34 +129,6 @@
 </div>
 <div class="contents row">
     <!-- background-color:#B7CEEC;  -->
-    <div class="col-md-8 announcements" style="">
-        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
-            <!-- Default panel contents -->
-            <div class="panel-heading home-heading announceHeading">
-                <h5>Announcements</h5>
-            </div>
-
-            <!-- Table -->
-            <table id="announcementsTable" class="table table-hover" style="width:100%">
-                <tr>
-                    <td>4/14/15</td>
-                    <td>Testing Pinning</td>
-                    <td><span class="glyphicon glyphicon-pushpin" style="float: center; color:black"</span></td>
-                </tr>
-                <tr>
-                    <td>4/12/15</td>
-                    <td>Moving Space</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4/10/15</td>
-                    <td>Testing this Page</td>
-                    <td></td>
-                </tr>
-
-            </table>
-        </div>
-    </div>
 
     <div class="col-md-4 to-do" style="">
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
@@ -102,27 +144,11 @@
                 <center><button type="submitButton">Submit</button></center>
             </form>
             <table id="toDoTable" class="table table-hover" style="">
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Confirm Caterer</td>
-                    <td>4/15/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Registration Form</td>
-                    <td>4/20/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
-                <tr class="todo">
-                    <td><input type="checkbox"></td>
-                    <td>Update time</td>
-                    <td>4/22/15<span class="glyphicon glyphicon-remove" style="float: right; color:black"></span></td>
-                </tr>
             </table>
 
         </div>
     </div>
-</div>
-<div class="row">
+
     <div class="col-md-8 questions"  style="">
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
             <!-- Default panel contents -->
@@ -130,21 +156,16 @@
 
             <!-- Table -->
             <table id= "questionsTable" class="table table-hover" style="width:100%">
-                <tr>
-                    <td>04/15/2015</td>
-                    <td>Bender</td>
-                    <td>Lug nuts</td>
-                    <td><span class="glyphicon glyphicon-star" style="float: center; color:black"></span></td>
-                </tr>
-                <tr>
-                    <td>04/01/2015</td>
-                    <td>Brochacho</td>
-                    <td>Location?</td>
-                    <td><span class="glyphicon glyphicon-star-empty" style="float: center; color:black"></span></td>
-                </tr>
             </table>
         </div>
     </div>
+
+    
+
+    
+</div>
+<div class="row">
+
     <div class="col-md-4 notes" style="">
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
             <!-- Default panel contents -->
@@ -154,7 +175,7 @@
 
             <!-- Table -->
             <table id="notesTable" class="table table-hover" style="width:100%">
-                <tr>
+                <!-- <tr>
                     <td>Food</td>
                 </tr>
                 <tr>
@@ -162,10 +183,25 @@
                 </tr>
                 <tr>
                     <td>Organizers</td>
-                </tr>
+                </tr> -->
             </table>
         </div>
     </div>
+
+    <div class="col-md-8 announcements" style="">
+        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
+            <!-- Default panel contents -->
+            <div class="panel-heading home-heading announceHeading">
+                <h5>Announcements</h5>
+            </div>
+
+            <!-- Table -->
+            <table id="announcementsTable" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+    </div>
+    
+    
 
 </div>
 </div>
