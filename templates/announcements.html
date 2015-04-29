@@ -63,6 +63,12 @@
 		return {'pinned':pinnedList, 'notPinned':restList}
 	}
 
+	/*
+	Displays announcements in left column with the 
+		correct format
+	Params: None
+	Return: None, but modifies web page
+	*/
 	getAnnouncements = function(){
 		var total = announcements.length+pinnedAnnouncements.length,
 			pinnedAC = $('#annouceContainerPinned'),
@@ -211,6 +217,17 @@
 	}
 
 
+	/*
+	Creates a new announcement. If announcement 
+		is not a preview, then it adds the 
+		announcement to the main lists of
+		announcements
+	Params: subject - String, body - string, time - string,
+		pinned - boolean, isPreview - boolean tells if announcement
+		one being viewed as a preview
+	Return: JSON object that represents an announcement, has keys - subject,
+		body, time, pinned
+	*/
 	function makeAnnouncement(subject, body, time, pinned, isPreview){
 		if(!isPreview){
 			createAnnouncement(subject,body,time, pinned);
@@ -218,6 +235,11 @@
 		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
+	/*
+	Makes the space where new announcements are added
+	Params: err - boolean, isPreview - boolean
+	Return: None, but modifies web page
+	*/
 	makeAddNewAnnouncement = function(err, isPreview){
 		var $area = $('#announceArea'),
 			$subject = getNewSubject(),
@@ -318,6 +340,13 @@
 
 	}
 
+	/*
+	Helper function that returns a JQuery object which
+		represents a subject area
+	Params: text - string, if there will populate area with
+		string
+	Return: JQuery Object
+	*/
 	getNewSubject = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
@@ -342,6 +371,14 @@
 		return $row.append($col.append($input));
 	}
 
+
+	/*
+	Helper function that returns a JQuery object which
+		represents a body area
+	Params: text - string, if there will populate area with
+		string
+	Return: JQuery Object
+	*/
 	getNewBody = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
@@ -367,6 +404,13 @@
 		return $row.append($col.append($input));
 	}
 
+	/*
+	Helper function that returns a JQuery object which
+		represents 1 or 2 buttons
+	Params: val1 - Wording on button 1 (left side)
+		val2 - Wording on button 2 (right side)
+	Return: JQuery Object
+	*/
 	getNewButton = function(val1,val2){
 		var $row = $('<div>'),
 			$col = $('<div>'),
@@ -398,6 +442,13 @@
 		return $row.append($col);
 	}
 
+	/*
+	Helper function that returns a JQuery object which
+		represents a checkbox for pinned
+	Params: val - boolean, tells if checkbox should be 
+		checked
+	Return: JQuery Object
+	*/
 	getCheckbox = function(val){
 		var $row = $('<div>').addClass('row'),
 			$col = $('<div>').addClass('col-md-12'),
@@ -423,7 +474,12 @@
 		return $row.append($col.append($label));
 	}
 
-
+	/*
+	Helper function that returns a JQuery object which
+		represents an error
+	Params: err - object with subject and body text in it
+	Return: JQuery Object
+	*/
 	getError = function(err){
 		var $row = $('<div>').addClass('row'),
 			$col = $('<div>').addClass('col-md-12'),
@@ -446,6 +502,12 @@
 		return $row.append($col.append($error));
 	}
 
+	/*
+	Displays an announcement on right side of screen
+	Params: item - JSON announcement object to be displayed,
+		isPreview - boolean
+	Returns: None, but modifies web page
+	*/
 	displayAnnouncement = function(item, isPreview){
 		var $area = $('#announceArea'),
 			subject = item.subject,
@@ -532,6 +594,11 @@
 
 	}
 
+	/*
+	Makes area were announcement are editted
+	Params: None, uses global var
+	Return: None, but modifies web page
+	*/
 	makeEditDisplay = function(){
 		var $area = $('#announceArea'),
 			announcement,
@@ -615,10 +682,17 @@
 
 	}
 
+	//action listener for "New" button in top right
 	$('#newAnnouncement').click(function(){
 		makeAddNewAnnouncement();
 	});
 
+	/*
+	Removes an announcement from screen and appropriate
+		lists
+	Params: index of announcement in full list
+	Return: None, modifies web page
+	*/
 	deleteAnnouncement = function(index){
 		if (index >= pinnedAnnouncements.length){
 			index = index-pinnedAnnouncements.length;
