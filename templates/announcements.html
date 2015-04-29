@@ -194,13 +194,15 @@
 					var x = e.pageX,
 						y = e.pageY,
 						index = parseInt($(this).attr('id')),
-						$div = $('#annouceContainer');
+						$div = $('#annouceContainer'),
+						$divPinned = $('#annouceContainerPinned');
 
 					if (previewAnnouncment){
 						previewAnnouncment = false
 					}
 
 					$div.find('.active').removeClass('active')
+					$divPinned.find('.active').removeClass('active')
 					$(this).addClass('active');
 					viewingAnnouncementIndex = index
 					if (index >= pinnedAnnouncements.length){
@@ -267,6 +269,7 @@
 		}
 
 		$('#annouceContainer').find('.active').removeClass('active');
+		$('#annouceContainerPinned').find('.active').removeClass('active');
 		$area.append($subject).append($body).append($check).append($button);
 
 		$('#addAnnouncement').click(function(){
