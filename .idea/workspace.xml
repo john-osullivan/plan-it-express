@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="399874b9-5c05-42e5-939d-2998300eed1a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/notes.html" afterPath="$PROJECT_DIR$/templates/notes.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plan-it.js" afterPath="$PROJECT_DIR$/plan-it.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/questions.html" afterPath="$PROJECT_DIR$/templates/questions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/todos.html" afterPath="$PROJECT_DIR$/templates/todos.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="plan-it-express.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +28,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.50641847">
       <split-first>
         <leaf>
-          <file leaf-file-name="home.html" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="home.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/templates/home.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.33294663" vertical-offset="1923" max-vertical-offset="3009">
-                  <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+                <state vertical-scroll-proportion="30.6" vertical-offset="2023" max-vertical-offset="3009">
+                  <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
                   <folding>
                     <element signature="n#style#0;n#form#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#table#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
@@ -99,11 +95,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="plan-it.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="plan-it.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/plan-it.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-11.724138" vertical-offset="1224" max-vertical-offset="6222">
-                  <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+                <state vertical-scroll-proportion="0.4912689" vertical-offset="1142" max-vertical-offset="6222">
+                  <caret line="92" column="58" selection-start-line="92" selection-start-column="58" selection-end-line="92" selection-end-column="58" />
                   <folding />
                 </state>
               </provider>
@@ -187,8 +183,8 @@
         <option value="$PROJECT_DIR$/templates/todos.html" />
         <option value="$PROJECT_DIR$/templates/questions.html" />
         <option value="$PROJECT_DIR$/templates/notes.html" />
-        <option value="$PROJECT_DIR$/plan-it.js" />
         <option value="$PROJECT_DIR$/templates/home.html" />
+        <option value="$PROJECT_DIR$/plan-it.js" />
       </list>
     </option>
   </component>
@@ -980,24 +976,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plan-it.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.724138" vertical-offset="1224" max-vertical-offset="6222">
-          <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33294663" vertical-offset="1923" max-vertical-offset="3009">
-          <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+        <state vertical-scroll-proportion="30.6" vertical-offset="2023" max-vertical-offset="3009">
+          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#form#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#div#0;n#div#1;n#div#2;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plan-it.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4912689" vertical-offset="1142" max-vertical-offset="6222">
+          <caret line="92" column="58" selection-start-line="92" selection-start-column="58" selection-end-line="92" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>

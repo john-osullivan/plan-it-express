@@ -89,8 +89,8 @@ var loadHome = function(){
     var home = nunjucks.render('home.html', {
         notes:notes,
         questions:questions,
-        todos:todos,
-        announcements:allAnnouncements
+        todos:getTodos(),
+        announcements:_sortAnnouncements(allAnnouncements)
     });
     loadPage(home);
 };
