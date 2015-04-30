@@ -97,7 +97,7 @@ var createAnnouncement = function(subject, body, time, pinned){
     var announcement = _makeAnnouncement(subject,body,time,pinned);
 
     allAnnouncements.unshift(announcement)
-    console.log(announcement)
+    allAnnouncements = _sortAnnouncements(allAnnouncements)
     return announcement
 }
 
@@ -108,19 +108,23 @@ var _deleteAnnouncement = function(elt){
 }
 
 var _sortAnnouncements = function(elts){
-        var pinnedList = [],
-            restList = [];
+    var pinnedList = [],
+        restList = [];
 
 
-        pinnedList = _.filter(elts, function(elt){
-            return (elt.pinned)
-        });
+    pinnedList = _.filter(elts, function(elt){
+        return (elt.pinned)
+    });
 
-        restList = _.filter(elts, function(elt){
-            return (!elt.pinned)
-        });
-        return pinnedList.concat(restList)
-    }
+    restList = _.filter(elts, function(elt){
+        return (!elt.pinned)
+    });
+    return pinnedList.concat(restList)
+}
+
+var selectAnnouncement = function(announcement){
+    activeAnnouncement = announcement
+}
 
 
 //===========================================

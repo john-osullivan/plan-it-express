@@ -50,11 +50,15 @@
         cell2.innerHTML = "          " + currentTodo["title"];
     }
 
+    var allAnnouncements = _sortAnnouncements(allAnnouncements)
+
     for (var i in allAnnouncements){
         var table = document.getElementById("announcementsTable");
         var currentAnnouncement = allAnnouncements[i];
 
         var row = table.insertRow(-1);
+
+        row.id = i;
 
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
@@ -62,12 +66,23 @@
 
         cell1.innerHTML = currentAnnouncement["time"];
         cell2.innerHTML = currentAnnouncement["subject"];
-        cell3.innerHTML = "PIN";
+        if (currentAnnouncement["pinned"]){
+            cell3.innerHTML = "PIN";    
+        }
+
+        row.addEventListener('click',function(){
+            var index = parseInt($(this).attr('id')),
+                announcement = allAnnouncements[index];
+
+            selectAnnouncement(announcement);
+            loadAnnouncements();
+        });
+        
     }
 
     for (var i in questions){
         console.log("Christian3");
-        console.log(allAnnouncements[i]);
+        //console.log(allAnnouncements[i]);
 
         var table = document.getElementById("questionsTable");
         var currentQuestions = questions[i];
@@ -99,11 +114,11 @@
     $("table td:first-child").each(function() {
         $(this).prepend('<input type="checkbox" class="basic-kpi-row"/>');
     });
-
+    /*
     $('#announcementsTable tr').click(function() {
         loadAnnouncements();
     });
-
+    */
     $('#questionsTable tr').click(function() {
         loadQuestions();
     });
