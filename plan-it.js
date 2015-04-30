@@ -74,13 +74,6 @@ var loadHome = function(){
     var home = nunjucks.render('home.html');
     console.log(todos);
     loadPage(home);
-    updateColorbar('home');
-};
-
-var dataSync = function(){
-    // This function sets the .csv stores related to questions, notes, announcements,
-    // and to-dos to be equal to the current values of those objects in memory.
-
 };
 
 
@@ -98,7 +91,6 @@ var loadAnnouncements = function(){
     });
 
     loadPage(announcements);
-    updateColorbar('announcements');
 };
 
 var createAnnouncement = function(subject, body, time, pinned){
@@ -149,7 +141,7 @@ var createQuestion = function(subject, asker, date, text){
 	};
 	questions.push(newQuestion);
 	return newQuestion;
-}
+};
 
 var countUnansweredQuestions = function(){
 	var result = 0;
@@ -159,13 +151,13 @@ var countUnansweredQuestions = function(){
 		}
 	}
 	return result;
-}
+};
 
 var selectQuestion = function(questionID){
 	var selectedQuestion = _.find(questions, function(question){return question.id == questionID});
 	activeQuestion = selectedQuestion;
 	loadQuestions();
-}
+};
 
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {
@@ -174,11 +166,13 @@ var loadQuestions = function(){
 		isActiveQuestion:isActiveQuestion
 	});
     loadPage(questionsTemplate);
-    updateColorbar('questions');
 };
 //===========================================
 
 //============== TODOS ====================
+
+var todosOpen = true;
+var todonesOpen = false;
 
 var getOneTodo = function(todoID){
     return _.find(todos, function(todo){ return todo.id == todoID });
@@ -190,6 +184,14 @@ var getTodos = function(){
 
 var getTodones = function() {
     return _.filter(todos, function(todo){ return todo.done === true });
+};
+
+var toggleTodosOpen = function(){
+    todosOpen = todosOpen === false;
+};
+
+var toggleTodonesOpen = function(){
+    todonesOpen = todonesOpen === false;
 };
 
 var toggleTodoDone = function(todoID){
@@ -244,28 +246,77 @@ var loadTodos = function(){
         todones: pageTodones,
         selectTodo: selectTodo,
         deleteTodo: deleteTodo,
-        toggleTodoDone: toggleTodoDone
+        toggleTodoDone: toggleTodoDone,
+        todosOpen: todosOpen,
+        todonesOpen: todonesOpen
     });
     loadPage(todosPage);
-    updateColorbar('todos');
 };
 
 //============== NOTES ====================
+
+var editingNote = false;
+var creatingNote = false;
+
+var activateRichText = function(){
+    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.84);
+    tinymce.init({
+        selector: "textarea",
+        width:maxWidth,
+        height:300,
+        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
+                 "lists media paste spellchecker tabfocus table textcolor"]
+    });
+};
 
 var isActiveNote = function(noteID){
         return noteID === activeNote.id;
     };
 
-var createNote = function(title, text){
+var createNote = function(){
+    creatingNote = true;
     var newID = notes.length;
-    var newNote= {'id': newID, 'title': title, "text":text};
+    var newNote= {'id': newID,'title':'','text':''};
     notes.push(newNote);
-    return newNote;
+    activeNote = newNote;
+    loadNotes();
+    activateRichText();
+    console.log("notes: ",notes);
 };
 
 var selectNote = function(noteID){
-    var thisNote = _.find(notes, function(note){return note.id == noteID});
-    activeNote = thisNote;
+    activeNote = _.find(notes, function(note){return note.id == noteID});
+    loadNotes();
+};
+
+var editNote = function(){
+    // Turns on the editable UI for the active note.
+    editingNote = true;
+    loadNotes();
+    activateRichText();
+};
+
+var saveNote = function(){
+    // Saves the active note's content to be that contained
+    // in the note detail text.  It then turns off the editable UI.
+    editingNote = false;
+    creatingNote = false;
+    var newTitle = $('.noteTitleText').val();
+    console.log("newTitle: ",newTitle);
+    tinymce.triggerSave();
+    var newContent = $('.noteBodyText').val();
+    console.log("newContent: ",newContent);
+    activeNote.title = newTitle;
+    activeNote.text = newContent;
+    selectNote(activeNote.id);
+};
+
+var deleteNote = function(noteID){
+    // Deletes the active note and sets the active note to the first one
+    // in the list of remaining notes.
+    var activeID = activeNote.id;
+    notes = _.filter(notes, function(note){return note.id != activeID});
+    activeNote = notes[0];
     loadNotes();
 };
 
@@ -273,9 +324,10 @@ var loadNotes = function(){
     var notesTemplate = nunjucks.render('notes.html', {
         notes:notes,
         isActiveNote:isActiveNote,
-        activeNote:activeNote
+        activeNote:activeNote,
+        editingNote:editingNote,
+        creatingNote:creatingNote,
     });
     loadPage(notesTemplate);
-    updateColorbar('notes');
 };
 

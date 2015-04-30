@@ -51,14 +51,14 @@
             <div class="panel-heading todoHeading" role="tab" id="todoHeading">
 
                 <a data-toggle="collapse" data-parent="#todos-accordion" href="#todosCollapsed"
-                   aria-expanded="true" aria-controls="todosCollapsed">
+                   aria-expanded="true" aria-controls="todosCollapsed" onclick="toggleTodosOpen()">
                     <h4 class="panel-title">
                         To-Dos
                     </h4>
                 </a>
 
             </div>
-            <div id="todosCollapsed" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="todoHeading">
+            <div id="todosCollapsed" class="panel-collapse collapse {% if todosOpen %} in {% endif %}" role="tabpanel" aria-labelledby="todoHeading">
                 <div class="list-group todoHeading">
                     {% for todo in todos %}
 
@@ -66,9 +66,7 @@
                     <a class="list-group-item active" onclick="selectTodo({{ todo.id }})">
 
                         <span class="pull-right">
-                            <button class="btn btn-sm btn-primary" name="todo-{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
-                                Complete
-                            </button>
+                            <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
                         </span>
                         <!--<input type="checkbox" name="todo-{{ todo.id }}" class="pull-right form-control" onclick="toggleTodoDone({{ todo.id }})">-->
 
@@ -80,9 +78,7 @@
                     <a class="list-group-item" onclick="selectTodo({{ todo.id }})">
 
                         <span class="pull-right">
-                            <button class="btn btn-sm btn-primary" name="todo-{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
-                                Complete
-                            </button>
+                            <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
                         </span>
 
 
@@ -101,13 +97,13 @@
             <div class="panel-heading todoHeading" role="tab" id="todonesHeading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#todos-accordion" href="#todonesCollapsed" class="collapsed"
-                       aria-expanded="false" aria-controls="todonesCollapsed">
+                       aria-expanded="false" aria-controls="todonesCollapsed" onclick="toggleTodonesOpen()">
                         To-Dones
                     </a>
                 </h4>
             </div>
 
-            <div id="todonesCollapsed" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="todonesHeading">
+            <div id="todonesCollapsed" class="panel-collapse collapse {% if todonesOpen %} in {% endif %}" role="tabpanel" aria-labelledby="todonesHeading">
                 <div class="list-group todoHeading ">
 
                     {% for todone in todones %}
@@ -115,9 +111,7 @@
                     {% if isActiveTodo(todone) %}
                     <a class="list-group-item active clearfix" onclick="selectTodo({{ todone.id }})">
                         <span class="pull-right">
-                            <button class="btn btn-sm btn-warning" name="todo-{{ todo.id }}" onclick="toggleTodoDone({{ todone.id }})">
-                                Incomplete
-                            </button>
+                            <input type="checkbox" name="{{ todone.title }}" value="{{ todone.id }}" onclick="toggleTodoDone({{ todone.id }})" checked>
                         </span>
 
                         <h4 class="list-group-item-heading">{{ todone.title }}</h4>
@@ -126,9 +120,7 @@
                     {% else %}
                     <a class="list-group-item clearfix" onclick="selectTodo({{ todone.id }})">
                         <span class="pull-right">
-                            <button class="btn btn-sm btn-warning" name="todo-{{ todo.id }}" onclick="toggleTodoDone({{ todone.id }})">
-                                Incomplete
-                            </button>
+                            <input type="checkbox" name="{{ todone.title }}" value="{{ todone.id }}" onclick="toggleTodoDone({{ todone.id }})" checked>
                         </span>
                         <h4 class="list-group-item-heading">{{ todone.title }}</h4>
                         <p class="list-group-item-text">{{ todone.deadline }}</p>

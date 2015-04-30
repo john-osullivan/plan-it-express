@@ -11,7 +11,7 @@
     <div class="col-md-12 page-header">
         <h1>
             <div class="btn-group pull-right" role="group">
-                <a href="#" class="btn btn-primary">Create New Note</a>
+                <a href="#" class="btn btn-primary" onclick="createNote()">Create New Note</a>
             </div>
             Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
 
@@ -19,6 +19,21 @@
 </div>
 <!-- This part makes all the page content. -->
 <div class="row">
+    {% if notes.length == 0 %}
+    <p class="lead">Use this page to keep track of whatever you need to remember about your event.</p>
+    <p>You can make as many notes as you want, that way everyone on the team can stay on
+    the same page.  Notes can hold any combination of:</p>
+    <ul>
+        <li>Text</li>
+        <li>Datetimes</li>
+        <li>Emoticons</li>
+        <li>Lists</li>
+        <li>Tables</li>
+        <li>Images</li>
+        <li>HTML5 media objects</li>
+    </ul>
+    <p>Enjoy!</p>
+    {% else %}
 
     <!-- This column is for the list view of all notes. -->
     <div class="col-md-4">
@@ -46,17 +61,54 @@
     <div class="col-md-8">
         <div class="panel panel-default noteDetail">
             <div class="panel-heading noteHeading">
-                <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-default">Edit</a>
-                    <a href="#" class="btn btn-default">Delete</a>
-                </div>
-                <h2 id="note-detail-heading">{{ activeNote.title}}</h2>
+
+                <span class="pull-right">
+                    {% if editingNote %}
+                        <a href="#" onclick="saveNote()" class="btn btn-default">Update</a>
+                    {% elif creatingNote %}
+                        <a href="#" onclick="saveNote()" class="btn btn-default">Save</a>
+                    {% else %}
+                        <a href="#" onclick="editNote()" class="btn btn-default">Edit</a>
+                    {% endif %}
+
+                    <a href="#" onclick="deleteNote({{activeNote.id}})" class="btn btn-default">Delete</a>
+                </span>
+
+
+                {% if editingNote %}
+                <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control noteTitleText" value="{{activeNote.title}}">
+                </div></div>
+                {% elif creatingNote %}
+                <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control noteTitleText" placeholder="Your note title goes here...">
+                </div></div>
+                {% else %}
+                <h2 id="note-detail-heading">
+                    {{ activeNote.title}}
+                </h2>
+                {% endif %}
+
+
+
             </div>
             <div class="panel-body" id="note-detail-text">
+                {% if editingNote %}
+                <textarea class="rich-text noteBodyText">
+                    {{ activeNote.text }}
+                </textarea>
+                {% elif creatingNote %}
+                <textarea class="rich-text noteBodyText">
+                    {{ activeNote.text }}
+                </textarea>
+                {% else %}
                 {{ activeNote.text }}
+                {% endif %}
+
             </div>
         </div>
     </div>
+    {% endif %}
 
 </div>
 
