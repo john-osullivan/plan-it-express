@@ -41,48 +41,62 @@ var todos = [{
 var activeTodo = todos[0];
 
 var questions = [{
-        id:0,
-        isAnswered:false,
-        subject:"Lug nuts",
-        asker:"Bender",
-        date:"04/15/2015",
-        /*text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."*/
-        text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions."
-		
-	},{
-		id:1,
-        isAnswered:true,
-        subject:"Location?",
-        asker:"Brochacho",
-        date:"04/01/2015",
-        text:"Where's the event at?"
-	}];
+    id:0,
+    isAnswered:false,
+    subject:"Lug nuts",
+    asker:"Bender",
+    date:"04/15/2015",
+    /*text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."*/
+    text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions."
+
+},{
+    id:1,
+    isAnswered:true,
+    subject:"Location?",
+    asker:"Brochacho",
+    date:"04/01/2015",
+    text:"Where's the event at?"
+}];
 var activeQuestion = questions[0];
 
-var allAnnouncements = [_makeAnnouncement("Testing this Page", "Hello everyone,\nThis is a test\nI need to know", "4/10/15",false),
-    _makeAnnouncement("Moving Space", "Hello,\nWe will be moving to a new space", "4/9/15", false),
-    _makeAnnouncement("Testing pinning", "This announcement should be pinned", "4/14/15", true)
-    ];
+var allAnnouncements = [{
+    id:0,
+    subject:"Testing this Page",
+    body:"Hello everyone,\nThis is a test\nI need to know",
+    time:"4/10/15",
+    pinned:false
+}, {
+    id:1,
+    subject:"Moving Space",
+    body:"Hello,\nWe will be moving to a new space",
+    time:"4/9/15",
+    pinned:false
+},{
+    id:2,
+    subject:"Testing pinning",
+    body:"This announcement should be pinned",
+    time:"4/14/15",
+    pinned:true
+}];
 
-var activeAnnouncement = false;
+var activeAnnouncement = allAnnouncements[0];
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
 };
 
 var loadHome = function(){
-    var home = nunjucks.render('home.html');
-    console.log(todos);
+    var home = nunjucks.render('home.html', {
+        notes:notes,
+        questions:questions,
+        todos:todos,
+        announcements:allAnnouncements
+    });
     loadPage(home);
 };
 
 
 //================ ANNOUNCMENTS =============
-
-
-function _makeAnnouncement(subject, body, time, pinned){
-        return {"subject":subject, "body":body, "time":time, "pinned":pinned}
-    }
 
 var loadAnnouncements = function(){
     var announcements = nunjucks.render('announcements.html', {
@@ -94,8 +108,14 @@ var loadAnnouncements = function(){
 };
 
 var createAnnouncement = function(subject, body, time, pinned){
-    var announcement = _makeAnnouncement(subject,body,time,pinned);
-
+    var newID = allAnnouncements.length;
+    var announcement = {
+        id:newID,
+        subject:subject,
+        body:body,
+        time:time,
+        pinned:pinned
+    };
     allAnnouncements.unshift(announcement)
     allAnnouncements = _sortAnnouncements(allAnnouncements)
     return announcement
@@ -122,53 +142,54 @@ var _sortAnnouncements = function(elts){
     return pinnedList.concat(restList)
 }
 
-var selectAnnouncement = function(announcement){
-    activeAnnouncement = announcement
-}
+var selectAnnouncement = function(announcementID){
+    activeAnnouncement = _.find(allAnnouncements, function(announcement) {return announcement.id == announcementID});
+    loadAnnouncements();
+};
 
 
 //===========================================
 
 //================ QUESTIONS ================
 var isActiveQuestion = function(questionID){
-	return questionID === activeQuestion.id;
+    return questionID === activeQuestion.id;
 }
 
 var createQuestion = function(subject, asker, date, text){
-	var newQuestion = {
-		'id':questions.length,
-		'isAnswered':false,
-		'subject':subject,
-		'asker':asker,
-		'date':date,
-		'text':text
-	};
-	questions.push(newQuestion);
-	return newQuestion;
+    var newQuestion = {
+        'id':questions.length,
+        'isAnswered':false,
+        'subject':subject,
+        'asker':asker,
+        'date':date,
+        'text':text
+    };
+    questions.push(newQuestion);
+    return newQuestion;
 };
 
 var countUnansweredQuestions = function(){
-	var result = 0;
-	for (var i=0; i<questions.length; i++){
-		if (questions[i].isActiveNote){
-			result++;
-		}
-	}
-	return result;
+    var result = 0;
+    for (var i=0; i<questions.length; i++){
+        if (questions[i].isActiveNote){
+            result++;
+        }
+    }
+    return result;
 };
 
 var selectQuestion = function(questionID){
-	var selectedQuestion = _.find(questions, function(question){return question.id == questionID});
-	activeQuestion = selectedQuestion;
-	loadQuestions();
+    var selectedQuestion = _.find(questions, function(question){return question.id == questionID});
+    activeQuestion = selectedQuestion;
+    loadQuestions();
 };
 
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {
-		questions:questions,
-		activeQuestion:activeQuestion,
-		isActiveQuestion:isActiveQuestion
-	});
+        questions:questions,
+        activeQuestion:activeQuestion,
+        isActiveQuestion:isActiveQuestion
+    });
     loadPage(questionsTemplate);
 };
 //===========================================
@@ -265,19 +286,19 @@ var editingNote = false;
 var creatingNote = false;
 
 var activateRichText = function(){
-    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.84);
+    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
     tinymce.init({
         selector: "textarea",
         width:maxWidth,
         height:300,
         plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
-                 "lists media paste spellchecker tabfocus table textcolor"]
+            "lists media paste spellchecker tabfocus table textcolor"]
     });
 };
 
 var isActiveNote = function(noteID){
-        return noteID === activeNote.id;
-    };
+    return noteID === activeNote.id;
+};
 
 var createNote = function(){
     creatingNote = true;
@@ -332,7 +353,7 @@ var loadNotes = function(){
         isActiveNote:isActiveNote,
         activeNote:activeNote,
         editingNote:editingNote,
-        creatingNote:creatingNote,
+        creatingNote:creatingNote
     });
     loadPage(notesTemplate);
 };

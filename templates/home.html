@@ -18,22 +18,6 @@
         var details = "";
         var date = "";
         createTodo(subject, details, date);
-        /*var text = document.getElementById("toDoText").value;
-        var table = document.getElementById("toDoTable");
-        var row = table.insertRow(0);
-
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-
-        console.log(text);
-
-        cell1.innerHTML = text;
-        cell2.innerHTML = "";
-        cell3.innerHTML = "";
-        cell4.innerHTML = "";
-        document.getElementById("toDoForm").style.display = "none";*/
         return false;
     });
 
@@ -50,39 +34,8 @@
         cell2.innerHTML = "          " + currentTodo["title"];
     }
 
-    var allAnnouncements = _sortAnnouncements(allAnnouncements)
-
-    for (var i in allAnnouncements){
-        var table = document.getElementById("announcementsTable");
-        var currentAnnouncement = allAnnouncements[i];
-
-        var row = table.insertRow(-1);
-
-        row.id = i;
-
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-
-        cell1.innerHTML = currentAnnouncement["time"];
-        cell2.innerHTML = currentAnnouncement["subject"];
-        if (currentAnnouncement["pinned"]){
-            cell3.innerHTML = "PIN";    
-        }
-
-        row.addEventListener('click',function(){
-            var index = parseInt($(this).attr('id')),
-                announcement = allAnnouncements[index];
-
-            selectAnnouncement(announcement);
-            loadAnnouncements();
-        });
-        
-    }
 
     for (var i in questions){
-        console.log("Christian3");
-        //console.log(allAnnouncements[i]);
 
         var table = document.getElementById("questionsTable");
         var currentQuestions = questions[i];
@@ -100,32 +53,14 @@
         cell4.innerHTML = "STAR";
     }
 
-    for (var i in notes){
-        var table = document.getElementById("notesTable");
-        var currentNote = notes[i];
-
-        var row = table.insertRow(-1);
-
-        var cell1 = row.insertCell(0);
-
-        cell1.innerHTML = currentNote["title"];
-    }
-
     $("table td:first-child").each(function() {
         $(this).prepend('<input type="checkbox" class="basic-kpi-row"/>');
     });
-    /*
-    $('#announcementsTable tr').click(function() {
-        loadAnnouncements();
-    });
-    */
+
     $('#questionsTable tr').click(function() {
         loadQuestions();
     });
 
-    $('#notesTable tr').click(function() {
-        loadNotes();
-    });
 
     $('#toDoTable tr').click(function() {
         loadTodos();
@@ -136,6 +71,7 @@
     });
 
 </script>
+
 <div class="row">
     <div class="col-md-12 page-header">
         <h1>
@@ -151,7 +87,7 @@
             <!-- Default panel contents -->
             <div class="panel-heading home-heading todoHeading"><div class="btn-group pull-right" role="group">
                 <div id = "createToDoButton" class="btn btn-primary btn-sm">Quick To-Do</div>
-            </div><h5>To-Do</53></div>
+            </div><h5>To-Do</h5></div>
 
             <!-- Table -->
             <form id="toDoForm" style="display:none;"><br>
@@ -190,15 +126,11 @@
 
             <!-- Table -->
             <table id="notesTable" class="table table-hover" style="width:100%">
-                <!-- <tr>
-                    <td>Food</td>
-                </tr>
+                {% for note in notes %}
                 <tr>
-                    <td>Attendees</td>
+                    <td onclick="selectNote({{note.id}})">{{ note.title }}</td>
                 </tr>
-                <tr>
-                    <td>Organizers</td>
-                </tr> -->
+                {% endfor %}
             </table>
         </div>
     </div>
@@ -212,6 +144,21 @@
 
             <!-- Table -->
             <table id="announcementsTable" class="table table-hover" style="width:100%">
+                {% for announcement in announcements %}
+                <tr onclick="selectAnnouncement({{announcement.id}})">
+                    <td>
+                        {{ announcement.time }}
+                    </td>
+                    <td>
+                        {{ announcement.subject }}
+                    </td>
+                    <td>
+                        {% if announcement.pinned %}
+                        <span class="glyphicon glyphicon-pushpin"></span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
