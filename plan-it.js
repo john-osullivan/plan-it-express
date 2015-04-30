@@ -192,10 +192,12 @@ var getTodones = function() {
 
 var toggleTodosOpen = function(){
     todosOpen = todosOpen === false;
+    console.log("Just set todosOpen to :",todosOpen);
 };
 
 var toggleTodonesOpen = function(){
     todonesOpen = todonesOpen === false;
+    console.log("Just set todonesOpen to :",todonesOpen);
 };
 
 var toggleTodoDone = function(todoID){
