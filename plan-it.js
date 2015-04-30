@@ -79,7 +79,7 @@ var allAnnouncements = [{
     pinned:true
 }];
 
-var activeAnnouncement = allAnnouncements[0];
+var activeAnnouncement = false;
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
