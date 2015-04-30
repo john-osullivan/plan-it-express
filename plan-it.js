@@ -107,8 +107,8 @@ var loadAnnouncements = function(){
     loadPage(announcements);
 };
 
-var createAnnouncement = function(subject, body, time, pinned){
-    var newID = allAnnouncements.length;
+var createAnnouncement = function(id, subject, body, time, pinned){
+    var newID = id;
     var announcement = {
         id:newID,
         subject:subject,

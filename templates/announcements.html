@@ -231,10 +231,11 @@
 		body, time, pinned
 	*/
 	function makeAnnouncement(subject, body, time, pinned, isPreview){
+		var id = Date.now(); 
 		if(!isPreview){
-			createAnnouncement(subject,body,time, pinned);
+			createAnnouncement(id,subject,body,time, pinned);
 		}
-		return {"subject":subject, "body":body, "time":time, "pinned":pinned}
+		return {"id":id, "subject":subject, "body":body, "time":time, "pinned":pinned}
 	}
 
 	/*
