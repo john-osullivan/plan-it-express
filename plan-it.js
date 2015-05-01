@@ -287,9 +287,11 @@ var saveToDo = function(){
     var newTitle = $('.todoTitleText').val();
     tinymce.triggerSave();
     var newContent = $('.todoBodyDescription').val();
+    var newDeadline = $('.todoBodyDeadline').val();
     console.log(newContent);
     activeTodo.title = newTitle;
     activeTodo.description = newContent;
+    activeTodo.deadline = newDeadline;
     selectTodo(activeTodo.id);
 };
 
