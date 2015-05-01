@@ -143,17 +143,7 @@
             </div> -->
             <!-- <h2 id="todo-detail-heading">{{ activeTodo.title}}</h2> -->
 
-            <span class="pull-right">
-                    {% if editingToDo %}
-                        <a href="#" onclick="saveToDo()" class="btn btn-default">Update</a>
-                    {% elif creatingToDo %}
-                        <a href="#" onclick="saveToDo()" class="btn btn-default">Save</a>
-                    {% else %}
-                        <a href="#" onclick="editToDo()" class="btn btn-default">Edit</a>
-                    {% endif %}
-
-                    <a href="#" onclick="deleteTodo({{activeTodo.id}})" class="btn btn-default">Delete</a>
-            </span>            
+                       
 
             {% if editingToDo %}
                 <div class="row"><div class="col-md-8">
@@ -175,11 +165,11 @@
 
 
             {% if editingToDo %}
-            <textarea class="todoBodyDescription" style="width: 100%;">
+            <textarea class="rich-text todoBodyDescription" style="width: 100%;">
                 {{ activeTodo.description }}
             </textarea>
             {% elif creatingToDo %}
-            <textarea class="todoBodyDescription" style="width: 100%;">
+            <textarea class="rich-text todoBodyDescription" style="width: 100%;">
                 {{ activeTodo.description }}
             </textarea>
             {% else %}
@@ -199,7 +189,21 @@
                 <!-- <div class="btn-group"><div class="btn btn-primary">Edit</div></div> -->
             <!-- </form> -->
         </div>
+
+
+
     </div>
+    <span>
+                    {% if editingToDo %}
+                        <a href="#" onclick="saveToDo()" class="btn btn-primary">Update</a>
+                    {% elif creatingToDo %}
+                        <a href="#" onclick="saveToDo()" class="btn btn-primary">Save</a>
+                    {% else %}
+                        <a href="#" onclick="editToDo()" class="btn btn-primary pull-left">Edit</a>
+                    {% endif %}
+
+                    <a href="#" onclick="deleteTodo({{activeTodo.id}})" class="btn btn-primary pull-right">Delete</a>
+    </span> 
 </div>
 </div>
 

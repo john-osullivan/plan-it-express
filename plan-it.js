@@ -279,6 +279,17 @@ var deleteTodo = function(todoID){
     loadTodos();
 };
 
+var activateRichText = function(){
+    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
+    tinymce.init({
+        selector: "textarea",
+        width:maxWidth,
+        height:300,
+        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
+            "lists media paste spellchecker tabfocus table textcolor"]
+    });
+};
+
 var createTodo = function(subject, details, date){
     creatingToDo = true;
     var id = todos.length;
@@ -292,6 +303,7 @@ var createTodo = function(subject, details, date){
     todos.push(newTodo);
     activeTodo = newTodo;
     loadTodos();
+    activateRichText();
 };
 
 var isActiveTodo = function(todo){
