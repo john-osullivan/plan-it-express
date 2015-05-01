@@ -114,7 +114,6 @@
 					counter = 0,
 					pinned = false,
 					index = 0,
-					$pin = $('<span>').addClass('glyphicon glyphicon-pushpin'),
 					$wrapperHeading = $('<h4>').addClass("list-group-item-heading"),
 					$wrapperBody = $('<div>').addClass('list-group-item-body'),
 					$wrapperTime = $('<div>').addClass('pull-right'),
@@ -140,18 +139,7 @@
 				$inside1.addClass('col-md-7');
 				$inside2.addClass('col-md-5');
 
-				$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));	
-
-				if (!pinned || true){
-					var i
-				}
-				else{
-					//$pin.css('float','right')
-					//$pin.css('color','blue')
-					//$wrapperTime.append($pin);
-					$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").append(""+a.time));
-				}
-
+				$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
 				$inside2.append($wrapperTime);
 
 				$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
@@ -203,6 +191,9 @@
 
 					if (previewAnnouncment){
 						previewAnnouncment = false
+					}
+					else{
+						
 					}
 
 					$div.find('.active').removeClass('active')
@@ -298,11 +289,9 @@
 
 			if ($pinned.is(':checked')){
 				announcement = makeAnnouncement(subject,body,time,true,true);
-				//pinnedAnnouncements.unshift(announcement);
 			}
 			else{
 				announcement  = makeAnnouncement(subject,body,time,false,true);
-				//announcements.unshift(announcement);
 			}
 
 			previewAnnouncment = announcement
