@@ -174,7 +174,7 @@
 					$container.addClass('active');
 					viewingAnnouncementIndex = i;
 					displayAnnouncement(a);
-					//unSelectAnnouncement();
+					unSelectAnnouncement();
 				}
 				else{
 					$container.removeClass('active');
@@ -192,9 +192,6 @@
 					if (previewAnnouncment){
 						previewAnnouncment = false
 					}
-					else{
-						
-					}
 
 					$div.find('.active').removeClass('active')
 					$divPinned.find('.active').removeClass('active')
@@ -206,9 +203,7 @@
 					else{
 						displayAnnouncement(pinnedAnnouncements[index]);	
 					}
-					
 				});
-
 			}
 		}
 	}
@@ -725,10 +720,10 @@
 	
 	pinnedAnnouncements = bothLists.pinned;
 	announcements = bothLists.notPinned;
-	getAnnouncements();
 	if (!activeAnnouncement){
 		makeAddNewAnnouncement();
 	}
+	getAnnouncements();
 	
 	
 
