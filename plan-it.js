@@ -17,25 +17,25 @@ var todos = [{
     id: 0,
     title: "Go Grocery Shopping",
     description: "Make sure you have all the food you'll need!",
-    deadline: "2015-04-20",
+    deadline: "4/20/2015",
     done: false
 }, {
     id: 1,
     title: "Confirm Caterer",
     description: "Get the food dude to say he'll be there.",
-    deadline: "2015-04-16",
+    deadline: "4/16/2015",
     done: false
 }, {
     id: 2,
     title: "Registration Form",
     description: "Put up a link to the updated registration form.",
-    deadline: "2015-04-15",
+    deadline: "4/15/2015",
     done: false
 }, {
     id: 3,
     title: "Update time",
     description: "Let everyone know you'll be starting an hour late.",
-    deadline: "2015-04-14",
+    deadline: "4/14/2015",
     done: true
 }];
 var activeTodo = todos[0];
@@ -369,6 +369,16 @@ var cancelTodo = function(){
     creatingToDo = false;
     activeTodo = todos[0];
     loadTodos();
+}
+
+var numRemainingTodos = function(){
+    var numRemaining = 0;
+    for (var i in todos){
+        if (!todos[i].done){
+            numRemaining++;
+        }
+    }
+    return numRemaining;
 }
 
 //============== NOTES ====================

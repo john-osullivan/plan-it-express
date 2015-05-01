@@ -8,7 +8,7 @@
 {{ menu('home') }}
 
 <script>
-    nunjucks.configure('templates');
+/*    nunjucks.configure('templates');
 
     for (var i in todos){
         var table = document.getElementById("toDoTable");
@@ -26,7 +26,7 @@
 
     $('#toDoTable tr').click(function() {
         loadTodos();
-    });
+    });*/
 
 </script>
 
@@ -55,6 +55,12 @@
             </div>
             {% endif %}
             <table id="toDoTable" class="table table-hover" style="">
+                {% for todo in todos %}
+                <tr onclick="selectTodo({{ todo.id }})">
+                    <td>{{ todo.deadline }}</td>
+                    <td>{{ todo.title }}</td>
+                </tr>
+                {% endfor %}
             </table>
 
         </div>
