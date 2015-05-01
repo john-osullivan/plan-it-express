@@ -9,7 +9,7 @@
 	<div class="row headerRow">
 		<div class="col-md-12 page-header"><h1>
 			<div class="btn-group pull-right" role="group">
-				<input type="submit" value="New" class="btn btn-primary" id="newAnnouncement">
+				<input type="submit" value="Create Announcement" class="btn btn-primary" id="newAnnouncement">
 			</div>
 			Announcements <small>View and send out messages to all your participants.</small></h1>
 		</div>
@@ -20,6 +20,7 @@
 			<span id="noAnnouce"></span>
 			<div class="panel panel-default" id="pinned">
             	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
+            		<span class="glyphicon glyphicon-pushpin pull-right"></span>
                 	<h4 class="panel-title">
                 		Pinned
                 	</h4>
@@ -27,10 +28,13 @@
 				<div class="list-group announceHeading" id="annouceContainerPinned"></div>
 			</div>
 			<div class="panel panel-default" id="announcements">
-            	<div class="panel-heading announceHeading" role="tab" id="announceHeading"></div>
+            	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
+            	    <h4 class="panel-title">
+                		Recent
+                	</h4>
+                </div>
 				<div class="list-group announceHeading" id="annouceContainer"></div>
 			</div>
-			
 		</div>
 		<div class="col-md-8" id="announceArea">
 		</div>
@@ -40,7 +44,6 @@
 
 	var viewingAnnouncementIndex,
 		previewAnnouncment;
-
 
 	/*
 	Sorts announcements into pinned and not pinned lists by 
@@ -144,8 +147,8 @@
 				}
 				else{
 					//$pin.css('float','right')
-					$pin.css('color','blue')
-					$wrapperTime.append($pin);
+					//$pin.css('color','blue')
+					//$wrapperTime.append($pin);
 					$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").append(""+a.time));
 				}
 
@@ -183,6 +186,7 @@
 					$container.addClass('active');
 					viewingAnnouncementIndex = i;
 					displayAnnouncement(a);
+					//unSelectAnnouncement();
 				}
 				else{
 					$container.removeClass('active');
@@ -247,7 +251,7 @@
 		var $area = $('#announceArea'),
 			$subject = getNewSubject(),
 			$body = getNewBody(),
-			$button = getNewButton("Preview","Add"),
+			$button = getNewButton("Preview","Save"),
 			$check = getCheckbox(),
 			$error;
 
@@ -557,7 +561,7 @@
 
 		$btns = getNewButton("Edit","Delete");
 		if (isPreview){
-			$btns = getNewButton("Add","Cancel")
+			$btns = getNewButton("Save","Cancel")
 		}
 		$editButton = $btns.find('#addAnnouncement');
 		$deleteButton = $btns.find('#addAnnouncement2')
