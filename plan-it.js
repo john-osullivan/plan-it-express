@@ -46,36 +46,39 @@ var questions = [{
     subject:"Lug nuts",
     asker:"Bender",
     date:"04/15/2015",
-    /*text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."*/
-    text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions."
-
+    text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions.",
+	responses:[]
 },{
     id:1,
     isAnswered:true,
     subject:"Location?",
     asker:"Brochacho",
     date:"04/01/2015",
-    text:"Where's the event at?"
+    text:"Where's the event at?",
+	responses:[{
+		responder:"Leela",
+		date:"04/03/2015",
+		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!"
+	},{
+		responder:"Brochacho",
+		date:"04/04/2015",
+		text:"Ok great, thanks!"
+	}]
 }];
 var activeQuestion = questions[0];
 
 var allAnnouncements = [{
-    id:0,
-    subject:"Testing this Page",
-    body:"Hello everyone,\nThis is a test\nI need to know",
-    time:"4/10/15",
-    pinned:false
-}, {
     id:1,
-    subject:"Moving Space",
-    body:"Hello,\nWe will be moving to a new space",
-    time:"4/9/15",
+    subject:"New Time",
+    body:"Hello everyone,\nWe will being moving the start time to 9 AM from 10 AM. This should allow everyone to get out on time.",
+    time:"4/27/15",
     pinned:false
 },{
-    id:2,
-    subject:"Testing pinning",
-    body:"This announcement should be pinned",
-    time:"4/14/15",
+    id:0,
+    subject:"Hello Everyone",
+    body:"We are just starting to use a new system to help us keep you informed. Please visit this page periodically to see announcments" +
+     " and feel free to use the questions page if you have any other questions.",
+    time:"4/25/15",
     pinned:true
 }];
 
@@ -148,6 +151,10 @@ var selectAnnouncement = function(announcementID){
     loadAnnouncements();
 };
 
+var unSelectAnnouncement = function(){
+    activeAnnouncement = false
+}
+
 
 //===========================================
 
@@ -163,7 +170,8 @@ var createQuestion = function(subject, asker, date, text){
         'subject':subject,
         'asker':asker,
         'date':date,
-        'text':text
+        'text':text,
+		'responses':[]
     };
     questions.push(newQuestion);
     return newQuestion;
@@ -185,6 +193,12 @@ var selectQuestion = function(questionID){
     loadQuestions();
 };
 
+var newQuestionResponse = function(responseText, rspndr, responseDate){
+	activeQuestion.responses.push({responder:rspndr, date:responseDate, text:responseText});
+	$("#responseTextArea").val("");
+	loadQuestions();
+};
+
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {
         questions:questions,
@@ -199,6 +213,7 @@ var loadQuestions = function(){
 
 var todosOpen = true;
 var todonesOpen = false;
+
 var quickTodoVisible = false;
 
 var toggleQuickTodo = function(){
@@ -221,6 +236,9 @@ var submitQuickTodo = function(){
     quickTodoVisible = false;
     loadHome();
 };
+
+var editingToDo = false;
+var creatingToDo = false;
 
 var getOneTodo = function(todoID){
     return _.find(todos, function(todo){ return todo.id == todoID });
@@ -255,25 +273,61 @@ var selectTodo = function(todoID){
     loadTodos();
 };
 
+var editToDo = function(){
+    // Turns on the editable UI for the active note.
+    editingToDo = true;
+    loadTodos();
+};
+
+var saveToDo = function(){
+    // Saves the active note's content to be that contained
+    // in the note detail text.  It then turns off the editable UI.
+    editingToDo = false;
+    creatingToDo = false;
+    var newTitle = $('.todoTitleText').val();
+    tinymce.triggerSave();
+    var newContent = $('.todoBodyDescription').val();
+    console.log(newContent);
+    activeTodo.title = newTitle;
+    activeTodo.description = newContent;
+    selectTodo(activeTodo.id);
+};
+
 var deleteTodo = function(todoID){
 
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
     if (typeof activeTodo === "undefined"){
         activeTodo = todos[0];
     }
+    activeTodo = todos[0];
     loadTodos();
 };
 
+var activateRichText = function(){
+    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
+    tinymce.init({
+        selector: "textarea",
+        width:maxWidth,
+        height:300,
+        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
+            "lists media paste spellchecker tabfocus table textcolor"]
+    });
+};
+
 var createTodo = function(subject, details, date){
+    creatingToDo = true;
     var id = todos.length;
-    todos.push({
+    var newTodo = {
         'id':id,
         'title':subject,
         'description':details,
         'deadline':date,
         'done':false
-    });
+    };
+    todos.push(newTodo);
+    activeTodo = newTodo;
     loadTodos();
+    activateRichText();
 };
 
 var isActiveTodo = function(todo){
@@ -298,7 +352,9 @@ var loadTodos = function(){
         deleteTodo: deleteTodo,
         toggleTodoDone: toggleTodoDone,
         todosOpen: todosOpen,
-        todonesOpen: todonesOpen
+        todonesOpen: todonesOpen,
+        editingToDo:editingToDo,
+        creatingToDo:creatingToDo
     });
     loadPage(todosPage);
 };
