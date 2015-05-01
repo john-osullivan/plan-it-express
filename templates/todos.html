@@ -147,11 +147,11 @@
 
             {% if editingToDo %}
                 <div class="row"><div class="col-md-8">
-                    <input type="text" class="form-control todoTitleText" value="{{activeTodo.title}}">
+                    <input type="text" class="form-control todoTitleText" value="{{activeTodo.title}}" style="width: 100%;">
                 </div></div>
                 {% elif creatingToDo %}
                 <div class="row"><div class="col-md-8">
-                    <input type="text" class="form-control todoTitleText" placeholder="Your to-do title goes here...">
+                    <input type="text" class="form-control todoTitleText" placeholder="Title" style="width: 100%;">
                 </div></div>
                 {% else %}
                 <h2 id="todo-detail-heading">
@@ -165,13 +165,16 @@
 
 
             {% if editingToDo %}
-            <textarea class="rich-text todoBodyDescription" style="width: 100%;">
-                {{ activeTodo.description }}
-            </textarea>
+            <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control todoBodyDescription" value="{{activeTodo.description}}" style="width: 100%;">
+                </div></div>
+                {% elif creatingToDo %}
+                <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;">
+                </div></div>
+            <!-- <textarea class="todoBodyDescription" style="width: 100%;">{{ activeTodo.description }}</textarea>
             {% elif creatingToDo %}
-            <textarea class="rich-text todoBodyDescription" style="width: 100%;">
-                {{ activeTodo.description }}
-            </textarea>
+            <textarea class="todoBodyDescription" style="width: 100%;" placeholder="Details">{{ activeTodo.description }}</textarea> -->
             {% else %}
             {{activeTodo.description}}
             {% endif %}
