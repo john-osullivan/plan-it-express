@@ -68,22 +68,17 @@ var questions = [{
 var activeQuestion = questions[0];
 
 var allAnnouncements = [{
-    id:0,
-    subject:"Testing this Page",
-    body:"Hello everyone,\nThis is a test\nI need to know",
-    time:"4/10/15",
-    pinned:false
-}, {
     id:1,
-    subject:"Moving Space",
-    body:"Hello,\nWe will be moving to a new space",
-    time:"4/9/15",
+    subject:"New Time",
+    body:"Hello everyone,\nWe will being moving the start time to 9 AM from 10 AM. This should allow everyone to get out on time.",
+    time:"4/27/15",
     pinned:false
 },{
-    id:2,
-    subject:"Testing pinning",
-    body:"This announcement should be pinned",
-    time:"4/14/15",
+    id:0,
+    subject:"Hello Everyone",
+    body:"We are just starting to use a new system to help us keep you informed. Please visit this page periodically to see announcments" +
+     " and feel free to use the questions page if you have any other questions.",
+    time:"4/25/15",
     pinned:true
 }];
 
