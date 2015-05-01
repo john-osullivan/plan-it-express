@@ -359,6 +359,16 @@ var loadTodos = function(){
     loadPage(todosPage);
 };
 
+var cancelTodo = function(){
+    editingToDo = false;
+    if (creatingToDo){
+        todos.splice(todos.length - 1, 1);
+    }
+    creatingToDo = false;
+    activeTodo = todos[0];
+    loadTodos();
+}
+
 //============== NOTES ====================
 
 var editingNote = false;
