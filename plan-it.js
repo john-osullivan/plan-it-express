@@ -46,16 +46,24 @@ var questions = [{
     subject:"Lug nuts",
     asker:"Bender",
     date:"04/15/2015",
-    /*text:"This is a much larger example question text which is meant to show that this text is displayed in its entirety."*/
-    text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions."
-
+    text: "I am allergic to lug nuts. Will there be lug nuts at the event? I would like to know in order to take the proper precautions.",
+	responses:[]
 },{
     id:1,
     isAnswered:true,
     subject:"Location?",
     asker:"Brochacho",
     date:"04/01/2015",
-    text:"Where's the event at?"
+    text:"Where's the event at?",
+	responses:[{
+		responder:"Leela",
+		date:"04/03/2015",
+		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!"
+	},{
+		responder:"Brochacho",
+		date:"04/04/2015",
+		text:"Ok great, thanks!"
+	}]
 }];
 var activeQuestion = questions[0];
 
@@ -162,7 +170,8 @@ var createQuestion = function(subject, asker, date, text){
         'subject':subject,
         'asker':asker,
         'date':date,
-        'text':text
+        'text':text,
+		'responses':[]
     };
     questions.push(newQuestion);
     return newQuestion;
@@ -182,6 +191,12 @@ var selectQuestion = function(questionID){
     var selectedQuestion = _.find(questions, function(question){return question.id == questionID});
     activeQuestion = selectedQuestion;
     loadQuestions();
+};
+
+var newQuestionResponse = function(responseText, rspndr, responseDate){
+	activeQuestion.responses.push({responder:rspndr, date:responseDate, text:responseText});
+	$("#responseTextArea").val("");
+	loadQuestions();
 };
 
 var loadQuestions = function(){
