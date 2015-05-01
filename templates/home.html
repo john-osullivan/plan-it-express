@@ -10,17 +10,6 @@
 <script>
     nunjucks.configure('templates');
 
-    
-
-    $("#submitButton").click(function(){
-        var subject = document.getElementById("toDoText").value;
-        /*var subject = document.getElementById("subject").value;*/
-        var details = "";
-        var date = "";
-        createTodo(subject, details, date);
-        loadHome();
-    });
-
     for (var i in todos){
         var table = document.getElementById("toDoTable");
         var currentTodo = todos[i];
@@ -35,39 +24,8 @@
     }
 
 
-    for (var i in questions){
-
-        var table = document.getElementById("questionsTable");
-        var currentQuestions = questions[i];
-
-        var row = table.insertRow(-1);
-
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-
-        cell1.innerHTML = currentQuestions["date"];
-        cell2.innerHTML = currentQuestions["subject"];
-        cell3.innerHTML = currentQuestions["asker"];
-        cell4.innerHTML = "STAR";
-    }
-
-    $("table td:first-child").each(function() {
-        $(this).prepend('<input type="checkbox" class="basic-kpi-row"/>');
-    });
-
-    $('#questionsTable tr').click(function() {
-        loadQuestions();
-    });
-
-
     $('#toDoTable tr').click(function() {
         loadTodos();
-    });
-
-    $('#createToDoButton').click(function(){
-        document.getElementById("toDoForm").style.display = "initial";
     });
 
 </script>
@@ -86,14 +44,16 @@
 
             <!-- Default panel contents -->
             <div class="panel-heading home-heading todoHeading"><div class="btn-group pull-right" role="group">
-                <div id = "createToDoButton" class="btn btn-primary btn-sm">Quick To-Do</div>
+                <div id = "createToDoButton" onclick="toggleQuickTodo()" class="btn btn-primary btn-sm">Quick To-Do</div>
             </div><h5>To-Do</h5></div>
 
             <!-- Table -->
-            <form id="toDoForm" style="display:none;"><br>
-                <center><textarea id="toDoText" type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
-                <center><button type="submitButton">Submit</button></center>
-            </form>
+            {% if quickTodoVisible %}
+            <div id="todoForm"><br>
+                <center><textarea id="todoText" type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
+                <center><button id="submitQuickTodo" onclick="submitQuickTodo()" class="btn btn-primary btn-sm">Submit</button></center>
+            </div>
+            {% endif %}
             <table id="toDoTable" class="table table-hover" style="">
             </table>
 
@@ -107,6 +67,13 @@
 
             <!-- Table -->
             <table id= "questionsTable" class="table table-hover" style="width:100%">
+                {% for question in questions %}
+                <tr onclick="selectQuestion({{ question.id }})">
+                    <td>{{ question.date }}</td>
+                    <td>{{ question.subject }}</td>
+                    <td>{{ question.asker }}</td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>

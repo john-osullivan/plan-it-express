@@ -11,7 +11,7 @@
     <div class="col-md-12 page-header">
         <h1>
             <div class="btn-group pull-right" role="group">
-                <a href="#" class="btn btn-primary" onclick="createNote()">Create New Note</a>
+                <a href="#" class="btn btn-primary" onclick="createNote()">Create Note</a>
             </div>
             Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
 
@@ -22,7 +22,7 @@
     {% if notes.length == 0 %}
     <p class="lead">Use this page to keep track of whatever you need to remember about your event.</p>
     <p>You can make as many notes as you want, that way everyone on the team can stay on
-    the same page.  Notes can hold any combination of:</p>
+        the same page.  Notes can hold any combination of:</p>
     <ul>
         <li>Text</li>
         <li>Datetimes</li>
@@ -69,9 +69,10 @@
                         <a href="#" onclick="saveNote()" class="btn btn-default">Save</a>
                     {% else %}
                         <a href="#" onclick="editNote()" class="btn btn-default">Edit</a>
+                        <a href="#" onclick="deleteNote({{activeNote.id}})" class="btn btn-default">Delete</a>
                     {% endif %}
 
-                    <a href="#" onclick="deleteNote({{activeNote.id}})" class="btn btn-default">Delete</a>
+
                 </span>
 
 

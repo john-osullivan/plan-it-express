@@ -90,7 +90,8 @@ var loadHome = function(){
         notes:notes,
         questions:questions,
         todos:getTodos(),
-        announcements:_sortAnnouncements(allAnnouncements)
+        announcements:_sortAnnouncements(allAnnouncements),
+        quickTodoVisible:quickTodoVisible
     });
     loadPage(home);
 };
@@ -198,6 +199,28 @@ var loadQuestions = function(){
 
 var todosOpen = true;
 var todonesOpen = false;
+var quickTodoVisible = false;
+
+var toggleQuickTodo = function(){
+    quickTodoVisible = quickTodoVisible === false;
+    loadHome();
+};
+
+var submitQuickTodo = function(){
+    var todoText = $('#todoText').val();
+    var deadline = new Date();
+    deadline.setDate(deadline.getDate() + 1);
+    console.log(deadline);
+    todos.push({
+        'id':Date.now(),
+        'title':todoText,
+        'description':'',
+        'deadline':deadline.toLocaleDateString(),
+        'done':false
+    });
+    quickTodoVisible = false;
+    loadHome();
+};
 
 var getOneTodo = function(todoID){
     return _.find(todos, function(todo){ return todo.id == todoID });
@@ -308,7 +331,6 @@ var createNote = function(){
     activeNote = newNote;
     loadNotes();
     activateRichText();
-    console.log("notes: ",notes);
 };
 
 var selectNote = function(noteID){
