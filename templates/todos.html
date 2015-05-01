@@ -37,10 +37,16 @@
 
 <div class="row headerRow">
     <div class="col-md-12 page-header">
-        <h1><div id="createToDo" class="btn-group pull-right" role="group">
-            <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
-        </div>
-            To-Do <small>View and manage your tasks.</small></h1>
+        {% if editingToDo %}
+            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        {% elif creatingToDo %}
+            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        {% else %}
+            <h1><div id="createToDo" class="btn-group pull-right" role="group">
+                <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
+            </div>
+                To-Do <small>View and manage your tasks.</small></h1>
+        {% endif %}
     </div>
 </div>
 
@@ -48,7 +54,7 @@
 <div class="col-md-4">
     <div class="panel-group" id="todos-accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
-            <div class="panel-heading todoHeading" role="tab" id="odoHeading">
+            <div class="panel-heading todoHeading" role="tab" id="todoHeading">
 
                 <a data-toggle="collapse"  href="#todosCollapsed"
                    aria-expanded="true" aria-controls="todosCollapsed" onclick="toggleTodosOpen()">

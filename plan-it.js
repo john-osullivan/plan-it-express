@@ -216,6 +216,8 @@ var todonesOpen = false;
 
 var quickTodoVisible = false;
 
+
+
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
     loadHome();
@@ -276,7 +278,11 @@ var selectTodo = function(todoID){
 var editToDo = function(){
     // Turns on the editable UI for the active note.
     editingToDo = true;
+    $('#createToDo').hide();
     loadTodos();
+    if (editingToDo){
+        $('#createToDo').hide();
+    }
 };
 
 var saveToDo = function(){
