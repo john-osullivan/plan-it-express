@@ -217,6 +217,8 @@ var loadQuestions = function(){
 
 var todosOpen = true;
 var todonesOpen = false;
+var editingToDo = false;
+var creatingToDo = false;
 
 var getOneTodo = function(todoID){
     return _.find(todos, function(todo){ return todo.id == todoID });
@@ -251,25 +253,61 @@ var selectTodo = function(todoID){
     loadTodos();
 };
 
+var editToDo = function(){
+    // Turns on the editable UI for the active note.
+    editingToDo = true;
+    loadTodos();
+};
+
+var saveToDo = function(){
+    // Saves the active note's content to be that contained
+    // in the note detail text.  It then turns off the editable UI.
+    editingToDo = false;
+    creatingToDo = false;
+    var newTitle = $('.todoTitleText').val();
+    tinymce.triggerSave();
+    var newContent = $('.todoBodyDescription').val();
+    console.log(newContent);
+    activeTodo.title = newTitle;
+    activeTodo.description = newContent;
+    selectTodo(activeTodo.id);
+};
+
 var deleteTodo = function(todoID){
 
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
     if (typeof activeTodo === "undefined"){
         activeTodo = todos[0];
     }
+    activeTodo = todos[0];
     loadTodos();
 };
 
+var activateRichText = function(){
+    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
+    tinymce.init({
+        selector: "textarea",
+        width:maxWidth,
+        height:300,
+        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
+            "lists media paste spellchecker tabfocus table textcolor"]
+    });
+};
+
 var createTodo = function(subject, details, date){
+    creatingToDo = true;
     var id = todos.length;
-    todos.push({
+    var newTodo = {
         'id':id,
         'title':subject,
         'description':details,
         'deadline':date,
         'done':false
-    });
+    };
+    todos.push(newTodo);
+    activeTodo = newTodo;
     loadTodos();
+    activateRichText();
 };
 
 var isActiveTodo = function(todo){
@@ -294,7 +332,9 @@ var loadTodos = function(){
         deleteTodo: deleteTodo,
         toggleTodoDone: toggleTodoDone,
         todosOpen: todosOpen,
-        todonesOpen: todonesOpen
+        todonesOpen: todonesOpen,
+        editingToDo:editingToDo,
+        creatingToDo:creatingToDo
     });
     loadPage(todosPage);
 };
