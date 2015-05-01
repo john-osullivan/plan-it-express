@@ -155,6 +155,10 @@ var selectAnnouncement = function(announcementID){
     loadAnnouncements();
 };
 
+var unSelectAnnouncement = function(){
+    activeAnnouncement = false
+}
+
 
 //===========================================
 
