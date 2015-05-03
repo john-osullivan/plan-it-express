@@ -56,13 +56,17 @@ var questions = [{
     date:"04/01/2015",
     text:"Where's the event at?",
 	responses:[{
+		id: 0,
 		responder:"Leela",
 		date:"04/03/2015",
-		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!"
+		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!",
+		edited:""
 	},{
+		id: 1,
 		responder:"Brochacho",
 		date:"04/04/2015",
-		text:"Ok great, thanks!"
+		text:"Ok great, thanks!",
+		edited:""
 	}]
 }];
 var activeQuestion = questions[0];
@@ -159,6 +163,8 @@ var unSelectAnnouncement = function(){
 //===========================================
 
 //================ QUESTIONS ================
+var editingResponse;
+
 var isActiveQuestion = function(questionID){
     return questionID === activeQuestion.id;
 }
@@ -194,10 +200,40 @@ var selectQuestion = function(questionID){
 };
 
 var newQuestionResponse = function(responseText, rspndr, responseDate){
-	activeQuestion.responses.push({responder:rspndr, date:responseDate, text:responseText});
-	$("#responseTextArea").val("");
+	if (editingResponse !== undefined){
+		finishEdit(responseText);
+	} else {
+		activeQuestion.responses.push({id:activeQuestion.responses.length, responder:rspndr, date:responseDate, text:responseText, edited:""});
+		$("#responseTextArea").val("");
+	}
 	loadQuestions();
 };
+
+var editQuestionResponse = function(responseId, editDate){
+	var responseObj;
+	for (var i=0; i<activeQuestion.responses.length; i++){
+		if (activeQuestion.responses[i].id == responseId){
+			responseObj = activeQuestion.responses[i];
+		}
+	}
+	editingResponse = responseObj;
+	responseObj.edited = editDate;
+	$("#responseTextArea").val(responseObj.text);
+	//$("#replyBtn").css("display", "none");
+	//$("#saveEditBtn").css("display", "all");
+	$("#replyBtn").html("Save");
+	//loadQuestions();
+}
+
+var finishEdit = function(newText){
+	editingResponse.text = newText;
+	$("#responseTextArea").val("");
+	//$("#replyBtn").css("display", "all");
+	//$("#saveEditBtn").css("display", "none");
+	$("#replyBtn").html("Reply");
+	editingResponse = undefined;
+	loadQuestions();
+}
 
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {

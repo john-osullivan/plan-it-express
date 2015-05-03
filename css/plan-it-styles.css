@@ -6,6 +6,9 @@
     background-color: #696868;
 }
 
+.unansweredBadge{
+	background-color: red;
+}
 
 .nav-tabs > li > a.homeTab,
 .nav-tabs > li.active > a.homeTab{
