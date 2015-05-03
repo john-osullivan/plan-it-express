@@ -251,7 +251,7 @@ var todosOpen = true;
 var todonesOpen = false;
 
 var quickTodoVisible = false;
-
+var newTodo;
 
 
 var toggleQuickTodo = function(){
@@ -321,8 +321,13 @@ var editToDo = function(){
 var saveToDo = function(){
     // Saves the active note's content to be that contained
     // in the note detail text.  It then turns off the editable UI.
+    
+    if (creatingToDo){
+        todos.push(newTodo);
+    }
     editingToDo = false;
     creatingToDo = false;
+
     var newTitle = $('.todoTitleText').val();
     tinymce.triggerSave();
     var newContent = $('.todoBodyDescription').val();
@@ -358,14 +363,14 @@ var activateRichText = function(){
 var createTodo = function(subject, details, date){
     creatingToDo = true;
     var id = todos.length;
-    var newTodo = {
+    newTodo = {
         'id':id,
         'title':subject,
         'description':details,
         'deadline':date,
         'done':false
     };
-    todos.push(newTodo);
+    
     activeTodo = newTodo;
     loadTodos();
     activateRichText();

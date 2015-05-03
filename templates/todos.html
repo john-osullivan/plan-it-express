@@ -29,10 +29,6 @@
         document.getElementById("details").value = "";
         document.getElementById("deadline").value = "";
     });
-
-    /*$(document).ready(function() {
-     $("#date").datepicker({minDate:(new Date(2013, 0, 18)), maxDate:(new Date(2013, 1, 15)) });
-     });*/
 </script>
 
 <div class="row headerRow">
@@ -74,8 +70,6 @@
                         <span class="pull-right">
                             <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
                         </span>
-                        <!--<input type="checkbox" name="todo-{{ todo.id }}" class="pull-right form-control" onclick="toggleTodoDone({{ todo.id }})">-->
-
                         <h4 class="list-group-item-heading">{{ todo.title }}</h4>
                         <p class="list-group-item-text">{{ todo.deadline }}</p>
 
@@ -143,14 +137,6 @@
 <div class="col-md-8">
     <div class="panel panel-default noteDetail">
         <div class="panel-heading todoHeading">
-            <!-- <div class="btn-group pull-right">
-                <a href="#" class="btn btn-default">Edit</a>
-                <a href="#" class="btn btn-default">Delete</a>
-            </div> -->
-            <!-- <h2 id="todo-detail-heading">{{ activeTodo.title}}</h2> -->
-
-                       
-
             {% if editingToDo %}
                 <div class="row"><div class="col-md-12">
                     <input type="text" class="form-control todoTitleText" value="{{activeTodo.title}}" style="width: 100%;">
@@ -187,25 +173,9 @@
                 <div class="row"><div class="col-md-12">
                     <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
-            <!-- <textarea class="todoBodyDescription" style="width: 100%;">{{ activeTodo.description }}</textarea>
-            {% elif creatingToDo %}
-            <textarea class="todoBodyDescription" style="width: 100%;" placeholder="Details">{{ activeTodo.description }}</textarea> -->
             {% else %}
             {{activeTodo.description}}
             {% endif %}
-
-            <!-- <form id="toDoForms"><br>
-                <input id = "subject" type="text" class="form-control" placeholder="Subject">
-                <br>
-                <textarea id="details" type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
-                <input id="deadline" type="text" class="form-control" placeholder="Deadline (YYYY-MM-DD)"><br>
-                <div id ="editButtons">
-                    <div id ="submitButton" class="btn btn-info">Submit</div>
-                    <button onclick="deleteTodo({{ activeTodo.id }})" class="btn btn-danger">Delete</button>
-                </div>
-
-                <!-- <div class="btn-group"><div class="btn btn-primary">Edit</div></div> -->
-            <!-- </form> -->
         </div>
 
 
