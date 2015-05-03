@@ -161,8 +161,9 @@
                 </div></div>
                 {% else %}
                 <h2 id="todo-detail-heading">
-                    {{ activeTodo.title}}
+                    {{ activeTodo.title}} <span class="pull-right">{{ activeTodo.deadline }}</span>
                 </h2>
+
                 {% endif %}
 
         </div>
