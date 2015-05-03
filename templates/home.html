@@ -45,7 +45,7 @@
             <!-- Default panel contents -->
             <div class="panel-heading home-heading todoHeading"><div class="btn-group pull-right" role="group">
                 <div id = "createToDoButton" onclick="toggleQuickTodo()" class="btn btn-primary btn-sm">Quick To-Do</div>
-            </div><h5>To-Do</h5></div>
+            </div><h5><a href="#" onclick="loadTodos()"><font color="#000000">To-Do</font></a></h5></div>
 
             <!-- Table -->
             {% if quickTodoVisible %}
@@ -70,7 +70,7 @@
     <div class="col-md-8 questions"  style="">
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
             <!-- Default panel contents -->
-            <div class="panel-heading home-heading questionHeading"><h5>Questions</h5></div>
+            <div class="panel-heading home-heading questionHeading"><h5><a href="#" onclick="loadQuestions()"><font color="#000000">Questions</a></h5></div>
 
             <!-- Table -->
             <table id= "questionsTable" class="table table-hover" style="width:100%">
@@ -95,7 +95,7 @@
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
             <!-- Default panel contents -->
             <div class="panel-heading home-heading noteHeading">
-                <h5>Notes</h5>
+                <h5><a href="#" onclick="loadNotes()"><font color="#000000">Notes</a></h5>
             </div>
 
             <!-- Table -->
@@ -113,7 +113,7 @@
         <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
             <!-- Default panel contents -->
             <div class="panel-heading home-heading announceHeading">
-                <h5>Announcements</h5>
+                <h5><a href="#" onclick="loadAnnouncements()"><font color="#000000">Announcements</a></h5>
             </div>
 
             <!-- Table -->

@@ -160,9 +160,10 @@
                     <input type="text" class="form-control todoTitleText" placeholder="Title" style="width: 100%;">
                 </div></div>
                 {% else %}
-                <h2 id="todo-detail-heading">
-                    {{ activeTodo.title}}
-                </h2>
+                <h3 id="todo-detail-heading">
+                    {{ activeTodo.title}} <span class="pull-right">{{ activeTodo.deadline }}</span>
+                </h3>
+
                 {% endif %}
 
         </div>
@@ -172,19 +173,19 @@
 
             {% if editingToDo %}
             <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDescription" value="{{activeTodo.description}}" style="width: 100%;">
+                    <textarea type="text" class="form-control todoBodyDescription" style="width: 100%;">{{activeTodo.description}}</textarea>
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" style="width: 100%;">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
                 {% elif creatingToDo %}
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;">
+                    <textarea type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;"></textarea>
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" style="width: 100%;">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
             <!-- <textarea class="todoBodyDescription" style="width: 100%;">{{ activeTodo.description }}</textarea>
             {% elif creatingToDo %}

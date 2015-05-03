@@ -316,9 +316,6 @@ var editToDo = function(){
     editingToDo = true;
     $('#createToDo').hide();
     loadTodos();
-    if (editingToDo){
-        $('#createToDo').hide();
-    }
 };
 
 var saveToDo = function(){
