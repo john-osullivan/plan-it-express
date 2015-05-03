@@ -176,7 +176,7 @@
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" style="width: 100%;">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
                 {% elif creatingToDo %}
                 <div class="row"><div class="col-md-12">
@@ -184,7 +184,7 @@
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" style="width: 100%;">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
             <!-- <textarea class="todoBodyDescription" style="width: 100%;">{{ activeTodo.description }}</textarea>
             {% elif creatingToDo %}
