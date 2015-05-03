@@ -76,11 +76,15 @@
             <!-- Table -->
             <table id= "questionsTable" class="table table-hover" style="width:100%">
                 {% for question in questions %}
-                <tr onclick="selectQuestion({{ question.id }})">
-                    <td>{{ question.date }}</td>
-                    <td>{{ question.subject }}</td>
-                    <td>{{ question.asker }}</td>
-                </tr>
+                    {% if question.isAnswered %}
+
+                    {% else %}
+                        <tr onclick="selectQuestion({{ question.id }})">
+                            <td>{{ question.date }}</td>
+                            <td>{{ question.subject }}</td>
+                            <td>{{ question.asker }}</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </table>
         </div>
