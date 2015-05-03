@@ -160,9 +160,9 @@
                     <input type="text" class="form-control todoTitleText" placeholder="Title" style="width: 100%;">
                 </div></div>
                 {% else %}
-                <h2 id="todo-detail-heading">
+                <h3 id="todo-detail-heading">
                     {{ activeTodo.title}} <span class="pull-right">{{ activeTodo.deadline }}</span>
-                </h2>
+                </h3>
 
                 {% endif %}
 
@@ -173,7 +173,7 @@
 
             {% if editingToDo %}
             <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDescription" value="{{activeTodo.description}}" style="width: 100%;">
+                    <textarea type="text" class="form-control todoBodyDescription" style="width: 100%;">{{activeTodo.description}}</textarea>
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
@@ -181,7 +181,7 @@
                 </div></div>
                 {% elif creatingToDo %}
                 <div class="row"><div class="col-md-12">
-                    <input type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;">
+                    <textarea type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;"></textarea>
                 </div></div>
                 <br>
                 <div class="row"><div class="col-md-12">
