@@ -252,6 +252,7 @@ var todonesOpen = false;
 
 var quickTodoVisible = false;
 var newTodo;
+var keepAtHome = false;
 
 
 var toggleQuickTodo = function(){
@@ -306,9 +307,22 @@ var toggleTodoDone = function(todoID){
     loadTodos();
 };
 
+var toggleTodoDoneHome = function(todoID){
+    var thisTodo = getOneTodo(todoID);
+    thisTodo.done = thisTodo.done !== true;
+    loadHome();
+    keepAtHome = true;
+};
+
 var selectTodo = function(todoID){
-    activeTodo = getOneTodo(todoID);
-    loadTodos();
+    if(keepAtHome){
+        loadHome();
+    }
+    else{
+        activeTodo = getOneTodo(todoID);
+        loadTodos();
+    }
+    
 };
 
 var editToDo = function(){

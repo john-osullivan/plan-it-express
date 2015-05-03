@@ -60,6 +60,7 @@
                 <tr onclick="selectTodo({{ todo.id }})">
                     <td>{{ todo.deadline }}</td>
                     <td>{{ todo.title }}</td>
+                    <td><span ><input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDoneHome({{ todo.id }})"></span></td>
                 </tr>
                 {% endfor %}
             </table>
