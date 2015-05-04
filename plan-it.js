@@ -254,6 +254,7 @@ var quickTodoVisible = false;
 var newTodo;
 var keepAtHome = false;
 
+console.log(todos.length);
 
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
@@ -261,17 +262,20 @@ var toggleQuickTodo = function(){
 };
 
 var submitQuickTodo = function(){
+    creatingToDo = false;
     var todoText = $('#todoText').val();
     var deadline = new Date();
     deadline.setDate(deadline.getDate() + 1);
-    console.log(deadline);
-    todos.push({
+    newTodo = {
         'id':Date.now(),
         'title':todoText,
         'description':'',
         'deadline':deadline.toLocaleDateString(),
         'done':false
-    });
+    };
+    
+    activeTodo = newTodo;
+    todos.push(newTodo);
     quickTodoVisible = false;
     loadHome();
 };
@@ -293,12 +297,10 @@ var getTodones = function() {
 
 var toggleTodosOpen = function(){
     todosOpen = todosOpen === false;
-    console.log("Just set todosOpen to :",todosOpen);
 };
 
 var toggleTodonesOpen = function(){
     todonesOpen = todonesOpen === false;
-    console.log("Just set todonesOpen to :",todonesOpen);
 };
 
 var toggleTodoDone = function(todoID){
@@ -320,6 +322,11 @@ var selectTodo = function(todoID){
     }
     else{
         activeTodo = getOneTodo(todoID);
+        console.log(editingToDo);
+        console.log("creatingToDo");
+        console.log(creatingToDo);
+        creatingToDo = false;
+        console.log(activeTodo);
         loadTodos();
     }
     
@@ -346,7 +353,6 @@ var saveToDo = function(){
     tinymce.triggerSave();
     var newContent = $('.todoBodyDescription').val();
     var newDeadline = $('.todoBodyDeadline').val();
-    console.log(newContent);
     activeTodo.title = newTitle;
     activeTodo.description = newContent;
     activeTodo.deadline = newDeadline;
@@ -356,10 +362,31 @@ var saveToDo = function(){
 var deleteTodo = function(todoID){
 
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
-    if (typeof activeTodo === "undefined"){
-        activeTodo = todos[0];
-    }
-    activeTodo = todos[0];
+    
+    //if (typeof activeTodo === "undefined"){
+        for (var i in todos){
+            if (!todos[i].done){
+                activeTodo = todos[i];
+            }
+        }
+        var notDoneTodos = 0;
+        for (var i in todos){
+            if (!todos[i].done){
+                notDoneTodos++;
+            }
+            console.log(todos[i]);
+        }
+        if (notDoneTodos === 0){
+            createTodo();
+
+        }
+        if (todos.length === 0){
+            createTodo();
+        }
+        //activeTodo = todos[0];
+    //}
+    //activeTodo = todos[0];
+
     loadTodos();
 };
 
@@ -391,7 +418,6 @@ var createTodo = function(subject, details, date){
 };
 
 var isActiveTodo = function(todo){
-    console.log("isActiveTodo being called on: ",todo);
     if ((typeof todo !== "undefined") && (typeof activeTodo !== "undefined")){
         return todo.id == activeTodo.id;
     } else {
@@ -487,10 +513,8 @@ var saveNote = function(){
     editingNote = false;
     creatingNote = false;
     var newTitle = $('.noteTitleText').val();
-    console.log("newTitle: ",newTitle);
     tinymce.triggerSave();
     var newContent = $('.noteBodyText').val();
-    console.log("newContent: ",newContent);
     activeNote.title = newTitle;
     activeNote.text = newContent;
     selectNote(activeNote.id);
