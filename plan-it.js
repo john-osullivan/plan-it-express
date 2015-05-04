@@ -342,9 +342,6 @@ var quickTodoVisible = false;
 var newTodo;
 var keepAtHome = false;
 
-console.log(todos.length);
-
-
 
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
@@ -651,7 +648,3 @@ var loadNotes = function(){
     loadPage(notesTemplate);
 	showUnansweredQuestionsBadge();
 };
-
-nunjucks.addFilter('justText', function(str){
-    return jQuery(str).text()
-});
