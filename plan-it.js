@@ -53,19 +53,55 @@ var questions = [{
     isAnswered:true,
     subject:"Location?",
     asker:"Brochacho",
-    date:"04/01/2015",
+    date:"04/06/2015",
     text:"Where's the event at?",
 	responses:[{
 		id: 0,
 		responder:"Leela",
-		date:"04/03/2015",
+		date:"04/07/2015",
 		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!",
 		edited:""
 	},{
 		id: 1,
 		responder:"Brochacho",
-		date:"04/04/2015",
+		date:"04/09/2015",
 		text:"Ok great, thanks!",
+		edited:""
+	}]
+},{
+	id: 2,
+	isAnswered:true,
+	subject:"Friends coming to spectate",
+	asker:"Hermes",
+	date:"04/05/2015",
+	text:"I have some friends that would love to come see the results of the hackathon. What time can they show up? Should they use the same entrance as we use, or will there be a different entrance",
+	responses:[{
+		id: 0,
+		responder:"Leela",
+		date:"04/05/2015",
+		text:"Great question. Viewers will be able to enter at 5pm on Sunday or later -- AFTER the projects have been turned in! The same signs will be up all weekend, so they will be able to get in the same way as you will. EDIT: Forgot to answer your second question, sorry!",
+		edited:"04/06/2015"
+	}]
+},{
+	id: 3,
+	isAnswered:false,
+	subject:"Dress code",
+	asker:"Zoidberg",
+	date:"04/12/2015",
+	text:"Can our team wear costumes to the event? What restrictions are there on attire? WOOP WOOP WOOP WOOP",
+	responses:[]
+},{
+	id: 4,
+	isAnswered:true,
+	subject:"Videos",
+	asker:"Amy",
+	date:"12/28/2014",
+	text:"When will the videos of the event be posted online?",
+	responses:[{
+		id: 0,
+		responder:"Leela",
+		date:"01/02/2015",
+		text:"We will try and get them up within a week of the hackathon ending, but it could take a little longer. We will do our best!",
 		edited:""
 	}]
 }];
