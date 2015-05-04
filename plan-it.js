@@ -406,6 +406,7 @@ var selectTodo = function(todoID){
     if(keepAtHome){
         console.log("Staying at home")
         loadHome();
+        keepAtHome = false;
     }
     else{
         activeTodo = getOneTodo(todoID);
