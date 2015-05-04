@@ -407,10 +407,14 @@ var getTodones = function() {
 
 var toggleTodosOpen = function(){
     todosOpen = todosOpen === false;
+    loadTodos();
+    console.log("Should todos be open? :",todosOpen);
 };
 
 var toggleTodonesOpen = function(){
     todonesOpen = todonesOpen === false;
+    loadTodos();
+    console.log("Should todones be open? :",todonesOpen);
 };
 
 var toggleTodoDone = function(todoID){
@@ -697,3 +701,6 @@ var parseArrayToObject = function(str){
     return test1
 }
 
+nunjucks.addFilter('justText', function(str){
+    return jQuery(str).text()
+});

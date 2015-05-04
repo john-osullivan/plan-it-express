@@ -26,110 +26,95 @@
 <div class="row headerRow">
     <div class="col-md-12 page-header">
         {% if editingToDo %}
-            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        <h1>To-Do <small>View and manage your tasks.</small></h1>
         {% elif creatingToDo %}
-            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        <h1>To-Do <small>View and manage your tasks.</small></h1>
         {% else %}
-            <h1><div id="createToDo" class="btn-group pull-right" role="group">
-                <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
-            </div>
-                To-Do <small>View and manage your tasks.</small></h1>
+        <h1><div id="createToDo" class="btn-group pull-right" role="group">
+            <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
+        </div>
+            To-Do <small>View and manage your tasks.</small></h1>
         {% endif %}
     </div>
 </div>
 
-
-<div class="col-md-4">
-    <div class="panel-group" id="todos-accordion" role="tablist" aria-multiselectable="true">
+<div class="row">
+    <div class="col-md-4">
         <div class="panel panel-default" style="max-height: 230px">
             <div class="panel-heading todoHeading" role="tab" id="todoHeading" >
-
-                <a data-toggle="collapse"  href="#todosCollapsed"
-                   aria-expanded="true" aria-controls="todosCollapsed" onclick="toggleTodosOpen()">
-                    <h4 class="panel-title">
-                        To-Dos
-                    </h4>
-                </a>
+                <h4 class="panel-title">
+                    To-Dos
+                </h4>
 
             </div>
-            <div id="todosCollapsed" class="panel-collapse collapse {% if todosOpen %} in {% endif %}"  role="tabpanel" aria-labelledby="todoHeading" >
-                <div class="list-group todoHeading" >
-                    {% for todo in todos %}
+            <div class="list-group todoHeading">
+                {% for todo in todos %}
 
-                    {% if isActiveTodo(todo) %}
-                    <a class="list-group-item active" onclick="selectTodo({{ todo.id }})">
-
-                        <span class="pull-right">
-                            <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
-                        </span>
-                        <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }}</p>
-
-                    </a>
-                    {% else %}
-                    <a class="list-group-item" onclick="selectTodo({{ todo.id }})">
+                {% if isActiveTodo(todo) %}
+                <a class="list-group-item active" onclick="selectTodo({{ todo.id }})">
 
                         <span class="pull-right">
                             <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
                         </span>
+                    <h4 class="list-group-item-heading">{{ todo.title }}</h4>
+                    <p class="list-group-item-text">{{ todo.deadline }}</p>
+
+                </a>
+                {% else %}
+                <a class="list-group-item" onclick="selectTodo({{ todo.id }})">
+
+                        <span class="pull-right">
+                            <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
+                        </span>
 
 
-                        <h4 class="list-group-item-heading">{{ todo.title }}</h4>
-                        <p class="list-group-item-text">{{ todo.deadline }}</p>
+                    <h4 class="list-group-item-heading">{{ todo.title }}</h4>
+                    <p class="list-group-item-text">{{ todo.deadline }}</p>
 
-                    </a>
-                    {% endif %}
+                </a>
+                {% endif %}
 
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
         </div>
 
         <div class="panel  panel-default" style=" max-height: 230px">
             <div class="panel-heading todoHeading" role="tab" id="todonesHeading" >
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#todonesCollapsed" class="collapsed"
-                       aria-expanded="false" aria-controls="todonesCollapsed" onclick="toggleTodonesOpen()">
-                        To-Dones
-                    </a>
-                </h4>
+                <h4 class="panel-title">To-Dones</h4>
             </div>
 
-            <div id="todonesCollapsed" class="panel-collapse collapse {% if todonesOpen %} in {% endif %}" role="tabpanel" aria-labelledby="todonesHeading">
-                <div class="list-group todoHeading ">
+            <div class="list-group todoHeading ">
 
-                    {% for todone in todones %}
+                {% for todone in todones %}
 
-                    {% if isActiveTodo(todone) %}
-                    <a class="list-group-item active clearfix" onclick="selectTodo({{ todone.id }})">
+                {% if isActiveTodo(todone) %}
+                <a class="list-group-item active clearfix" onclick="selectTodo({{ todone.id }})">
                         <span class="pull-right">
                             <input type="checkbox" name="{{ todone.title }}" value="{{ todone.id }}" onclick="toggleTodoDone({{ todone.id }})" checked>
                         </span>
 
-                        <h4 class="list-group-item-heading">{{ todone.title }}</h4>
-                        <p class="list-group-item-text">{{ todone.deadline }}</p>
-                    </a>
-                    {% else %}
-                    <a class="list-group-item clearfix" onclick="selectTodo({{ todone.id }})">
+                    <h4 class="list-group-item-heading">{{ todone.title }}</h4>
+                    <p class="list-group-item-text">{{ todone.deadline }}</p>
+                </a>
+                {% else %}
+                <a class="list-group-item clearfix" onclick="selectTodo({{ todone.id }})">
                         <span class="pull-right">
                             <input type="checkbox" name="{{ todone.title }}" value="{{ todone.id }}" onclick="toggleTodoDone({{ todone.id }})" checked>
                         </span>
-                        <h4 class="list-group-item-heading">{{ todone.title }}</h4>
-                        <p class="list-group-item-text">{{ todone.deadline }}</p>
-                    </a>
-                    {% endif %}
+                    <h4 class="list-group-item-heading">{{ todone.title }}</h4>
+                    <p class="list-group-item-text">{{ todone.deadline }}</p>
+                </a>
+                {% endif %}
 
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-</div>
 
-<div class="col-md-8">
-    <div class="panel panel-default noteDetail">
-        <div class="panel-heading todoHeading">
-            {% if editingToDo %}
+    <div class="col-md-8">
+        <div class="panel panel-default noteDetail">
+            <div class="panel-heading todoHeading">
+                {% if editingToDo %}
                 <div class="row"><div class="col-md-12">
                     <input type="text" class="form-control todoTitleText" value="{{activeTodo.title}}" style="width: 100%;">
                 </div></div>
@@ -144,13 +129,13 @@
 
                 {% endif %}
 
-        </div>
-        <div class="panel-body" id="todo-detail-text">
-            
+            </div>
+            <div class="panel-body" id="todo-detail-text">
 
 
-            {% if editingToDo %}
-            <div class="row"><div class="col-md-12">
+
+                {% if editingToDo %}
+                <div class="row"><div class="col-md-12">
                     <textarea type="text" class="form-control todoBodyDescription" style="width: 100%;">{{activeTodo.description}}</textarea>
                 </div></div>
                 <br>
@@ -167,14 +152,14 @@
                     <!-- <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="" style="width: 100%;"> -->
                     <p>Date: <input type="text" class="todoBodyDeadline" id="datepicker"></p>
                 </div></div>
-            {% else %}
-            {{activeTodo.description}}
-            {% endif %}
+                {% else %}
+                {{activeTodo.description}}
+                {% endif %}
 
 
-    </div>
-    
-</div>
+            </div>
+
+        </div>
 <span>
                     {% if editingToDo %}
                         <a href="#" onclick="saveToDo()" class="btn btn-primary">Update</a>
@@ -188,7 +173,8 @@
                     {% endif %}
 
                     
-    </span> 
+    </span>
+    </div>
 </div>
 
 {% endblock %}
