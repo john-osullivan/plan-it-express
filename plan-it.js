@@ -491,7 +491,7 @@ var createTodo = function(subject, details, date){
     
     activeTodo = newTodo;
     loadTodos();
-    activateRichText();
+    //activateRichText();
 };
 
 var isActiveTodo = function(todo){
