@@ -412,6 +412,7 @@ var toggleTodoDoneHome = function(todoID){
 var selectTodo = function(todoID){
     if(keepAtHome){
         loadHome();
+        keepAtHome = false;
     }
     else{
         activeTodo = getOneTodo(todoID);
