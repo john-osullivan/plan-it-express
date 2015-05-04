@@ -12,10 +12,6 @@
 
 <script>
 
-    document.getElementById("subject").value = activeTodo.title;
-    document.getElementById("details").value = activeTodo.description;
-    document.getElementById("deadline").value = activeTodo.deadline;
-
     $("#submitButton").click(function(){
         var subject = document.getElementById("subject").value;
         var details = document.getElementById("details").value;
@@ -179,19 +175,6 @@
             {{activeTodo.description}}
             {% endif %}
 
-            <!-- <form id="toDoForms"><br>
-                <input id = "subject" type="text" class="form-control" placeholder="Subject">
-                <br>
-                <textarea id="details" type="text" class="form-control" rows="3" placeholder="Details"></textarea><br>
-                <input id="deadline" type="text" class="form-control" placeholder="Deadline (YYYY-MM-DD)"><br>
-                <div id ="editButtons">
-                    <div id ="submitButton" class="btn btn-info">Submit</div>
-                    <button onclick="deleteTodo({{ activeTodo.id }})" class="btn btn-danger">Delete</button>
-                </div>
-
-                <!-- <div class="btn-group"><div class="btn btn-primary">Edit</div></div> -->
-            <!-- </form> -->
-        </div>
 
 
 
