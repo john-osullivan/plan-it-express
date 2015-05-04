@@ -165,30 +165,6 @@ var allAnnouncements = [{
 }];
 
 var activeAnnouncement = false;
-if (!localStorage.allAnnouncements){
-    localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
-}
-else{
-    allAnnouncements = parseArrayToObject(localStorage.allAnnouncements)
-}
-if (!localStorage.notes){
-    localStorage.notes = JSON.stringify(notes)
-}
-else{
-    notes = parseArrayToObject(localStorage.notes)
-}
-if(!localStorage.questions){
-    localStorage.questions = JSON.stringify(questions)
-}
-else{
-    questions = parseArrayToObject(localStorage.questions)
-}
-if (!localStorage.todos){
-    localStorage.todos = JSON.stringify(todos)
-}
-else{
-    todos = parseArrayToObject(localStorage.todos)
-}
 
 
 var loadPage = function(renderedTemplate){
@@ -212,11 +188,6 @@ var loadHome = function(){
 //================ ANNOUNCMENTS =============
 
 var loadAnnouncements = function(){
-
-    allAnnouncements = []
-    allAnnouncements = parseArrayToObject(localStorage.allAnnouncements)
-    
-
     var announcements = nunjucks.render('announcements.html', {
         allAnnouncements:allAnnouncements,
         activeAnnouncement:activeAnnouncement
@@ -237,8 +208,6 @@ var createAnnouncement = function(id, subject, body, time, pinned){
     };
     allAnnouncements.unshift(announcement)
     allAnnouncements = _sortAnnouncements(allAnnouncements)
-    localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
-    console.log(allAnnouncements)
     return announcement
 }
 
@@ -547,8 +516,6 @@ var isActiveTodo = function(todo){
 };
 
 var loadTodos = function(){
-    atodos = parseArrayToObject(localStorage.allAnnouncements)
-
     var pageTodos = getTodos();
     var pageTodones = getTodones();
     var todosPage = nunjucks.render('todos.html', {
@@ -688,32 +655,4 @@ var loadNotes = function(){
 	showUnansweredQuestionsBadge();
 };
 
-
-function parseArrayToObject(str){
-    var test = str,
-        test1 = [];
-
-    test = test.slice(1,test.length-1)
-    test = test.split("},");
-
-    for (var i = 0; i < test.length; i ++){
-        var thing = test[i]
-
-        if (i !== test.length-1){
-            thing = thing+ "}"
-        }
-
-        //console.log(thing)
-
-        test1.push(JSON.parse(thing))
-    }
-
-
-    console.log(test1)
-    for (var j = 0; j < test1.length; j++){
-        console.log(test1[j].pinned)
-    }
-
-    return test1
-}
 
