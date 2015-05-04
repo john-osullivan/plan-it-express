@@ -1,5 +1,5 @@
 .page-content{
-    padding-top:66px;
+    padding-top:70px;
     padding-left:6%;
     padding-right:6%;
     padding-bottom:6%;
@@ -179,6 +179,12 @@ h1{
 */
 }
 
-.note-detail-text{
-    max-height: 30%;
+.noteDetail{
+    max-height: 420px;
+}
+
+.ui-datepicker-div { z-index: 999999; }
+
+.box:hover{
+background: blue; /* make this whatever you want */
 }
