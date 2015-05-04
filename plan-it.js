@@ -165,7 +165,13 @@ var allAnnouncements = [{
 }];
 
 var activeAnnouncement = false;
-//localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
+if (!localStorage.allAnnouncements){
+    localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
+}
+else{
+    allAnnouncements = parseArrayToObject(allAnnouncements)
+}
+
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
@@ -188,14 +194,9 @@ var loadHome = function(){
 //================ ANNOUNCMENTS =============
 
 var loadAnnouncements = function(){
-    console.log(localStorage.allAnnouncements)
-    var test = localStorage.allAnnouncements,
-        test1 = 0;
 
     allAnnouncements = []
     allAnnouncements = parseArrayToObject(localStorage.allAnnouncements)
-    
-    //allAnnouncements = test1
     
 
     var announcements = nunjucks.render('announcements.html', {

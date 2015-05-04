@@ -317,9 +317,18 @@
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4),
+				time = ""+month+"/"+day+"/"+year,
 				announcement,
 				err;
+
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
 
 			if(!subject || !body){
 				err = {"subject":subject,"body":body}
@@ -652,11 +661,19 @@
 				month = d.getMonth()+1,
 				day = d.getDate(),
 				year = ""+d.getFullYear(),
-				time = ""+month+"/"+day+"/"+year.slice(2,4),
+				time = ""+month+"/"+day+"/"+year,
 				announcement,
 				announce = "";
 
 				
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
 			deleteAnnouncement(viewingAnnouncementIndex);
 
 			if ($pinned.is(':checked')){
