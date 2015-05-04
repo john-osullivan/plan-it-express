@@ -235,6 +235,8 @@
 	*/
 	makeAddNewAnnouncement = function(err, isPreview){
 		var $area = $('#announceArea'),
+			$panel = $('<div>').addClass('panel panel-default'),
+			$wrapper = $('<div>'),
 			$subject = getNewSubject(),
 			$body = getNewBody(),
 			$button = getNewButton("Preview","Save"),
@@ -261,7 +263,9 @@
 
 		$('#annouceContainer').find('.active').removeClass('active');
 		$('#annouceContainerPinned').find('.active').removeClass('active');
-		$area.append($subject).append($body).append($check).append($button);
+
+		$wrapper.css("padding","16px")
+		$area.append($panel.append($subject).append($wrapper.append($body).append($check))).append($button);
 
 		$('#addAnnouncement').click(function(){
 			var $area = $('#announceArea'),
@@ -342,7 +346,8 @@
 	getNewSubject = function(text){
 		var $row = $('<div>'),
 			$col = $('<div>'),
-			$wrapper = $('<div>').addClass('input-group	'),
+			$outterWrapper = $('<div>').addClass('panel panel-default'),
+			$wrapper = $('<div>').addClass('panel-heading announceHeading'),
 			$input = $('<input>');
 
 		$row.addClass('row');
@@ -360,7 +365,7 @@
 			$input.val(text);
 		}
 
-		return $row.append($col.append($input));
+		return ($wrapper.append($input));
 	}
 
 
@@ -598,7 +603,7 @@
 			time,
 			bodyList ,
 			body,
-			$subject,
+			$subject = $('<div>').addClass('panel panel-default'),
 			$body,
 			$updateBtn,
 			$btns,
@@ -616,7 +621,7 @@
 		time = announcement.time;
 		body = announcement.body;
 
-		$subject = getNewSubject(subject);
+		$subject.append(getNewSubject(subject));
 		$body = getNewBody(body);
 		$btns = getNewButton("Update","Cancel");
 		$updateBtn = $btns.find('#addAnnouncement');
