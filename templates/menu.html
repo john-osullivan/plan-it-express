@@ -9,11 +9,11 @@
         <li role="presentation"><a href="#" class="homeTab" onclick="loadHome()"><h4>Home</h4></a></li>
         {% endif %}
 
-        <!-- This logic sets the announcements button active. -->
-        {% if active_tab == "announcements" %}
-        <li role="presentation" class="active"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
+        <!-- This logic sets the to-do button active. -->
+        {% if active_tab == "todos" %}
+        <li role="presentation" class="active"><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Dos</h4></a></li>
         {% else %}
-        <li role="presentation"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
+        <li role="presentation" ><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Dos</h4></a></li>
         {% endif %}
 
         <!-- This logic sets the questions button active. -->
@@ -36,19 +36,19 @@
 			</a>
 		</li>
         {% endif %}
-		
-        <!-- This logic sets the to-do button active. -->
-        {% if active_tab == "todos" %}
-        <li role="presentation" class="active"><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Do</h4></a></li>
-        {% else %}
-        <li role="presentation" ><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Do</h4></a></li>
-        {% endif %}
 
         <!-- This logic sets the notes button active. -->
         {% if active_tab == "notes" %}
         <li role="presentation" class="active"><a href="#" class="noteTab" onclick="loadNotes()"><h4>Notes</h4></a></li>
         {% else %}
         <li role="presentation"><a href="#" class="noteTab" onclick="loadNotes()"><h4>Notes</h4></a></li>
+        {% endif %}
+
+        <!-- This logic sets the announcements button active. -->
+        {% if active_tab == "announcements" %}
+        <li role="presentation" class="active"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
+        {% else %}
+        <li role="presentation"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
         {% endif %}
 
     </ul>
