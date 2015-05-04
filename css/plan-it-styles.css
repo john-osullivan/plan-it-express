@@ -178,3 +178,7 @@ h1{
 	text-align: left;
 */
 }
+
+.note-detail-text{
+    max-height: 30%;
+}
