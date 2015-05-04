@@ -17,26 +17,56 @@ var todos = [{
     id: 0,
     title: "Go Grocery Shopping",
     description: "Make sure you have all the food you'll need!",
-    deadline: "2015-04-20",
+    deadline: "5/5/2015",
     done: false
 }, {
     id: 1,
     title: "Confirm Caterer",
     description: "Get the food dude to say he'll be there.",
-    deadline: "2015-04-16",
+    deadline: "5/5/2015",
     done: false
 }, {
     id: 2,
     title: "Registration Form",
     description: "Put up a link to the updated registration form.",
-    deadline: "2015-04-15",
+    deadline: "5/10/2015",
     done: false
 }, {
     id: 3,
     title: "Update time",
     description: "Let everyone know you'll be starting an hour late.",
-    deadline: "2015-04-14",
+    deadline: "5/15/2015",
     done: true
+},{
+    id: 4,
+    title: "Reserve Room",
+    description: "Contact admin",
+    deadline: "5/16/2015",
+    done: false
+},{
+    id: 5,
+    title: "Call Brochacho",
+    description: "",
+    deadline: "5/17/2015",
+    done: false
+},{
+    id: 6,
+    title: "Buy banners",
+    description: "Copytech...",
+    deadline: "5/23/2015",
+    done: true
+},{
+    id: 7,
+    title: "Put in coffee order",
+    description: "",
+    deadline: "5/23/2015",
+    done: false
+},{
+    id: 8,
+    title: "Approve people's hours",
+    description: "",
+    deadline: "5/29/2015",
+    done: false
 }];
 var activeTodo = todos[0];
 
@@ -53,16 +83,56 @@ var questions = [{
     isAnswered:true,
     subject:"Location?",
     asker:"Brochacho",
-    date:"04/01/2015",
+    date:"04/06/2015",
     text:"Where's the event at?",
 	responses:[{
+		id: 0,
 		responder:"Leela",
-		date:"04/03/2015",
-		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!"
+		date:"04/07/2015",
+		text:"It will be at the Mars Institute of Technology, in the main science building. Once you enter the gates, just follow the signs!",
+		edited:""
 	},{
+		id: 1,
 		responder:"Brochacho",
-		date:"04/04/2015",
-		text:"Ok great, thanks!"
+		date:"04/09/2015",
+		text:"Ok great, thanks!",
+		edited:""
+	}]
+},{
+	id: 2,
+	isAnswered:true,
+	subject:"Friends coming to spectate",
+	asker:"Hermes",
+	date:"04/05/2015",
+	text:"I have some friends that would love to come see the results of the hackathon. What time can they show up? Should they use the same entrance as we use, or will there be a different entrance",
+	responses:[{
+		id: 0,
+		responder:"Leela",
+		date:"04/05/2015",
+		text:"Great question. Viewers will be able to enter at 5pm on Sunday or later -- AFTER the projects have been turned in! The same signs will be up all weekend, so they will be able to get in the same way as you will. EDIT: Forgot to answer your second question, sorry!",
+		edited:"04/06/2015"
+	}]
+},{
+	id: 3,
+	isAnswered:false,
+	subject:"Dress code",
+	asker:"Zoidberg",
+	date:"04/12/2015",
+	text:"Can our team wear costumes to the event? What restrictions are there on attire? WOOP WOOP WOOP WOOP",
+	responses:[]
+},{
+	id: 4,
+	isAnswered:true,
+	subject:"Videos",
+	asker:"Amy",
+	date:"12/28/2014",
+	text:"When will the videos of the event be posted online?",
+	responses:[{
+		id: 0,
+		responder:"Leela",
+		date:"01/02/2015",
+		text:"We will try and get them up within a week of the hackathon ending, but it could take a little longer. We will do our best!",
+		edited:""
 	}]
 }];
 var activeQuestion = questions[0];
@@ -97,6 +167,7 @@ var loadHome = function(){
         quickTodoVisible:quickTodoVisible
     });
     loadPage(home);
+	showUnansweredQuestionsBadge();
 };
 
 
@@ -109,6 +180,7 @@ var loadAnnouncements = function(){
     });
 
     loadPage(announcements);
+	showUnansweredQuestionsBadge();
 };
 
 var createAnnouncement = function(id, subject, body, time, pinned){
@@ -159,6 +231,8 @@ var unSelectAnnouncement = function(){
 //===========================================
 
 //================ QUESTIONS ================
+var editingResponse;
+
 var isActiveQuestion = function(questionID){
     return questionID === activeQuestion.id;
 }
@@ -180,7 +254,7 @@ var createQuestion = function(subject, asker, date, text){
 var countUnansweredQuestions = function(){
     var result = 0;
     for (var i=0; i<questions.length; i++){
-        if (questions[i].isActiveNote){
+        if (!questions[i].isAnswered){
             result++;
         }
     }
@@ -194,10 +268,52 @@ var selectQuestion = function(questionID){
 };
 
 var newQuestionResponse = function(responseText, rspndr, responseDate){
-	activeQuestion.responses.push({responder:rspndr, date:responseDate, text:responseText});
-	$("#responseTextArea").val("");
+	if (editingResponse !== undefined){
+		finishEdit(responseText);
+	} else {
+		activeQuestion.responses.push({id:activeQuestion.responses.length, responder:rspndr, date:responseDate, text:responseText, edited:""});
+		$("#responseTextArea").val("");
+		if (!activeQuestion.isAnswered){
+			activeQuestion.isAnswered = true;
+		}
+	}
 	loadQuestions();
 };
+
+var editQuestionResponse = function(responseId, editDate){
+	var responseObj;
+	for (var i=0; i<activeQuestion.responses.length; i++){
+		if (activeQuestion.responses[i].id == responseId){
+			responseObj = activeQuestion.responses[i];
+		}
+	}
+	editingResponse = responseObj;
+	responseObj.edited = editDate;
+	$("#responseTextArea").val(responseObj.text);
+	//$("#replyBtn").css("display", "none");
+	//$("#saveEditBtn").css("display", "all");
+	$("#replyBtn").html("Save");
+	//loadQuestions();
+}
+
+var finishEdit = function(newText){
+	editingResponse.text = newText;
+	$("#responseTextArea").val("");
+	//$("#replyBtn").css("display", "all");
+	//$("#saveEditBtn").css("display", "none");
+	$("#replyBtn").html("Reply");
+	editingResponse = undefined;
+	loadQuestions();
+}
+
+var showUnansweredQuestionsBadge = function(){
+	var count = countUnansweredQuestions();
+	if (count > 0){
+		$("#unansweredQuestionsTabBadge").html(count);
+	} else {
+		$("#unansweredQuestionsTabBadge").html("");
+	}
+}
 
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {
@@ -206,6 +322,7 @@ var loadQuestions = function(){
         isActiveQuestion:isActiveQuestion
     });
     loadPage(questionsTemplate);
+	showUnansweredQuestionsBadge();
 };
 //===========================================
 
@@ -215,6 +332,10 @@ var todosOpen = true;
 var todonesOpen = false;
 
 var quickTodoVisible = false;
+var newTodo;
+var keepAtHome = false;
+
+console.log(todos.length);
 
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
@@ -222,17 +343,20 @@ var toggleQuickTodo = function(){
 };
 
 var submitQuickTodo = function(){
+    creatingToDo = false;
     var todoText = $('#todoText').val();
     var deadline = new Date();
     deadline.setDate(deadline.getDate() + 1);
-    console.log(deadline);
-    todos.push({
+    newTodo = {
         'id':Date.now(),
         'title':todoText,
         'description':'',
         'deadline':deadline.toLocaleDateString(),
         'done':false
-    });
+    };
+    
+    activeTodo = newTodo;
+    todos.push(newTodo);
     quickTodoVisible = false;
     loadHome();
 };
@@ -254,12 +378,10 @@ var getTodones = function() {
 
 var toggleTodosOpen = function(){
     todosOpen = todosOpen === false;
-    console.log("Just set todosOpen to :",todosOpen);
 };
 
 var toggleTodonesOpen = function(){
     todonesOpen = todonesOpen === false;
-    console.log("Just set todonesOpen to :",todonesOpen);
 };
 
 var toggleTodoDone = function(todoID){
@@ -268,38 +390,84 @@ var toggleTodoDone = function(todoID){
     loadTodos();
 };
 
+var toggleTodoDoneHome = function(todoID){
+    var thisTodo = getOneTodo(todoID);
+    thisTodo.done = thisTodo.done !== true;
+    loadHome();
+    keepAtHome = true;
+};
+
 var selectTodo = function(todoID){
-    activeTodo = getOneTodo(todoID);
-    loadTodos();
+    if(keepAtHome){
+        loadHome();
+    }
+    else{
+        activeTodo = getOneTodo(todoID);
+        console.log(editingToDo);
+        console.log("creatingToDo");
+        console.log(creatingToDo);
+        creatingToDo = false;
+        console.log(activeTodo);
+        loadTodos();
+    }
+    
 };
 
 var editToDo = function(){
     // Turns on the editable UI for the active note.
     editingToDo = true;
+    $('#createToDo').hide();
     loadTodos();
 };
 
 var saveToDo = function(){
     // Saves the active note's content to be that contained
     // in the note detail text.  It then turns off the editable UI.
+    
+    if (creatingToDo){
+        todos.push(newTodo);
+    }
     editingToDo = false;
     creatingToDo = false;
+
     var newTitle = $('.todoTitleText').val();
     tinymce.triggerSave();
     var newContent = $('.todoBodyDescription').val();
-    console.log(newContent);
+    var newDeadline = $('.todoBodyDeadline').val();
     activeTodo.title = newTitle;
     activeTodo.description = newContent;
+    activeTodo.deadline = newDeadline;
     selectTodo(activeTodo.id);
 };
 
 var deleteTodo = function(todoID){
 
     todos = _.filter(todos, function(todo){ return todo.id !== todoID });
-    if (typeof activeTodo === "undefined"){
-        activeTodo = todos[0];
-    }
-    activeTodo = todos[0];
+    
+    //if (typeof activeTodo === "undefined"){
+        for (var i in todos){
+            if (!todos[i].done){
+                activeTodo = todos[i];
+            }
+        }
+        var notDoneTodos = 0;
+        for (var i in todos){
+            if (!todos[i].done){
+                notDoneTodos++;
+            }
+            console.log(todos[i]);
+        }
+        if (notDoneTodos === 0){
+            createTodo();
+
+        }
+        if (todos.length === 0){
+            createTodo();
+        }
+        //activeTodo = todos[0];
+    //}
+    //activeTodo = todos[0];
+
     loadTodos();
 };
 
@@ -317,21 +485,20 @@ var activateRichText = function(){
 var createTodo = function(subject, details, date){
     creatingToDo = true;
     var id = todos.length;
-    var newTodo = {
+    newTodo = {
         'id':id,
         'title':subject,
         'description':details,
         'deadline':date,
         'done':false
     };
-    todos.push(newTodo);
+    
     activeTodo = newTodo;
     loadTodos();
     activateRichText();
 };
 
 var isActiveTodo = function(todo){
-    console.log("isActiveTodo being called on: ",todo);
     if ((typeof todo !== "undefined") && (typeof activeTodo !== "undefined")){
         return todo.id == activeTodo.id;
     } else {
@@ -357,7 +524,28 @@ var loadTodos = function(){
         creatingToDo:creatingToDo
     });
     loadPage(todosPage);
+	showUnansweredQuestionsBadge();
 };
+
+var cancelTodo = function(){
+    editingToDo = false;
+    if (creatingToDo){
+        todos.splice(todos.length - 1, 1);
+    }
+    creatingToDo = false;
+    activeTodo = todos[0];
+    loadTodos();
+}
+
+var numRemainingTodos = function(){
+    var numRemaining = 0;
+    for (var i in todos){
+        if (!todos[i].done){
+            numRemaining++;
+        }
+    }
+    return numRemaining;
+}
 
 //============== NOTES ====================
 
@@ -408,10 +596,8 @@ var saveNote = function(){
     editingNote = false;
     creatingNote = false;
     var newTitle = $('.noteTitleText').val();
-    console.log("newTitle: ",newTitle);
     tinymce.triggerSave();
     var newContent = $('.noteBodyText').val();
-    console.log("newContent: ",newContent);
     activeNote.title = newTitle;
     activeNote.text = newContent;
     selectNote(activeNote.id);
@@ -435,5 +621,6 @@ var loadNotes = function(){
         creatingNote:creatingNote
     });
     loadPage(notesTemplate);
+	showUnansweredQuestionsBadge();
 };
 

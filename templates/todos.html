@@ -12,31 +12,20 @@
 
 <script>
 
-    $("#submitButton").click(function(){
-        var subject = document.getElementById("subject").value;
-        var details = document.getElementById("details").value;
-        var date = document.getElementById("deadline").value;
-        createTodo(subject, details, date);
-    });
-
-    $("#createToDo").click(function(){
-        document.getElementById("todo-detail-heading").innerHTML = "New To-Do";
-        document.getElementById("subject").value = "";
-        document.getElementById("details").value = "";
-        document.getElementById("deadline").value = "";
-    });
-
-    /*$(document).ready(function() {
-     $("#date").datepicker({minDate:(new Date(2013, 0, 18)), maxDate:(new Date(2013, 1, 15)) });
-     });*/
 </script>
 
 <div class="row headerRow">
     <div class="col-md-12 page-header">
-        <h1><div id="createToDo" class="btn-group pull-right" role="group">
-            <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
-        </div>
-            To-Do <small>View and manage your tasks.</small></h1>
+        {% if editingToDo %}
+            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        {% elif creatingToDo %}
+            <h1>To-Do <small>View and manage your tasks.</small></h1>
+        {% else %}
+            <h1><div id="createToDo" class="btn-group pull-right" role="group">
+                <a href="#" class="btn btn-primary" onclick="createTodo()">Create To-Do</a>
+            </div>
+                To-Do <small>View and manage your tasks.</small></h1>
+        {% endif %}
     </div>
 </div>
 
@@ -44,7 +33,7 @@
 <div class="col-md-4">
     <div class="panel-group" id="todos-accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
-            <div class="panel-heading todoHeading" role="tab" id="odoHeading">
+            <div class="panel-heading todoHeading" role="tab" id="todoHeading">
 
                 <a data-toggle="collapse"  href="#todosCollapsed"
                    aria-expanded="true" aria-controls="todosCollapsed" onclick="toggleTodosOpen()">
@@ -64,8 +53,6 @@
                         <span class="pull-right">
                             <input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDone({{ todo.id }})">
                         </span>
-                        <!--<input type="checkbox" name="todo-{{ todo.id }}" class="pull-right form-control" onclick="toggleTodoDone({{ todo.id }})">-->
-
                         <h4 class="list-group-item-heading">{{ todo.title }}</h4>
                         <p class="list-group-item-text">{{ todo.deadline }}</p>
 
@@ -133,26 +120,19 @@
 <div class="col-md-8">
     <div class="panel panel-default noteDetail">
         <div class="panel-heading todoHeading">
-            <!-- <div class="btn-group pull-right">
-                <a href="#" class="btn btn-default">Edit</a>
-                <a href="#" class="btn btn-default">Delete</a>
-            </div> -->
-            <!-- <h2 id="todo-detail-heading">{{ activeTodo.title}}</h2> -->
-
-                       
-
             {% if editingToDo %}
-                <div class="row"><div class="col-md-8">
+                <div class="row"><div class="col-md-12">
                     <input type="text" class="form-control todoTitleText" value="{{activeTodo.title}}" style="width: 100%;">
                 </div></div>
                 {% elif creatingToDo %}
-                <div class="row"><div class="col-md-8">
+                <div class="row"><div class="col-md-12">
                     <input type="text" class="form-control todoTitleText" placeholder="Title" style="width: 100%;">
                 </div></div>
                 {% else %}
-                <h2 id="todo-detail-heading">
-                    {{ activeTodo.title}}
-                </h2>
+                <h3 id="todo-detail-heading">
+                    {{ activeTodo.title}} <span class="pull-right">{{ activeTodo.deadline }}</span>
+                </h3>
+
                 {% endif %}
 
         </div>
@@ -161,34 +141,40 @@
 
 
             {% if editingToDo %}
-            <div class="row"><div class="col-md-8">
-                    <input type="text" class="form-control todoBodyDescription" value="{{activeTodo.description}}" style="width: 100%;">
+            <div class="row"><div class="col-md-12">
+                    <textarea type="text" class="form-control todoBodyDescription" style="width: 100%;">{{activeTodo.description}}</textarea>
+                </div></div>
+                <br>
+                <div class="row"><div class="col-md-12">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="{{activeTodo.deadline}}" style="width: 100%;">
                 </div></div>
                 {% elif creatingToDo %}
-                <div class="row"><div class="col-md-8">
-                    <input type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;">
+                <div class="row"><div class="col-md-12">
+                    <textarea type="text" class="form-control todoBodyDescription" placeholder="Details" style="width: 100%;"></textarea>
                 </div></div>
-            <!-- <textarea class="todoBodyDescription" style="width: 100%;">{{ activeTodo.description }}</textarea>
-            {% elif creatingToDo %}
-            <textarea class="todoBodyDescription" style="width: 100%;" placeholder="Details">{{ activeTodo.description }}</textarea> -->
+                <br>
+                <div class="row"><div class="col-md-12">
+                    <input type="text" class="form-control todoBodyDeadline" placeholder="Deadline" value="" style="width: 100%;">
+                </div></div>
             {% else %}
             {{activeTodo.description}}
             {% endif %}
-
-
 
 
     </div>
     <span>
                     {% if editingToDo %}
                         <a href="#" onclick="saveToDo()" class="btn btn-primary">Update</a>
+                        <a href="#" onclick="cancelTodo()" class="btn btn-primary pull-right">Cancel</a>
                     {% elif creatingToDo %}
                         <a href="#" onclick="saveToDo()" class="btn btn-primary">Save</a>
+                        <a href="#" onclick="cancelTodo()" class="btn btn-primary pull-right">Cancel</a>
                     {% else %}
                         <a href="#" onclick="editToDo()" class="btn btn-primary pull-left">Edit</a>
+                        <a href="#" onclick="deleteTodo({{activeTodo.id}})" class="btn btn-primary pull-right">Delete</a>
                     {% endif %}
 
-                    <a href="#" onclick="deleteTodo({{activeTodo.id}})" class="btn btn-primary pull-right">Delete</a>
+                    
     </span> 
 </div>
 </div>

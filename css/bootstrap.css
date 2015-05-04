@@ -6729,5 +6729,6 @@ input:focus,
 .panel-default .panel-heading,
 .panel-default .panel-title,
 .panel-default .panel-footer {
-  color: #98978b;
+  /*color: #98978b;*/
+  color:black;
 }

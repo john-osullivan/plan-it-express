@@ -1,13 +1,14 @@
 .page-content{
-    padding-top:84px;
-    padding-left: 4%;
-    padding-right: 4%;
+    padding:6%
 }
 
 .navbar{
     background-color: #696868;
 }
 
+.unansweredBadge{
+	background-color: red;
+}
 
 .nav-tabs > li > a.homeTab,
 .nav-tabs > li.active > a.homeTab{

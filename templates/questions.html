@@ -29,27 +29,23 @@
 					{% if not question.isAnswered %}
 						{% if isActiveQuestion(question.id) %}
 							<a href="#" class="list-group-item active" onclick="selectQuestion({{ question.id }})">
-								<h3 class="list-group-item-heading">
-								{{ question.subject }}
-								<small><span class="pull-right badge">UNANSWERED</span></small>
+								<h3 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								<small><span class="pull-right badge unansweredBadge">UNANSWERED</span></small>
 								</h3>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
 								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
-								<h5 class="list-group-item-heading" style="padding-top: 20px">
-								{{ question.asker }}
-								<small><span class="pull-right">{{ question.date }}</span></small>
-								</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
 							</a>
 						{% else %}
 							<a href="#" class="list-group-item" onclick="selectQuestion({{ question.id }})">
-								<h4 class="list-group-item-heading">
-								{{ question.subject }}
-								<small><span class="pull-right badge">UNANSWERED</span></small>
+								<h4 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								<small><span class="pull-right badge unansweredBadge">UNANSWERED</span></small>
 								</h4>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
 								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
-								<h5 class="list-group-item-heading" style="padding-top: 20px">
-								{{ question.asker }}
-								<small><span class="pull-right">{{ question.date }}</span></small>
-								</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
 							</a>
 						{% endif %}
 					{% endif %}
@@ -68,25 +64,21 @@
 					{% if question.isAnswered %}
 						{% if isActiveQuestion(question.id) %}
 							<a href="#" class="list-group-item active" onclick="selectQuestion({{ question.id }})">
-								<h3 class="list-group-item-heading">
-								{{ question.subject }}
+								<h3 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
 								</h3>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
 								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
-								<h5 class="list-group-item-heading" style="padding-top: 20px">
-								{{ question.asker }}
-								<small><span class="pull-right">{{ question.date }}</span></small>
-								</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
 							</a>
 						{% else %}
 							<a href="#" class="list-group-item" onclick="selectQuestion({{ question.id }})">
-								<h4 class="list-group-item-heading">
-								{{ question.subject }}
+								<h4 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
 								</h4>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
 								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
-								<h5 class="list-group-item-heading" style="padding-top: 20px">
-								{{ question.asker }}
-								<small><span class="pull-right">{{ question.date }}</span></small>
-								</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
 							</a>
 						{% endif %}
 					{% endif %}
@@ -105,7 +97,7 @@
 					</h2>
 				</div>
 				<div class="panel-body">
-					<p>From: {{ activeQuestion.asker }}</p>
+					<p><i>From {{ activeQuestion.asker }}:</i></p>
 					<p>{{ activeQuestion.text }}</p>
 				</div>
 			</div>
@@ -113,10 +105,17 @@
 			<ul class="list-group questionResponses">
 				{% for response in activeQuestion.responses %}
 					<li href="#" class="list-group-item">
+						{% if response.responder == "Fry" %}
+							<a href='#' class="pull-right btn btn-info btn-xs" onclick="editQuestionResponse({{ response.id }}, '05/04/15')">Edit</a>
+						{% endif %}
 						<h5 class="list-group-item-text">{{ response.text }}</h5>
 						<h5 class="list-group-item-heading" style="padding-top: 20px">
-						{{ response.responder }}
-						<small><span class="pull-right">{{ response.date }}</span></small>
+						<i>{{ response.responder }}</i>
+						<span class="pull-right">{{ response.date }}
+						{% if response.edited != "" %}
+							<small>edited on: {{ response.edited }}</small>
+						{% endif %}
+						</span>
 						</h5>
 					</li>
 				{% endfor %}
@@ -126,7 +125,8 @@
 				<label for="response">Response:</label>
 				<textarea rows=8 cols=40 class="form-control" id="responseTextArea"></textarea>
 			</div>
-			<a href="#" class="pull-right btn btn-primary" onclick="newQuestionResponse($('#responseTextArea').val(), 'Fry', '05/04/15')">Reply</a>
+			<a href="#" class="pull-right btn btn-primary" id = "replyBtn" onclick="newQuestionResponse($('#responseTextArea').val(), 'Fry', '05/04/15')">Reply</a>
+			<!-- <a href="#" class="pull-right btn btn-primary" id = "saveEditBtn" onclick="finishEdit($('#responseTextArea').val())" style="display: none">Save</a> -->
 		{% endif %}
 	</div>
 </div>
