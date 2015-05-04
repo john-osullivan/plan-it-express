@@ -147,24 +147,25 @@ var allAnnouncements = [{
     id:2,
     subject:"Visitors",
     body:"Hello everyone,\nAny visitor should use the main entrance. There will also be maps and information at the front desk",
-    time:"4/27/15",
+    time:"04/27/2015",
     pinned:false
 },{
     id:1,
     subject:"New Time",
     body:"Hello everyone,\nWe will being moving the start time to 9 AM from 10 AM. This should allow everyone to get out on time.",
-    time:"4/27/15",
+    time:"04/27/2015",
     pinned:false
 },{
     id:0,
     subject:"Hello Everyone",
     body:"We are just starting to use a new system to help us keep you informed. Please visit this page periodically to see announcments" +
      " and feel free to use the questions page if you have any other questions.",
-    time:"4/25/15",
+    time:"04/25/2015",
     pinned:true
 }];
 
 var activeAnnouncement = false;
+//localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
 
 var loadPage = function(renderedTemplate){
     $('#site-ui').html(renderedTemplate);
@@ -187,13 +188,23 @@ var loadHome = function(){
 //================ ANNOUNCMENTS =============
 
 var loadAnnouncements = function(){
+    console.log(localStorage.allAnnouncements)
+    var test = localStorage.allAnnouncements,
+        test1 = 0;
+
+    allAnnouncements = []
+    allAnnouncements = parseArrayToObject(localStorage.allAnnouncements)
+    
+    //allAnnouncements = test1
+    
+
     var announcements = nunjucks.render('announcements.html', {
         allAnnouncements:allAnnouncements,
         activeAnnouncement:activeAnnouncement
     });
 
     loadPage(announcements);
-	showUnansweredQuestionsBadge();
+    showUnansweredQuestionsBadge();
 };
 
 var createAnnouncement = function(id, subject, body, time, pinned){
@@ -207,6 +218,8 @@ var createAnnouncement = function(id, subject, body, time, pinned){
     };
     allAnnouncements.unshift(announcement)
     allAnnouncements = _sortAnnouncements(allAnnouncements)
+    localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
+    console.log(allAnnouncements)
     return announcement
 }
 
@@ -653,4 +666,33 @@ var loadNotes = function(){
     loadPage(notesTemplate);
 	showUnansweredQuestionsBadge();
 };
+
+
+var parseArrayToObject = function(str){
+    var test = str,
+        test1 = [];
+
+    test = test.slice(1,test.length-1)
+    test = test.split("},");
+
+    for (var i = 0; i < test.length; i ++){
+        var thing = test[i]
+
+        if (i !== test.length-1){
+            thing = thing+ "}"
+        }
+
+        //console.log(thing)
+
+        test1.push(JSON.parse(thing))
+    }
+
+
+    console.log(test1)
+    for (var j = 0; j < test1.length; j++){
+        console.log(test1[j].pinned)
+    }
+
+    return test1
+}
 
