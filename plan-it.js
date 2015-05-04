@@ -5,7 +5,8 @@ var notes = [{
 {
     id:1,
     title:"Attendees",
-    text:"<p>The hackathon is going to be attended by a number of different guests from 31st century NYC, and is going to have a strict list at the door. &nbsp;If&nbsp;anyone is going to come, they better be on this list!</p><ul><li>Nibbler</li><li>Zapp Brannigan</li><li>Kif Kroker</li><li>Morbo</li><li>Linda van Schoonhoven</li><li>Scruffy</li><li>Cubert Farnsworth</li><li>Dwight Conrad</li><li>LaBarbara Conrad</li><li>Turanga Morris and Munda</li><li>Leo and Inez Wong</li><li>Mom</li><li>Walt, Larry and Igner</li><li>Omicronians</li><li>Drrr</li><li>Lrrr</li><li>Ndnd</li><li>Robot Mafia</li><li>Dr. Ogden Wernstrom</li><li>Richard Nixon</li><li>Roberto</li><li>Robot Devil</li><li>Robot Santa</li><li>Barbados Slim</li><li>Antonio Calculon</li><li>Celebrity heads</li><li>Sweet' Clyde Dixon</li><li>Elzar</li><li>Hattie McDoogal</li><li>Hedonismbot</li><li>Hyperchicken</li><li>Hypnotoad</li><li>Mayor C. Randall Poopenmeyer</li><li>Officer Smitty</li><li>Officer URL</li><li>Petunia</li><li>Sal</li><li>Ethan 'Bubblegum' Tate</li><li>Tinny Tim</li></ul>"}, {
+    text:"<p>The hackathon is going to be attended by a number of different guests from 31st century NYC, and is going to have a strict list at the door. &nbsp;If&nbsp;anyone is going to come, they better be on this list!</p><ul><li>Nibbler</li><li>Zapp Brannigan</li><li>Kif Kroker</li><li>Morbo</li><li>Linda van Schoonhoven</li><li>Scruffy</li><li>Cubert Farnsworth</li><li>Dwight Conrad</li><li>LaBarbara Conrad</li><li>Turanga Morris and Munda</li><li>Leo and Inez Wong</li><li>Mom</li><li>Walt, Larry and Igner</li><li>Omicronians</li><li>Drrr</li><li>Lrrr</li><li>Ndnd</li><li>Robot Mafia</li><li>Dr. Ogden Wernstrom</li><li>Richard Nixon</li><li>Roberto</li><li>Robot Devil</li><li>Robot Santa</li><li>Barbados Slim</li><li>Antonio Calculon</li><li>Celebrity heads</li><li>Sweet' Clyde Dixon</li><li>Elzar</li><li>Hattie McDoogal</li><li>Hedonismbot</li><li>Hyperchicken</li><li>Hypnotoad</li><li>Mayor C. Randall Poopenmeyer</li><li>Officer Smitty</li><li>Officer URL</li><li>Petunia</li><li>Sal</li><li>Ethan 'Bubblegum' Tate</li><li>Tinny Tim</li></ul>"},
+{
     id:2,
     title:"Organizers",
     text:"<p>The hackathon is being organized by the trusty crew of Plan-It Express, using their eponymous planning software. &nbsp;The full roster of organizers is:</p><h3>Phillip J. Fry</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/2/28/Philip_Fry.png' alt='' width='143' height='257'></p><p>Email - <a href='mailto:fry@planitexpress.com'>fry@planitexpress.com</a></p><h3>Turanga Leela</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/d/d4/Turanga_Leela.png' alt='' width='151' height='313'></p><p>Email - leela@planitexpress.com</p><h3>Bender Bending Rodriguez</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png' alt='' width='182' height='264'></p><p>Email: <a href='mailto:bender@planitexpress.com'>bender@planitexpress.com</a>&nbsp;</p><h3>Amy Wong</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/f/fd/FuturamaAmyWong.png' alt='' width='160' height='400'></p><p>Email: <a href='mailto:amy@planitexpress.com'>amy@planitexpress.com</a>&nbsp;</p><h3>Hermes Conrad</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/c/cb/FuturamaHermesConrad.png' alt='' width='169' height='294'></p><p>Email: <a href='mailto:hermes@planitexpress.com'>hermes@planitexpress.com</a>&nbsp;</p><h3>Professor Hubert J. Farnsworth</h3><p><img src='http://upload.wikimedia.org/wikipedia/en/0/0f/FuturamaProfessorFarnsworth.png' alt='' width='175' height='288'></p><p>Email: <a href='mailto:theprofessor@planitexpress.com'>theprofessor@planitexpress.com</a>&nbsp;</p><h3>Doctor John Zoidberg</h3><p>&nbsp;<img src='http://upload.wikimedia.org/wikipedia/en/4/4a/Dr_John_Zoidberg.png' alt='' width='188' height='293'></p><p>Email: <a href='mailto:zoidberg@planitexpress.com'>zoidberg@planitexpress.com</a>&nbsp;</p>"
@@ -169,7 +170,8 @@ var loadHome = function(){
         questions:questions,
         todos:getTodos(),
         announcements:_sortAnnouncements(allAnnouncements),
-        quickTodoVisible:quickTodoVisible
+        quickTodoVisible:quickTodoVisible,
+        quickNoteVisible:quickNoteVisible
     });
     loadPage(home);
 	showUnansweredQuestionsBadge();
@@ -547,6 +549,27 @@ var numRemainingTodos = function(){
 
 var editingNote = false;
 var creatingNote = false;
+var quickNoteVisible = false;
+
+var toggleQuickNote = function(){
+    quickNoteVisible = quickNoteVisible === false;
+    loadHome();
+};
+
+var submitQuickNote = function(){
+    creatingNote = false;
+    quickNoteVisible = false;
+    var noteTitle = $('#noteHeading').val();
+    var noteText = $('#noteText').val();
+    var newNote = {
+        'id':Date.now(),
+        'title':noteTitle,
+        'text':noteText
+    };
+
+    notes.push(newNote);
+    loadHome();
+};
 
 var activateRichText = function(){
     var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
