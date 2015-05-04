@@ -17,55 +17,55 @@ var todos = [{
     id: 0,
     title: "Go Grocery Shopping",
     description: "Make sure you have all the food you'll need!",
-    deadline: "5/5/2015",
+    deadline: "05/05/2015",
     done: false
 }, {
     id: 1,
     title: "Confirm Caterer",
     description: "Get the food dude to say he'll be there.",
-    deadline: "5/5/2015",
+    deadline: "05/05/2015",
     done: false
 }, {
     id: 2,
     title: "Registration Form",
     description: "Put up a link to the updated registration form.",
-    deadline: "5/10/2015",
+    deadline: "05/10/2015",
     done: false
 }, {
     id: 3,
     title: "Update time",
     description: "Let everyone know you'll be starting an hour late.",
-    deadline: "5/15/2015",
+    deadline: "05/15/2015",
     done: true
 },{
     id: 4,
     title: "Reserve Room",
     description: "Contact admin",
-    deadline: "5/16/2015",
+    deadline: "05/16/2015",
     done: false
 },{
     id: 5,
     title: "Call Brochacho",
     description: "",
-    deadline: "5/17/2015",
+    deadline: "05/17/2015",
     done: false
 },{
     id: 6,
     title: "Buy banners",
     description: "Copytech...",
-    deadline: "5/23/2015",
+    deadline: "05/23/2015",
     done: true
 },{
     id: 7,
     title: "Put in coffee order",
     description: "",
-    deadline: "5/23/2015",
+    deadline: "05/23/2015",
     done: false
 },{
     id: 8,
     title: "Approve people's hours",
     description: "",
-    deadline: "5/29/2015",
+    deadline: "05/29/2015",
     done: false
 }];
 var activeTodo = todos[0];
@@ -344,6 +344,8 @@ var keepAtHome = false;
 
 console.log(todos.length);
 
+
+
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
     loadHome();
@@ -506,6 +508,7 @@ var isActiveTodo = function(todo){
 };
 
 var loadTodos = function(){
+
     var pageTodos = getTodos();
     var pageTodones = getTodones();
     var todosPage = nunjucks.render('todos.html', {

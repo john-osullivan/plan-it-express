@@ -182,3 +182,9 @@ h1{
 .noteDetail{
     max-height: 420px;
 }
+
+.ui-datepicker-div { z-index: 999999; }
+
+.box:hover{
+background: blue; /* make this whatever you want */
+}
