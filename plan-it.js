@@ -380,9 +380,6 @@ var quickTodoVisible = false;
 var newTodo;
 var keepAtHome = false;
 
-console.log(todos.length);
-
-
 
 var toggleQuickTodo = function(){
     quickTodoVisible = quickTodoVisible === false;
@@ -720,6 +717,3 @@ function parseArrayToObject(str){
     return test1
 }
 
-nunjucks.addFilter('justText', function(str){
-    return jQuery(str).text()
-});
