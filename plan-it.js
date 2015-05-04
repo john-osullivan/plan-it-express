@@ -1,8 +1,8 @@
 var notes = [{
     id:0,
     title:"Food",
-    text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
-}, {
+    text:"<h1>Vendor&nbsp;Information</h1><p>The event is going to be serviced by two different restaurants, Pizza Planet and Kaletown. &nbsp;We're placing large orders with both of them for all of the attendees,&nbsp;estimating 100 meals total.</p><h2>Contact Information</h2><h3>Pizza Planet</h3><p>Email- littlegreenaliens@pizzaplanet.com</p><p>Cellphone- 617.867.5309</p><p>&nbsp;</p><h3>Kaletown</h3><p>Email- eatyourgreens@kaletown.com</p><p>Cellphone- 617.113.1847</p><h1>Meals</h1><p>We are going to be serving lunch and dinner, with vegan/gluten-free/lugnut-free options provided by Kaletown. &nbsp;The menu is</p><table style='height: 145px;' width='660'><tbody><tr><td><h2>Meal</h2></td><td><h2>Pizza Planet</h2></td><td><h2>Kaletown</h2></td></tr><tr><td>Saturday Lunch</td><td>Veggie Lovers, Meat Lovers, and Cheese Lovers pizzas</td><td>Kale and black bean burritos with kale, apple, and banana smoothies</td></tr><tr><td>Saturday Dinner</td><td>Spaghetti, meatballs, garlic bread, more pizzas</td><td>Sri Lankan noodles with kale, kale avocado salad, and kalekalekalekale</td></tr></tbody></table><h1>Snacks</h1><p>In between meals, people will be able to grab snacks&nbsp;which we purchase ahead of time. &nbsp;The current shopping list for snacks is:</p><ul><li>Protein bars</li><li>Apple slices</li><li>Fire Hot Cheetos</li><li>Bananas</li><li>Red Bull</li><li>Potato Chips</li><li>Celery</li><li>Carrots</li></ul><p>If you think we need something and you don't see it here, add it in yourself!</p><h1>Dietary Restrictions</h1><p>Apparently, we need to make sure that are no lugnuts in the food.</p>"},
+{
     id:1,
     title:"Attendees",
     text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
@@ -564,8 +564,9 @@ var activateRichText = function(){
         selector: "textarea",
         width:maxWidth,
         height:300,
-        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
-            "lists media paste spellchecker tabfocus table textcolor"]
+        plugins:["advlist anchor autolink emoticons hr image insertdatetime link",
+            "lists media paste spellchecker tabfocus table textcolor"],
+        content_css:'/css/bootstrap.css'
     });
 };
 
