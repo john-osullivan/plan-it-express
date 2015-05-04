@@ -101,6 +101,7 @@ var loadHome = function(){
         quickTodoVisible:quickTodoVisible
     });
     loadPage(home);
+	showUnansweredQuestionsBadge();
 };
 
 
@@ -113,6 +114,7 @@ var loadAnnouncements = function(){
     });
 
     loadPage(announcements);
+	showUnansweredQuestionsBadge();
 };
 
 var createAnnouncement = function(id, subject, body, time, pinned){
@@ -186,7 +188,7 @@ var createQuestion = function(subject, asker, date, text){
 var countUnansweredQuestions = function(){
     var result = 0;
     for (var i=0; i<questions.length; i++){
-        if (questions[i].isActiveNote){
+        if (!questions[i].isAnswered){
             result++;
         }
     }
@@ -205,6 +207,9 @@ var newQuestionResponse = function(responseText, rspndr, responseDate){
 	} else {
 		activeQuestion.responses.push({id:activeQuestion.responses.length, responder:rspndr, date:responseDate, text:responseText, edited:""});
 		$("#responseTextArea").val("");
+		if (!activeQuestion.isAnswered){
+			activeQuestion.isAnswered = true;
+		}
 	}
 	loadQuestions();
 };
@@ -235,6 +240,15 @@ var finishEdit = function(newText){
 	loadQuestions();
 }
 
+var showUnansweredQuestionsBadge = function(){
+	var count = countUnansweredQuestions();
+	if (count > 0){
+		$("#unansweredQuestionsTabBadge").html(count);
+	} else {
+		$("#unansweredQuestionsTabBadge").html("");
+	}
+}
+
 var loadQuestions = function(){
     var questionsTemplate = nunjucks.render('questions.html', {
         questions:questions,
@@ -242,6 +256,7 @@ var loadQuestions = function(){
         isActiveQuestion:isActiveQuestion
     });
     loadPage(questionsTemplate);
+	showUnansweredQuestionsBadge();
 };
 //===========================================
 
@@ -417,6 +432,7 @@ var loadTodos = function(){
         creatingToDo:creatingToDo
     });
     loadPage(todosPage);
+	showUnansweredQuestionsBadge();
 };
 
 var cancelTodo = function(){
@@ -514,5 +530,6 @@ var loadNotes = function(){
         creatingNote:creatingNote
     });
     loadPage(notesTemplate);
+	showUnansweredQuestionsBadge();
 };
 
