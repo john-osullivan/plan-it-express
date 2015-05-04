@@ -169,7 +169,25 @@ if (!localStorage.allAnnouncements){
     localStorage.allAnnouncements = JSON.stringify(allAnnouncements)
 }
 else{
-    allAnnouncements = parseArrayToObject(allAnnouncements)
+    allAnnouncements = parseArrayToObject(localStorage.allAnnouncements)
+}
+if (!localStorage.notes){
+    localStorage.notes = JSON.stringify(notes)
+}
+else{
+    notes = parseArrayToObject(localStorage.notes)
+}
+if(!localStorage.questions){
+    localStorage.questions = JSON.stringify(questions)
+}
+else{
+    questions = parseArrayToObject(localStorage.questions)
+}
+if (!localStorage.todos){
+    localStorage.todos = JSON.stringify(todos)
+}
+else{
+    todos = parseArrayToObject(localStorage.todos)
 }
 
 
@@ -532,6 +550,7 @@ var isActiveTodo = function(todo){
 };
 
 var loadTodos = function(){
+    atodos = parseArrayToObject(localStorage.allAnnouncements)
 
     var pageTodos = getTodos();
     var pageTodones = getTodones();
@@ -673,7 +692,7 @@ var loadNotes = function(){
 };
 
 
-var parseArrayToObject = function(str){
+function parseArrayToObject(str){
     var test = str,
         test1 = [];
 
