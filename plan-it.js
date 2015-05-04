@@ -133,6 +133,12 @@ var questions = [{
 		date:"01/02/2015",
 		text:"We will try and get them up within a week of the hackathon ending, but it could take a little longer. We will do our best!",
 		edited:""
+	},{
+		id: 1,
+		responder:"Fry",
+		date:"01/05/2015",
+		text:"As Leela said, we will try our best to get them up quickly. Due to the amount of presentations we will be recording, however, it is possible this could actually take up to two weeks. Sorry!",
+		edited:""
 	}]
 }];
 var activeQuestion = questions[0];
