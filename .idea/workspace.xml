@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="399874b9-5c05-42e5-939d-2998300eed1a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/announcements.html" afterPath="$PROJECT_DIR$/templates/announcements.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/bootstrap.css" afterPath="$PROJECT_DIR$/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/menu.html" afterPath="$PROJECT_DIR$/templates/menu.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/plan-it-styles.css" afterPath="$PROJECT_DIR$/css/plan-it-styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plan-it.js" afterPath="$PROJECT_DIR$/plan-it.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/questions.html" afterPath="$PROJECT_DIR$/templates/questions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/todos.html" afterPath="$PROJECT_DIR$/templates/todos.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="plan-it-express.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,7 +83,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="todos.html" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="todos.html" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/templates/todos.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.48364487" vertical-offset="2323" max-vertical-offset="3179">
@@ -112,20 +104,20 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="plan-it-styles.css" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="plan-it-styles.css" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/css/plan-it-styles.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="3111">
-                  <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+                <state vertical-scroll-proportion="0.07464325" vertical-offset="0" max-vertical-offset="3162">
+                  <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="notes.html" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="notes.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/templates/notes.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.46101695" vertical-offset="0" max-vertical-offset="2057">
+                <state vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="2057">
                   <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
                   <folding />
                 </state>
@@ -165,9 +157,9 @@
         <option value="$PROJECT_DIR$/templates/questions.html" />
         <option value="$PROJECT_DIR$/templates/notes.html" />
         <option value="$PROJECT_DIR$/templates/home.html" />
-        <option value="$PROJECT_DIR$/css/plan-it-styles.css" />
         <option value="$PROJECT_DIR$/plan-it.js" />
         <option value="$PROJECT_DIR$/templates/todos.html" />
+        <option value="$PROJECT_DIR$/css/plan-it-styles.css" />
       </list>
     </option>
   </component>
@@ -883,14 +875,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/plan-it-styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="3111">
-          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="646">
@@ -911,7 +895,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/notes.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46101695" vertical-offset="0" max-vertical-offset="2057">
+        <state vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="2057">
           <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
           <folding />
         </state>
@@ -929,6 +913,14 @@
             <element signature="n#style#0;n#textarea#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#0;n#div#3;n#div#1;n#div#0;n#div#2;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/plan-it-styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07464325" vertical-offset="0" max-vertical-offset="3162">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
