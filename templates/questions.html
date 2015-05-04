@@ -106,7 +106,7 @@
 				{% for response in activeQuestion.responses %}
 					<li href="#" class="list-group-item">
 						{% if response.responder == "Fry" %}
-							<a href='#' class="pull-right btn btn-info btn-xs" onclick="editQuestionResponse({{ response.id }}, '05/04/15')" style="padding-left: 10px">Edit</a>
+							<a href='#' class="pull-right btn btn-info btn-xs" onclick="editQuestionResponse({{ response.id }}, '05/04/15')">Edit</a>
 						{% endif %}
 						<h5 class="list-group-item-text">{{ response.text }}</h5>
 						<h5 class="list-group-item-heading" style="padding-top: 20px">
