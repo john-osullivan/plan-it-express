@@ -5,8 +5,7 @@ var notes = [{
 {
     id:1,
     title:"Attendees",
-    text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
-}, {
+    text:"<p>The hackathon is going to be attended by a number of different guests from 31st century NYC, and is going to have a strict list at the door. &nbsp;If&nbsp;anyone is going to come, they better be on this list!</p><ul><li>Nibbler</li><li>Zapp Brannigan</li><li>Kif Kroker</li><li>Morbo</li><li>Linda van Schoonhoven</li><li>Scruffy</li><li>Cubert Farnsworth</li><li>Dwight Conrad</li><li>LaBarbara Conrad</li><li>Turanga Morris and Munda</li><li>Leo and Inez Wong</li><li>Mom</li><li>Walt, Larry and Igner</li><li>Omicronians</li><li>Drrr</li><li>Lrrr</li><li>Ndnd</li><li>Robot Mafia</li><li>Dr. Ogden Wernstrom</li><li>Richard Nixon</li><li>Roberto</li><li>Robot Devil</li><li>Robot Santa</li><li>Barbados Slim</li><li>Antonio Calculon</li><li>Celebrity heads</li><li>Sweet' Clyde Dixon</li><li>Elzar</li><li>Hattie McDoogal</li><li>Hedonismbot</li><li>Hyperchicken</li><li>Hypnotoad</li><li>Mayor C. Randall Poopenmeyer</li><li>Officer Smitty</li><li>Officer URL</li><li>Petunia</li><li>Sal</li><li>Ethan 'Bubblegum' Tate</li><li>Tinny Tim</li></ul>"}, {
     id:2,
     title:"Organizers",
     text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet mollis tortor. Integer mauris ante, lacinia quis mi et, luctus tristique metus. Sed et justo fermentum, malesuada nisi ac, efficitur velit. Aliquam ac orci ut odio egestas iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus tempus consequat. Vivamus et enim id turpis aliquam fringilla. Vivamus eu nulla non ligula rhoncus pharetra non non tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue vehicula ligula, eget tempus ligula sagittis non. Etiam nibh nulla, condimentum ac ullamcorper ut, fringilla ac lectus. Quisque."
@@ -411,6 +410,7 @@ var toggleTodoDoneHome = function(todoID){
 
 var selectTodo = function(todoID){
     if(keepAtHome){
+        console.log("Staying at home")
         loadHome();
         keepAtHome = false;
     }
@@ -484,17 +484,6 @@ var deleteTodo = function(todoID){
     loadTodos();
 };
 
-var activateRichText = function(){
-    var maxWidth = Math.floor($('textarea').parent().innerWidth() * 0.95);
-    tinymce.init({
-        selector: "textarea",
-        width:maxWidth,
-        height:300,
-        plugins:["advlist anchor autolink autoresize emoticons hr image insertdatetime link",
-            "lists media paste spellchecker tabfocus table textcolor"]
-    });
-};
-
 var createTodo = function(subject, details, date){
     creatingToDo = true;
     var id = todos.length;
@@ -508,7 +497,7 @@ var createTodo = function(subject, details, date){
     
     activeTodo = newTodo;
     loadTodos();
-    activateRichText();
+    //activateRichText();
 };
 
 var isActiveTodo = function(todo){
@@ -573,7 +562,7 @@ var activateRichText = function(){
         height:300,
         plugins:["advlist anchor autolink emoticons hr image insertdatetime link",
             "lists media paste spellchecker tabfocus table textcolor"],
-        content_css:'/css/bootstrap.css'
+        content_css:'css/bootstrap.css'
     });
 };
 
@@ -593,6 +582,8 @@ var createNote = function(){
 
 var selectNote = function(noteID){
     activeNote = _.find(notes, function(note){return note.id == noteID});
+    editingNote = false;
+    creatingNote = false;
     loadNotes();
 };
 
