@@ -144,6 +144,12 @@ var questions = [{
 var activeQuestion = questions[0];
 
 var allAnnouncements = [{
+    id:2,
+    subject:"Visitors",
+    body:"Hello everyone,\nAny visitor should use the main entrance. There will also be maps and information at the front desk",
+    time:"4/27/15",
+    pinned:false
+},{
     id:1,
     subject:"New Time",
     body:"Hello everyone,\nWe will being moving the start time to 9 AM from 10 AM. This should allow everyone to get out on time.",

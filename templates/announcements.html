@@ -18,7 +18,7 @@
 	<div class="row">
 		<div class="col-md-4">			
 			<span id="noAnnouce"></span>
-			<div class="panel panel-default" id="pinned">
+			<div class="panel panel-default" id="pinned" style="max-height:200px">
             	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
             		<span class="glyphicon glyphicon-pushpin pull-right"></span>
                 	<h4 class="panel-title">
@@ -718,7 +718,8 @@
 	var announcements = [],
 		pinnedAnnouncements = [],
 		viewingAnnouncementIndex = 0,
-		bothLists = sortAnnouncements(allAnnouncements);
+		bothLists = sortAnnouncements(allAnnouncements),
+		height = document.documentElement.clientHeight;
 
 	//pinnedAnnouncements = [];
 	//announcements = [];
@@ -728,7 +729,10 @@
 	if (!activeAnnouncement){
 		makeAddNewAnnouncement();
 	}
+	$('#pinned').css('max-height',height)
+	$('#announcements').css('max-height',height)
 	getAnnouncements();
+
 	
 	
 
