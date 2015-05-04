@@ -32,8 +32,8 @@
 
 <div class="col-md-4">
     <div class="panel-group" id="todos-accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading todoHeading" role="tab" id="todoHeading">
+        <div class="panel panel-default" style="max-height: 200px">
+            <div class="panel-heading todoHeading" role="tab" id="todoHeading" >
 
                 <a data-toggle="collapse"  href="#todosCollapsed"
                    aria-expanded="true" aria-controls="todosCollapsed" onclick="toggleTodosOpen()">
@@ -43,8 +43,8 @@
                 </a>
 
             </div>
-            <div id="todosCollapsed" class="panel-collapse collapse {% if todosOpen %} in {% endif %}" role="tabpanel" aria-labelledby="todoHeading">
-                <div class="list-group todoHeading">
+            <div id="todosCollapsed" class="panel-collapse collapse {% if todosOpen %} in {% endif %}"  role="tabpanel" aria-labelledby="todoHeading" >
+                <div class="list-group todoHeading" >
                     {% for todo in todos %}
 
                     {% if isActiveTodo(todo) %}
@@ -76,8 +76,8 @@
             </div>
         </div>
 
-        <div class="panel  panel-default">
-            <div class="panel-heading todoHeading" role="tab" id="todonesHeading">
+        <div class="panel  panel-default" style=" max-height: 200px">
+            <div class="panel-heading todoHeading" role="tab" id="todonesHeading" >
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#todonesCollapsed" class="collapsed"
                        aria-expanded="false" aria-controls="todonesCollapsed" onclick="toggleTodonesOpen()">
