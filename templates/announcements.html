@@ -426,11 +426,12 @@
 		val2 - Wording on button 2 (right side)
 	Return: JQuery Object
 	*/
-	getNewButton = function(val1,val2){
+	getNewButton = function(val1,val2,val3,pinned){
 		var $row = $('<div>'),
 			$col = $('<div>'),
 			$input = $('<input>'),
-			$input2 = $('<input>');	
+			$input2 = $('<input>'),
+			$input3 = $('<input>');	
 			
 		$row.addClass('row');
 		$row.css('margin-top','5px');
@@ -452,6 +453,21 @@
 			$input2.val(val2);
 			$col.append($input2);
 			$input2.addClass('pull-right');
+		}
+		if(val3){
+			$input3.attr('type','submit');
+			$input3.attr('id','addAnnouncement3');
+			$input3.addClass("btn btn-primary");
+			if(pinned){
+				$input3.val("Unpin")
+			}
+			else{
+				$input3.val("Pin");	
+			}
+			
+			$input3.css("margin-left","5px")
+			$col.append($input3);
+			//$input2.addClass('pull-right');
 		}
 
 		return $row.append($col);
@@ -539,7 +555,8 @@
 			lin,
 			$btns,
 			$editButton,
-			$deleteButton;
+			$deleteButton,
+			$pin;
 
 		
 
@@ -566,12 +583,13 @@
 		$area.empty();
 		$area.append($wrapper.append($wrapperHeading).append($row2));
 
-		$btns = getNewButton("Edit","Delete");
+		$btns = getNewButton("Edit","Delete","Pin",item.pinned);
 		if (isPreview){
 			$btns = getNewButton("Save","Cancel")
 		}
 		$editButton = $btns.find('#addAnnouncement');
 		$deleteButton = $btns.find('#addAnnouncement2')
+		$pin = $btns.find('#addAnnouncement3')
 		$area.append($btns)
 
 		$editButton.click(function(){
@@ -605,7 +623,53 @@
 			}
 			makeAddNewAnnouncement();
 
-		})
+		});
+
+		$pin.click(function(){
+			var d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year,
+				announcement;
+
+			if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
+				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
+			}
+			else{
+				announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+			}
+
+
+
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			deleteAnnouncement(viewingAnnouncementIndex);
+
+			if (!announcement.pinned){
+				announcement = makeAnnouncement(announcement.subject,announcement.body,time,true);
+				pinnedAnnouncements.unshift(announcement)
+				viewingAnnouncementIndex = 0
+			}
+			else{
+				announcement = makeAnnouncement(announcement.subject,announcement.body,time,false);
+				announcements.unshift(announcement)	
+				viewingAnnouncementIndex = pinnedAnnouncements.length
+			}
+			
+
+			activeAnnouncement = announcement
+
+
+
+			getAnnouncements();
+		});
 
 	}
 
