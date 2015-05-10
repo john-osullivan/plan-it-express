@@ -212,8 +212,15 @@ var createAnnouncement = function(id, subject, body, time, pinned){
 }
 
 var _deleteAnnouncement = function(elt){
-    var index = allAnnouncements.indexOf(elt);
+    console.log(elt)
+    var index;
 
+    for (var i=0; i< allAnnouncements.length; i++){
+        var a = allAnnouncements[i]
+        if (elt.id == a.id){
+            index = i
+        }
+    }
     allAnnouncements.splice(index, 1);
 }
 
