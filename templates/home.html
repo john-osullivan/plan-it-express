@@ -59,7 +59,7 @@
             </div>
             {% endif %}
             <table id="toDoTable" class="table table-hover" style="">
-                {% for todo in todos %}
+                {% for todo in todos.reverse() %}
                 <tr onclick="selectTodo({{ todo.id }})">
                     <td>{{ todo.deadline }}</td>
                     <td>{{ todo.title }}</td>

@@ -48,7 +48,7 @@
 
             </div>
             <div class="list-group todoHeading">
-                {% for todo in todos %}
+                {% for todo in todos.reverse() %}
 
                 {% if isActiveTodo(todo) %}
                 <a class="list-group-item active" onclick="selectTodo({{ todo.id }})">
