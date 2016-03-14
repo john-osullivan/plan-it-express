@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+{% include "menu.html" %}
+
+{{ menu('home') }}
+
+<script>
+    /*    nunjucks.configure('templates');
+
+     for (var i in todos){
+     var table = document.getElementById("toDoTable");
+     var currentTodo = todos[i];
+
+     var row = table.insertRow(-1);
+
+     var cell1 = row.insertCell(0);
+     var cell2 = row.insertCell(1);
+
+     cell1.innerHTML = "          " + currentTodo["deadline"];
+     cell2.innerHTML = "          " + currentTodo["title"];
+     }
+
+
+     $('#toDoTable tr').click(function() {
+     loadTodos();
+     });*/
+
+</script>
+
+<div class="row">
+    <div class="col-md-12 page-header">
+        <h1>
+            Dashboard <small>See your logistics at a glance.</small></h1>
+    </div>
+</div>
+<div class="contents row">
+    <!-- background-color:#B7CEEC;  -->
+
+    <div class="col-md-4 to-do" style="">
+        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
+
+            <!-- Default panel contents -->
+            <div class="panel-heading home-heading todoHeading">
+                <div class="btn-group pull-right" role="group">
+                    <div id = "createToDoButton" onclick="toggleQuickTodo()" class="btn btn-primary btn-sm">Quick To-Do</div>
+                </div>
+                <h5><a href="#" onclick="loadTodos()"><font color="#000000">To-Do</font></a></h5>
+            </div>
+
+            <!-- Table -->
+            {% if quickTodoVisible %}
+            <div id="todoForm"><br>
+                <center><textarea id="todoText" type="text" name="firstname" rows="2" cols="40"placeholder="Enter to-do here..."></textarea></center>
+                <br>
+                <center><button id="submitQuickTodo" onclick="submitQuickTodo()" class="btn btn-primary btn-sm">Submit</button></center>
+            </div>
+            {% endif %}
+            <table id="toDoTable" class="table table-hover" style="">
+                {% for todo in todos.reverse() %}
+                <tr onclick="selectTodo({{ todo.id }})">
+                    <td>{{ todo.deadline }}</td>
+                    <td>{{ todo.title }}</td>
+                    <td><span ><input type="checkbox" name="{{ todo.title }}" value="{{ todo.id }}" onclick="toggleTodoDoneHome({{ todo.id }})"></span></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </div>
+
+    <div class="col-md-8 questions"  style="">
+        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
+            <!-- Default panel contents -->
+            <div class="panel-heading home-heading questionHeading"><h5><a href="#" onclick="loadQuestions()"><font color="#000000">Questions</a></h5></div>
+
+            <!-- Table -->
+            <table id= "questionsTable" class="table table-hover" style="width:100%">
+                {% for question in questions %}
+                {% if question.isAnswered %}
+
+                {% else %}
+                <tr onclick="selectQuestion({{ question.id }})">
+                    <td>{{ question.date }}</td>
+                    <td>{{ question.subject }}</td>
+                    <td>{{ question.asker }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+<div class="row">
+
+    <div class="col-md-4 notes" style="">
+        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
+            <!-- Default panel contents -->
+            <div class="panel-heading home-heading noteHeading">
+
+                <div class="btn-group pull-right" role="group">
+                    <div id = "createNoteButton" onclick="toggleQuickNote()" class="btn btn-primary btn-sm">Quick Note</div>
+                </div>
+
+                <h5><a href="#" onclick="loadNotes()"><font color="#000000">Notes</a></h5>
+            </div>
+
+            {% if quickNoteVisible %}
+            <div id="noteForm"><br>
+                <center><input type="text" id="noteHeading" placeholder="Enter note name here..."></center>
+                <center><textarea id="noteText" type="text" name="firstname" rows="2" cols="40"placeholder="Enter note text here..."></textarea></center>
+                <center><button id="submitQuickNote" onclick="submitQuickNote()" class="btn btn-primary btn-sm">Submit</button></center>
+            </div>
+            {% endif %}
+
+            <!-- Table -->
+            <table id="notesTable" class="table table-hover" style="width:100%">
+                {% for note in notes %}
+                <tr>
+                    <td onclick="selectNote({{note.id}})">{{ note.title }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-8 announcements" style="">
+        <div class="panel panel-default" style="min-height: 200px; max-height: 200px">
+            <!-- Default panel contents -->
+            <div class="panel-heading home-heading announceHeading">
+                <h5><a href="#" onclick="loadAnnouncements()"><font color="#000000">Announcements</a></h5>
+            </div>
+
+            <!-- Table -->
+            <table id="announcementsTable" class="table table-hover" style="width:100%">
+                {% for announcement in announcements %}
+                <tr onclick="selectAnnouncement({{announcement.id}})">
+                    <td>
+                        {{ announcement.time }}
+                    </td>
+                    <td>
+                        {{ announcement.subject }}
+                    </td>
+                    <td>
+                        {% if announcement.pinned %}
+                        <span class="glyphicon glyphicon-pushpin"></span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+
+{% endblock %}

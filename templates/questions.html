@@ -1,0 +1,133 @@
+<script type="text/javascript" src="/js/nunjucks.js"></script>
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% include "menu.html" %}
+
+{{ menu('questions') }}
+
+<div class="row headerRow">
+    <div class="col-md-12 page-header">
+        <h1>
+            Questions <small>View and answer questions from participants.</small></h1>
+    </div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<!-- unanswered panel and list group -->
+		<div class="panel panel-default" style="max-height:350px">
+			<div class="panel-heading questionHeading" role="tab" id="questionHeading">
+				<h4 class="panel-title">
+					Unanswered
+				</h4>
+			</div>
+			<div class="list-group questionHeading">
+				{% for question in questions %}
+					{% if not question.isAnswered %}
+						{% if isActiveQuestion(question.id) %}
+							<a href="#" class="list-group-item active" onclick="selectQuestion({{ question.id }})">
+								<h3 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								<small><span class="pull-right badge unansweredBadge">UNANSWERED</span></small>
+								</h3>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
+								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
+							</a>
+						{% else %}
+							<a href="#" class="list-group-item" onclick="selectQuestion({{ question.id }})">
+								<h4 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								<small><span class="pull-right badge unansweredBadge">UNANSWERED</span></small>
+								</h4>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
+								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
+							</a>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		<!-- answered panel and list group -->
+		<div class="panel panel-default" style="max-height: 350px">
+			<div class="panel-heading questionHeading" role="tab" id="questionHeading">
+				<h4 class="panel-title">
+					Answered
+				</h4>
+			</div>
+			<div class="list-group questionHeading">
+				{% for question in questions %}
+					{% if question.isAnswered %}
+						{% if isActiveQuestion(question.id) %}
+							<a href="#" class="list-group-item active" onclick="selectQuestion({{ question.id }})">
+								<h3 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								</h3>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
+								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
+							</a>
+						{% else %}
+							<a href="#" class="list-group-item" onclick="selectQuestion({{ question.id }})">
+								<h4 class="list-group-item-heading"><b>
+								{{ question.subject }}</b>
+								</h4>
+								<h5 class="list-group-item-text"><i>From {{ question.asker }}:</i></h5>
+								<h5 class="list-group-item-text">{{ question.text | truncate(42) }}</h5>
+								<h5 class="list-group-item-heading" style="Padding-top: 20px">{{ question.date }}</h5>
+							</a>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		{% if activeQuestion != null %}
+			<!-- question panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading questionHeading">
+					<h2>
+						{{ activeQuestion.subject }}
+						<small><span class="pull-right">{{ activeQuestion.date }}</span></small>
+					</h2>
+				</div>
+				<div class="panel-body">
+					<p><i>From {{ activeQuestion.asker }}:</i></p>
+					<p>{{ activeQuestion.text }}</p>
+				</div>
+			</div>
+			<!-- responses list group -->
+			<ul class="list-group questionResponses">
+				{% for response in activeQuestion.responses %}
+					<li href="#" class="list-group-item">
+						{% if response.responder == "Fry" %}
+							<a href='#' class="pull-right btn btn-info btn-xs" onclick="editQuestionResponse({{ response.id }}, '05/04/15')">Edit</a>
+						{% endif %}
+						<h5 class="list-group-item-text">{{ response.text }}</h5>
+						<h5 class="list-group-item-heading" style="padding-top: 20px">
+						<i>{{ response.responder }}</i>
+						<span class="pull-right">{{ response.date }}
+						{% if response.edited != "" %}
+							<small>edited on: {{ response.edited }}</small>
+						{% endif %}
+						</span>
+						</h5>
+					</li>
+				{% endfor %}
+			</ul>
+			<!-- response area -->
+			<div class="form-group"
+				<label for="response">Response:</label>
+				<textarea rows=8 cols=40 class="form-control" id="responseTextArea"></textarea>
+			</div>
+			<a href="#" class="pull-right btn btn-primary" id = "replyBtn" onclick="newQuestionResponse($('#responseTextArea').val(), 'Fry', '05/04/15')">Reply</a>
+			<!-- <a href="#" class="pull-right btn btn-primary" id = "saveEditBtn" onclick="finishEdit($('#responseTextArea').val())" style="display: none">Save</a> -->
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

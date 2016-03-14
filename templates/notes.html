@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% include "menu.html" %}
+
+{{ menu('notes') }}
+
+<!-- This part makes the title row and explains how the editor works. -->
+<div class="row headerRow">
+    <div class="col-md-12 page-header">
+        <h1>
+            <div class="btn-group pull-right" role="group">
+                <a href="#" class="btn btn-primary" onclick="createNote()">Create Note</a>
+            </div>
+            Notes <small>Easily keep track of all your event logistics in one place.</small></h1>
+
+    </div>
+</div>
+<!-- This part makes all the page content. -->
+<div class="row">
+    {% if notes.length == 0 %}
+    <p class="lead">Use this page to keep track of whatever you need to remember about your event.</p>
+    <p>You can make as many notes as you want, that way everyone on the team can stay on
+        the same page.  Notes can hold any combination of:</p>
+    <ul>
+        <li>Text</li>
+        <li>Datetimes</li>
+        <li>Emoticons</li>
+        <li>Lists</li>
+        <li>Tables</li>
+        <li>Images</li>
+        <li>HTML5 media objects</li>
+    </ul>
+    <p>Enjoy!</p>
+    {% else %}
+
+    <!-- This column is for the list view of all notes. -->
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading noteHeading">
+                <h4 class="panel-title">All Notes</h4>
+            </div>
+
+            <div class="list-group noteHeading">
+
+                {% for note in notes %}
+
+                {% if isActiveNote(note.id) %}
+                <a href="#" class="list-group-item active" onclick="selectNote({{ note.id }})">
+                    <h3 class="list-group-item-heading">{{ note.title }}</h3>
+                    <h5 class="list-group-item-text">{{ note.text | escape | truncate(60, true) }}</h5>
+                </a>
+                {% else %}
+                <a href="#" class="list-group-item" onclick="selectNote({{ note.id }})">
+                    <h3 class="list-group-item-heading">{{ note.title }}</h3>
+                    <h5 class="list-group-item-text">{{ note.text | escape | truncate(60, true)}}</h5>
+                </a>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- This column is for the detail view of one note. -->
+    <div class="col-md-8">
+        <div class="panel panel-default noteDetail">
+            <div class="panel-heading noteHeading">
+
+                {% if editingNote %}
+                <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control noteTitleText" value="{{activeNote.title}}">
+                </div></div>
+                {% elif creatingNote %}
+                <div class="row"><div class="col-md-8">
+                    <input type="text" class="form-control noteTitleText" placeholder="Your note title goes here...">
+                </div></div>
+                {% else %}
+                <h2 id="note-detail-heading">
+                    {{ activeNote.title}}
+                </h2>
+                {% endif %}
+
+
+
+            </div>
+            <div class="panel-body" id="note-detail-text">
+                {% if editingNote %}
+                <textarea class="rich-text noteBodyText">
+                    {{ activeNote.text }}
+                </textarea>
+                {% elif creatingNote %}
+                <textarea class="rich-text noteBodyText">
+                    {{ activeNote.text }}
+                </textarea>
+                {% else %}
+                {{ activeNote.text }}
+                {% endif %}
+
+            </div>
+        </div>
+        <span>
+                    {% if editingNote %}
+                        <a href="#" onclick="saveNote()" class="btn btn-primary">Update</a>
+                    {% elif creatingNote %}
+                        <a href="#" onclick="saveNote()" class="btn btn-primary">Save</a>
+                    {% else %}
+                        <a href="#" onclick="editNote()" class="btn btn-primary">Edit</a>
+        <span class="pull-right">
+                        <a href="#" onclick="deleteNote({{activeNote.id}})" class="btn btn-primary">Delete</a>
+            </span>
+                    {% endif %}
+
+
+                </span>
+    </div>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

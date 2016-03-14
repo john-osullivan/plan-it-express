@@ -1,0 +1,190 @@
+.page-content{
+    padding-top:70px;
+    padding-left:6%;
+    padding-right:6%;
+    padding-bottom:6%;
+}
+
+.navbar{
+    background-color: #696868;
+}
+
+.unansweredBadge{
+	background-color: red;
+}
+
+.nav-tabs > li > a.homeTab,
+.nav-tabs > li.active > a.homeTab{
+    background-color: rgba(176,190,197,0.25);
+}
+
+.panel > .panel-heading.questionHeading,
+.nav-tabs > li > a.questionTab,
+.nav-tabs > li.active > a.questionTab{
+    background-color: rgba(63,81,181,0.25);
+}
+
+.list-group.questionHeading a.list-group-item.active{
+    background-color: rgba(63,81,181,0.10);
+}
+
+.panel > .panel-heading.noteHeading,
+.nav-tabs > li > a.noteTab,
+.nav-tabs > li.active > a.noteTab{
+    background-color: rgba(85,139,47,0.25);
+}
+
+.list-group.noteHeading a.list-group-item.active{
+    background-color: rgba(85,139,47,0.10);
+}
+
+.panel > .panel-heading.todoHeading,
+.nav-tabs > li > a.todoTab,
+.nav-tabs > li.active > a.todoTab{
+    background-color: rgba(244,67,54,0.25);
+}
+
+.list-group.todoHeading a.list-group-item.active{
+    background-color: rgba(244,67,54,0.10);
+}
+
+.panel > .panel-heading.announceHeading,
+.nav-tabs > li > a.announceTab,
+.nav-tabs > li.active > a.announceTab{
+    background-color: rgba(255,193,7,0.25);
+}
+
+.list-group.announceHeading a.list-group-item.active{
+    background-color: rgba(255,193,7,0.10);
+}
+
+
+
+.contents{
+	padding: 4px;
+}
+
+
+.todos{
+	min-height: 425px;
+	max-height: 425px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+.todones{
+	min-height: 425px;
+	max-height: 425px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;
+}
+
+
+.questions{
+	/*max-height: 200px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	border-style: solid;
+    border-width: 1px;*/
+}
+
+.question_overview{
+	border: 2px solid #88D;
+	margin-bottom: 5px;
+	background-color: #CCF;
+}
+
+.question_overview:hover{
+	background-color: #DDF;
+}
+
+.question_overview td{
+	width: 90%;
+}
+
+.qo_subj{text-align: left; color: #555;}
+.qo_unanswered{text-align: right; color: #F44;}
+.qo_preview{text-align: left; padding-left: 20px; padding-right: 10px; text-indent: 5px; color: #222;}
+.qo_sender{text-align: left; color: #888;}
+.qo_date{text-align: right; color: #888;}
+
+.question_focus{
+	border: 2px solid #AAF;
+	margin-bottom: 35px;
+	background-color: #CCF;
+}
+
+.question_focus td{
+	width: 90%;
+}
+
+.qf_subj{text-align: left; color: #555;}
+.qf_date{text-align: right; color: #888;}
+.qf_sender{text-align: left; color: #222;}
+.qf_text{text-align: left; padding-top: 10px; padding-left: 50px; padding-right: 50px; text-indent: 20px; color: #222;}
+
+.qr_input_field{background-color: #DDF; text-align: left; border: 1px solid #88D; padding: 5px; text-indent: 20px; color: #222;}
+
+.notes{
+	/*max-height: 200px;
+	border-radius: 10px;
+	padding: 4px;
+	margin-top:20px;
+	overflow: auto;
+	border-style: solid;
+    border-width: 1px;*/
+}
+
+.content{
+
+}
+
+table{
+	table-layout: fixed;
+}
+
+td{
+	width: 33%;
+}
+
+table tr{
+	text-align: center;
+}
+
+.panel-default{
+	overflow-y: scroll;
+}
+
+.home-heading{
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: left;
+}
+
+h1{
+	margin: 5px;
+}
+
+.todo{
+	/*position: relative;
+	left:35%;
+	text-align: left;
+*/
+}
+
+.noteDetail{
+    max-height: 420px;
+}
+
+.ui-datepicker-div { z-index: 999999; }
+
+.box:hover{
+background: blue; /* make this whatever you want */
+}

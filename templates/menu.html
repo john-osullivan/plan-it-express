@@ -1,0 +1,57 @@
+{% macro menu(active_tab) %}
+<nav>
+    <ul class="nav nav-tabs nav-justified">
+
+        <!-- This logic sets the home button active. -->
+        {% if active_tab == "home" %}
+        <li role="presentation" class="active"><a href="#" class="homeTab" onclick="loadHome()"><h4>Home</h4></a></li>
+        {% else %}
+        <li role="presentation"><a href="#" class="homeTab" onclick="loadHome()"><h4>Home</h4></a></li>
+        {% endif %}
+
+        <!-- This logic sets the to-do button active. -->
+        {% if active_tab == "todos" %}
+        <li role="presentation" class="active"><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Dos</h4></a></li>
+        {% else %}
+        <li role="presentation" ><a href="#" class="todoTab" onclick="loadTodos()"><h4>To-Dos</h4></a></li>
+        {% endif %}
+
+        <!-- This logic sets the questions button active. -->
+        {% if active_tab == "questions" %}
+        <li role="presentation" class="active">
+			<a href="#" class="questionTab" onclick="loadQuestions()">
+				<h4>Questions
+					<!-- This is the unanswered questions badge. -->
+					<span class="label unansweredBadge" id="unansweredQuestionsTabBadge"></span>
+				</h4>
+			</a>
+		</li>
+        {% else %}
+        <li role="presentation">
+			<a href="#"  class="questionTab" onclick="loadQuestions()">
+				<h4>Questions
+					<!-- This is the unanswered questions badge. -->
+					<span class="label unansweredBadge" id="unansweredQuestionsTabBadge"></span>
+				</h4>
+			</a>
+		</li>
+        {% endif %}
+
+        <!-- This logic sets the notes button active. -->
+        {% if active_tab == "notes" %}
+        <li role="presentation" class="active"><a href="#" class="noteTab" onclick="loadNotes()"><h4>Notes</h4></a></li>
+        {% else %}
+        <li role="presentation"><a href="#" class="noteTab" onclick="loadNotes()"><h4>Notes</h4></a></li>
+        {% endif %}
+
+        <!-- This logic sets the announcements button active. -->
+        {% if active_tab == "announcements" %}
+        <li role="presentation" class="active"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
+        {% else %}
+        <li role="presentation"><a href="#" class="announceTab" onclick="loadAnnouncements()"><h4>Announcements</h4></a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+{% endmacro %}

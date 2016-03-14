@@ -1,0 +1,831 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% include "menu.html" %}
+
+{{ menu('announcements') }}
+
+	<div class="row headerRow">
+		<div class="col-md-12 page-header"><h1>
+			<div class="btn-group pull-right" role="group">
+				<input type="submit" value="Create Announcement" class="btn btn-primary" id="newAnnouncement">
+			</div>
+			Announcements <small>View and send out messages to all your participants.</small></h1>
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-4">			
+			<span id="noAnnouce"></span>
+			<div class="panel panel-default" id="pinned" style="max-height:200px">
+            	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
+            		<span class="glyphicon glyphicon-pushpin pull-right"></span>
+                	<h4 class="panel-title">
+                		Pinned
+                	</h4>
+                </div>
+				<div class="list-group announceHeading" id="annouceContainerPinned"></div>
+			</div>
+			<div class="panel panel-default" id="announcements">
+            	<div class="panel-heading announceHeading" role="tab" id="announceHeading">
+            	    <h4 class="panel-title">
+                		Recent
+                	</h4>
+                </div>
+				<div class="list-group announceHeading" id="annouceContainer"></div>
+			</div>
+		</div>
+		<div class="col-md-8" id="announceArea">
+		</div>
+	</div>
+
+<script>
+
+	var viewingAnnouncementIndex,
+		previewAnnouncment;
+
+	/*
+	Sorts announcements into pinned and not pinned lists by 
+		date
+	Params: elts - list of pinned and unpinned announcements sorted by date
+	Return: JSON with two lists, pinned and notPinned
+	*/
+	sortAnnouncements = function(elts){
+		var pinnedList = [],
+			restList = [];
+
+
+		pinnedList = _.filter(elts, function(elt){
+			return (elt.pinned)
+		});
+
+		restList = _.filter(elts, function(elt){
+			return (!elt.pinned)
+		});
+		return {'pinned':pinnedList, 'notPinned':restList}
+	}
+
+	/*
+	Displays announcements in left column with the 
+		correct format
+	Params: None
+	Return: None, but modifies web page
+	*/
+	getAnnouncements = function(){
+		var total = announcements.length+pinnedAnnouncements.length,
+			pinnedAC = $('#annouceContainerPinned'),
+			announcementC = $('#annouceContainer');
+		if (announcements.length === 0 && pinnedAnnouncements.length === 0){
+			announcementC.empty();
+			pinnedAC.empty();
+			$('#announcements').css('visibility',"hidden");
+			$('#pinned').css('visibility','hidden');
+			$('#noAnnouce').html("<p>You have no announcements</p>")
+		}
+		else{
+			$('#noAnnouce').empty();
+			announcementC.empty();
+			pinnedAC.empty();
+			if (pinnedAnnouncements.length === 0){
+				$('#pinned').hide()
+			}
+			else{
+				$('#pinned').show()
+			}
+			if (announcements.length === 0){
+				$('#announcements').hide()
+			}
+			else{
+				$('#announcements').show()
+			}
+			for (var i=0; i<(total); i++){
+				var a,
+					$div = $('#annouceContainer'),
+					$container = $('<a>').attr('href','#'),
+					$out_t = $('<div>'),
+					$out_body = $('<div>'),
+					$inside1 = $('<div>'),
+					$inside2 = $('<div>'),
+					$body = $('<div>'),
+					body = $('<p>'),
+					lines,
+					lin,
+					counter = 0,
+					pinned = false,
+					index = 0,
+					$wrapperHeading = $('<h4>').addClass("list-group-item-heading"),
+					$wrapperBody = $('<div>').addClass('list-group-item-body'),
+					$wrapperTime = $('<div>').addClass('pull-right'),
+					$lastPara;
+
+
+				if (i >= pinnedAnnouncements.length){
+					index = i-pinnedAnnouncements.length
+					a = announcements[index]
+				}
+				else{
+					a = pinnedAnnouncements[i];
+					pinned = true;
+				}
+
+				if (pinned){
+					$div = $('#annouceContainerPinned')
+				}
+
+				$container.attr('id','' +i);
+				$container.addClass('list-group-item');
+				$out_t.addClass('row');
+				$inside1.addClass('col-md-7');
+				$inside2.addClass('col-md-5');
+
+				$wrapperTime.append($('<h4>').addClass("list-group-item-heading pull-right").html(a.time));
+				$inside2.append($wrapperTime);
+
+				$inside1.append($wrapperHeading.html("<strong>"+a.subject+"</strong>"));
+
+				
+
+				$out_body.addClass('row').addClass("list-group-item-text");
+				$body.addClass('col-md-12');
+
+				lines = a.body.split("\n");
+				for (var j=0; j<lines.length; j++){
+					var par = $('<p>');
+					lin = lines[j]
+					if (lin && counter < 2){
+						counter++;
+						$body.append(par.html(lin))
+					}					
+				}
+
+				$lastPara = $body.find('p:last');
+
+				$body.append(body);
+				$lastPara.css('width',"100%")
+				$lastPara.css("white-space","nowrap");
+				$lastPara.css('overflow','hidden');
+				$lastPara.css('text-overflow','ellipsis')
+
+				$out_body.append($body);
+
+
+				if (a === activeAnnouncement){
+					$container.addClass('active');
+					viewingAnnouncementIndex = i;
+					displayAnnouncement(a);
+					unSelectAnnouncement();
+				}
+				else{
+					$container.removeClass('active');
+				}
+
+				$out_t.append($inside1).append($inside2);
+				$div.append($container.append($out_t).append($wrapperBody.append($out_body))); 
+				$container.on("click",function(e){
+					var x = e.pageX,
+						y = e.pageY,
+						index = parseInt($(this).attr('id')),
+						$div = $('#annouceContainer'),
+						$divPinned = $('#annouceContainerPinned');
+
+					if (previewAnnouncment){
+						previewAnnouncment = false
+					}
+
+					$div.find('.active').removeClass('active')
+					$divPinned.find('.active').removeClass('active')
+					$(this).addClass('active');
+					viewingAnnouncementIndex = index
+					if (index >= pinnedAnnouncements.length){
+						displayAnnouncement(announcements[index-pinnedAnnouncements.length])
+					}
+					else{
+						displayAnnouncement(pinnedAnnouncements[index]);	
+					}
+				});
+			}
+		}
+	}
+
+
+	/*
+	Creates a new announcement. If announcement 
+		is not a preview, then it adds the 
+		announcement to the main lists of
+		announcements
+	Params: subject - String, body - string, time - string,
+		pinned - boolean, isPreview - boolean tells if announcement
+		one being viewed as a preview
+	Return: JSON object that represents an announcement, has keys - subject,
+		body, time, pinned
+	*/
+	function makeAnnouncement(subject, body, time, pinned, isPreview){
+		var id = Date.now(); 
+		if(!isPreview){
+			createAnnouncement(id,subject,body,time, pinned);
+		}
+		return {"id":id, "subject":subject, "body":body, "time":time, "pinned":pinned}
+	}
+
+	/*
+	Makes the space where new announcements are added
+	Params: err - boolean, isPreview - boolean
+	Return: None, but modifies web page
+	*/
+	makeAddNewAnnouncement = function(err, isPreview){
+		var $area = $('#announceArea'),
+			$panel = $('<div>').addClass('panel panel-default'),
+			$wrapper = $('<div>'),
+			$subject = getNewSubject(),
+			$body = getNewBody(),
+			$button = getNewButton("Preview","Save"),
+			$check = getCheckbox(),
+			$error;
+
+		$area.empty();
+		if(err){
+			$error = getError(err);
+			$area.append($error);
+			if (err.subject){
+				$subject = getNewSubject(err.subject)
+			}
+			if (err.body){
+				$body = getNewBody(err.body)
+			}
+		}
+
+		if (isPreview){
+			$subject = getNewSubject(previewAnnouncment.subject);
+			$body = getNewBody(previewAnnouncment.body);
+			$check = getCheckbox(previewAnnouncment.pinned);
+		}
+
+		$('#annouceContainer').find('.active').removeClass('active');
+		$('#annouceContainerPinned').find('.active').removeClass('active');
+
+		$wrapper.css("padding","16px")
+		$area.append($panel.append($subject).append($wrapper.append($body).append($check))).append($button);
+
+		$('#addAnnouncement').click(function(){
+			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val(),
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year,
+				announcement,
+				err;
+
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
+
+			if(!subject || !body){
+				err = {"subject":subject,"body":body}
+				makeAddNewAnnouncement(err);
+				return
+			}
+
+			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true,true);
+			}
+			else{
+				announcement  = makeAnnouncement(subject,body,time,false,true);
+			}
+
+			previewAnnouncment = announcement
+
+			displayAnnouncement(announcement,true)
+
+		});
+
+		$('#addAnnouncement2').click(function(){
+			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val(),
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year,
+				announcement,
+				err;
+
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
+
+			if(!subject || !body){
+				err = {"subject":subject,"body":body}
+				makeAddNewAnnouncement(err);
+				return
+			}
+
+			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true);
+				pinnedAnnouncements.unshift(announcement);
+			}
+			else{
+				announcement  = makeAnnouncement(subject,body,time,false);
+				announcements.unshift(announcement);
+			}
+
+			previewAnnouncment = false
+
+			
+			getAnnouncements();
+			makeAddNewAnnouncement();
+		});
+
+	}
+
+	/*
+	Helper function that returns a JQuery object which
+		represents a subject area
+	Params: text - string, if there will populate area with
+		string
+	Return: JQuery Object
+	*/
+	getNewSubject = function(text){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$outterWrapper = $('<div>').addClass('panel panel-default'),
+			$wrapper = $('<div>').addClass('panel-heading announceHeading'),
+			$input = $('<input>');
+
+		$row.addClass('row');
+		$row.css('margin-top','5px');
+		$col.addClass('col-md-12');
+
+		$input.addClass('form-control')
+
+		$input.attr('id', 'addAnnounceSub');
+		$input.attr('type','text');
+		$input.attr('size','22%');
+		$input.attr('placeholder','Subject');
+
+		if(text){
+			$input.val(text);
+		}
+
+		return ($wrapper.append($input));
+	}
+
+
+	/*
+	Helper function that returns a JQuery object which
+		represents a body area
+	Params: text - string, if there will populate area with
+		string
+	Return: JQuery Object
+	*/
+	getNewBody = function(text){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$wrapper = $('<div>').addClass('input-group'),
+			$input = $('<textarea>');	
+			
+		$row.addClass('row');
+		$row.css('margin-top','5px');
+		$col.addClass('col-md-12');
+
+		$input.addClass('form-control')
+
+		$input.attr('id','addAnnounceBody');
+		$input.attr('cols','50%');
+		$input.attr('placeholder','Message');
+
+		$input.css('height','100px')
+
+		if (text){
+			$input.val(text);
+		}
+
+		return $row.append($col.append($input));
+	}
+
+	/*
+	Helper function that returns a JQuery object which
+		represents 1 or 2 buttons
+	Params: val1 - Wording on button 1 (left side)
+		val2 - Wording on button 2 (right side)
+	Return: JQuery Object
+	*/
+	getNewButton = function(val1,val2,val3,pinned){
+		var $row = $('<div>'),
+			$col = $('<div>'),
+			$input = $('<input>'),
+			$input2 = $('<input>'),
+			$input3 = $('<input>');	
+			
+		$row.addClass('row');
+		$row.css('margin-top','5px');
+		$col.addClass('col-md-12');
+		
+		$input.attr('type','submit');
+		$input.attr('value','Add');
+		$input.attr('id','addAnnouncement');
+		$input.addClass("btn btn-primary");
+
+		if(val1){
+			$input.val(val1);
+		}
+		$col.append($input)
+		if(val2){
+			$input2.attr('type','submit');
+			$input2.attr('id','addAnnouncement2');
+			$input2.addClass("btn btn-primary");
+			$input2.val(val2);
+			$col.append($input2);
+			$input2.addClass('pull-right');
+		}
+		if(val3){
+			$input3.attr('type','submit');
+			$input3.attr('id','addAnnouncement3');
+			$input3.addClass("btn btn-primary");
+			if(pinned){
+				$input3.val("Unpin")
+			}
+			else{
+				$input3.val("Pin");	
+			}
+			
+			$input3.css("margin-left","5px")
+			$col.append($input3);
+			//$input2.addClass('pull-right');
+		}
+
+		return $row.append($col);
+	}
+
+	/*
+	Helper function that returns a JQuery object which
+		represents a checkbox for pinned
+	Params: val - boolean, tells if checkbox should be 
+		checked
+	Return: JQuery Object
+	*/
+	getCheckbox = function(val){
+		var $row = $('<div>').addClass('row'),
+			$col = $('<div>').addClass('col-md-12'),
+			$wrapper = $('<div>').addClass('input-group'),
+			$checkbox = $('<input>'),
+			$label = $('<label>').addClass('checkbox-inline'),
+			$p = $('<p>').text('Pin');
+
+		
+
+		$checkbox.attr('type','checkbox');
+		$checkbox.attr('id','pinCheckbox');
+		$checkbox.html('Pinned')
+		$checkbox.attr('value','Pin')
+
+		if (val){
+			$checkbox.attr('checked','checked')
+		}
+
+		$label.append($checkbox).append($p);
+
+
+		return $row.append($col.append($label));
+	}
+
+	/*
+	Helper function that returns a JQuery object which
+		represents an error
+	Params: err - object with subject and body text in it
+	Return: JQuery Object
+	*/
+	getError = function(err){
+		var $row = $('<div>').addClass('row'),
+			$col = $('<div>').addClass('col-md-12'),
+			subject = err.subject,
+			body = err.body,
+			$error = $('<p>');
+
+		if (!subject && !body){
+			$error.text("Please enter a Subject and Message")
+		}
+		else if(!subject){
+			$error.text('Please enter a Subject')
+		}
+		else if (!body){
+			$error.text('Please enter a Message')
+		}
+
+
+		$error.css('color','red')
+		return $row.append($col.append($error));
+	}
+
+	/*
+	Displays an announcement on right side of screen
+	Params: item - JSON announcement object to be displayed,
+		isPreview - boolean
+	Returns: None, but modifies web page
+	*/
+	displayAnnouncement = function(item, isPreview){
+		var $area = $('#announceArea'),
+			subject = item.subject,
+			body = item.body,
+			time = item.time,
+			$wrapper = $('<div>').addClass('panel panel-default'),
+			$wrapperHeading = $('<div>').addClass('panel-heading announceHeading'),
+			$row1 = $('<div>').addClass(""),
+			$row2 = $('<div>').addClass("panel-body"),
+			$subject = $('<h4>'),
+			$time = $('<div>').addClass("pull-right"),
+			$body = $('<div>'),
+			lines,
+			lin,
+			$btns,
+			$editButton,
+			$deleteButton,
+			$pin;
+
+		
+
+		$subject.html(subject);
+		$time.html("<h4>"+time+"</h4>");
+
+		$wrapperHeading.append($time).append($subject);
+
+		lines = body.split("\n");
+
+		for (var i=0; i<lines.length; i++){
+			var par = $('<p>');
+
+			lin = lines[i];
+			if (lin){
+				par.html(lin);
+				$body.append(par);	
+			}
+		}
+
+		//$row1.append($subject).append($time);
+		$row2.append($body);
+
+		$area.empty();
+		$area.append($wrapper.append($wrapperHeading).append($row2));
+
+		$btns = getNewButton("Edit","Delete","Pin",item.pinned);
+		if (isPreview){
+			$btns = getNewButton("Save","Cancel")
+		}
+		$editButton = $btns.find('#addAnnouncement');
+		$deleteButton = $btns.find('#addAnnouncement2')
+		$pin = $btns.find('#addAnnouncement3')
+		$area.append($btns)
+
+		$editButton.click(function(){
+			var announcement = previewAnnouncment;
+			if(!isPreview){
+				makeEditDisplay();	
+			}
+			else{
+				if (announcement.pinned){
+					announcement = makeAnnouncement(announcement.subject,announcement.body,announcement.time,true);
+					pinnedAnnouncements.unshift(announcement);
+				}
+				else{
+					announcement  = makeAnnouncement(announcement.subject,announcement.body,announcement.time,false);
+					announcements.unshift(announcement);
+				}
+				previewAnnouncment = false;
+				getAnnouncements();
+				makeAddNewAnnouncement();
+				//todo add adding a new announcement
+			}			
+		});
+
+		$deleteButton.click(function(){
+			if(!isPreview){
+				deleteAnnouncement(viewingAnnouncementIndex);
+			}
+			else{
+				makeAddNewAnnouncement(false,isPreview);
+				return 
+			}
+			makeAddNewAnnouncement();
+
+		});
+
+		$pin.click(function(){
+			var d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year,
+				announcement;
+
+			if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
+				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
+			}
+			else{
+				announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+			}
+
+
+
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			deleteAnnouncement(viewingAnnouncementIndex);
+
+			if (!announcement.pinned){
+				announcement = makeAnnouncement(announcement.subject,announcement.body,time,true);
+				pinnedAnnouncements.unshift(announcement)
+				viewingAnnouncementIndex = 0
+			}
+			else{
+				announcement = makeAnnouncement(announcement.subject,announcement.body,time,false);
+				announcements.unshift(announcement)	
+				viewingAnnouncementIndex = pinnedAnnouncements.length
+			}
+			
+
+			activeAnnouncement = announcement
+
+
+
+			getAnnouncements();
+		});
+
+	}
+
+	/*
+	Makes area were announcement are editted
+	Params: None, uses global var
+	Return: None, but modifies web page
+	*/
+	makeEditDisplay = function(){
+		var $area = $('#announceArea'),
+			announcement,
+			subject,
+			time,
+			bodyList ,
+			body,
+			$subject = $('<div>').addClass('panel panel-default'),
+			$body,
+			$updateBtn,
+			$btns,
+			$cancelBtn,
+			$checkbox;
+
+		if (viewingAnnouncementIndex >= pinnedAnnouncements.length){
+			announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length]
+		}
+		else{
+			announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+		}
+
+		subject = announcement.subject;
+		time = announcement.time;
+		body = announcement.body;
+
+		$subject.append(getNewSubject(subject));
+		$body = getNewBody(body);
+		$btns = getNewButton("Update","Cancel");
+		$updateBtn = $btns.find('#addAnnouncement');
+		$cancelBtn = $btns.find('#addAnnouncement2');
+
+		if (announcement.pinned){
+			$checkbox = getCheckbox(true)
+		}
+		else{
+			$checkbox = getCheckbox()
+		}
+
+		$updateBtn.click(function(){
+			var $area = $('#announceArea'),
+				$pinned = $('#pinCheckbox'),
+				subject = $('#addAnnounceSub').val(),
+				body = $('#addAnnounceBody').val();
+				d = new Date(),
+				month = d.getMonth()+1,
+				day = d.getDate(),
+				year = ""+d.getFullYear(),
+				time = ""+month+"/"+day+"/"+year,
+				announcement,
+				announce = "";
+
+				
+			if (month < 10){
+				month = "0" + month;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			if (day < 10){
+				day = "0"+day;
+				time = ""+month+"/"+day+"/"+year;
+			}
+			deleteAnnouncement(viewingAnnouncementIndex);
+
+			if ($pinned.is(':checked')){
+				announcement = makeAnnouncement(subject,body,time,true);
+				pinnedAnnouncements.unshift(announcement)
+			}
+			else{
+				announcement = makeAnnouncement(subject,body,time,false);
+				announcements.unshift(announcement)
+			}
+
+			getAnnouncements();
+			makeAddNewAnnouncement();
+		})
+
+		$cancelBtn.click(function(){
+			var announcement;
+			if (viewingAnnouncementIndex < pinnedAnnouncements.length){
+				announcement = pinnedAnnouncements[viewingAnnouncementIndex];
+			}
+			else{
+				announcement = announcements[viewingAnnouncementIndex-pinnedAnnouncements.length];
+			}
+			displayAnnouncement(announcement);
+		})
+
+		$area.empty();
+		$area.append($subject).append($body).append($checkbox).append($btns);
+
+	}
+
+	//action listener for "New" button in top right
+	$('#newAnnouncement').click(function(){
+		makeAddNewAnnouncement();
+	});
+
+	/*
+	Removes an announcement from screen and appropriate
+		lists
+	Params: index of announcement in full list
+	Return: None, modifies web page
+	*/
+	deleteAnnouncement = function(index){
+		if (index >= pinnedAnnouncements.length){
+			index = index-pinnedAnnouncements.length;
+			_deleteAnnouncement(announcements[index])
+			if (announcements.length === 1){
+				announcements = []
+			}
+			else{
+				announcements.splice(index,1)
+			}
+		}
+		else{
+			_deleteAnnouncement(pinnedAnnouncements[index])
+			if (pinnedAnnouncements.length === 1){
+				pinnedAnnouncements = []
+			}
+			else{
+				pinnedAnnouncements.splice(index,1)
+			}	
+		}
+
+		getAnnouncements();		
+	}
+
+
+	var announcements = [],
+		pinnedAnnouncements = [],
+		viewingAnnouncementIndex = 0,
+		bothLists = sortAnnouncements(allAnnouncements),
+		height = document.documentElement.clientHeight;
+
+	//pinnedAnnouncements = [];
+	//announcements = [];
+	
+	pinnedAnnouncements = bothLists.pinned;
+	announcements = bothLists.notPinned;
+	if (!activeAnnouncement){
+		makeAddNewAnnouncement();
+	}
+	$('#pinned').css('max-height',height)
+	$('#announcements').css('max-height',height)
+	getAnnouncements();
+
+	
+	
+
+</script>
+
+{% endblock %}
